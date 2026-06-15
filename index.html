@@ -12,19 +12,18 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-  --bg:#040406;
-  --s1:#0a0a0d;
-  --s2:#111116;
-  --s3:#171721;
-  --b:rgba(255,255,255,0.06);
-  --bh:rgba(255,59,48,0.25);
+  --bg:#08080A;
+  --s1:#111114;
+  --s2:#18181C;
+  --s3:#222226;
+  --b:rgba(255,255,255,0.055);
+  --bh:rgba(255,255,255,0.1);
   --red:#FF3B30;
-  --red-glow:rgba(255,59,48,0.15);
-  --red-a:rgba(255,59,48,0.12);
-  --w:#FFFFFF;
+  --red-a:rgba(255,59,48,0.15);
+  --w:#F5F5F7;
   --g1:#A1A1AA;
   --g2:#52525B;
-  --g3:#27272A;
+  --g3:#3F3F46;
 }
 
 html{scroll-behavior:smooth}
@@ -36,12 +35,6 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
   line-height:1.5;
-  /* Ultra Clean Cyber Grid Pattern */
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
-  background-size: 50px 50px;
-  background-position: center top;
 }
 
 /* ─── NAV ─── */
@@ -49,39 +42,39 @@ nav{
   position:fixed;
   inset:0 0 auto 0;
   z-index:100;
-  height:56px;
+  height:52px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 32px;
-  transition:all 0.3s ease;
-  background:rgba(4,4,6,0);
+  padding:0 28px;
+  transition:background 0.3s,border-color 0.3s;
+  background:rgba(8,8,10,0);
   border-bottom:1px solid transparent;
 }
 nav.scrolled{
-  background:rgba(4,4,6,0.75);
-  backdrop-filter:blur(24px) saturate(180%);
-  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  background:rgba(8,8,10,0.85);
+  backdrop-filter:blur(28px) saturate(180%);
+  -webkit-backdrop-filter:blur(28px) saturate(180%);
   border-bottom-color:var(--b);
 }
 
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.logo-mark{width:26px;height:26px;flex-shrink:0}
-.logo-name{font-size:16px;font-weight:800;color:var(--w);letter-spacing:-0.03em}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.logo-mark{width:24px;height:24px;flex-shrink:0}
+.logo-name{font-size:14px;font-weight:700;color:var(--w);letter-spacing:-0.02em}
 
-nav ul{display:flex;gap:6px;list-style:none;align-items:center}
+nav ul{display:flex;gap:2px;list-style:none;align-items:center}
 nav ul a{
   font-size:13px;font-weight:500;color:var(--g1);text-decoration:none;
-  padding:8px 14px;border-radius:8px;
-  transition:all 0.2s;
+  padding:6px 12px;border-radius:7px;
+  transition:color 0.15s,background 0.15s;
 }
-nav ul a:hover{color:var(--w);background:rgba(255,255,255,0.05)}
+nav ul a:hover{color:var(--w);background:rgba(255,255,255,0.055)}
 .nav-cta{
   background:var(--red)!important;color:#fff!important;
-  font-weight:600!important;padding:8px 16px!important;
-  border-radius:8px!important;box-shadow:0 4px 12px rgba(255,59,48,0.3);
+  font-weight:600!important;padding:6px 14px!important;
+  transition:opacity 0.15s!important;border-radius:8px!important;
 }
-.nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,59,48,0.5)!important}
+.nav-cta:hover{opacity:0.85!important;background:var(--red)!important}
 
 /* ─── HERO ─── */
 .hero{
@@ -91,305 +84,402 @@ nav ul a:hover{color:var(--w);background:rgba(255,255,255,0.05)}
   align-items:center;
   justify-content:center;
   text-align:center;
-  padding:80px 24px 120px;
+  padding:52px 24px 100px;
   position:relative;
-}
-
-/* Ambient Deep Space Red Glow */
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 45%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(255,59,48,0.14) 0%, transparent 65%);
-  z-index: -1;
-  pointer-events: none;
-  filter: blur(50px);
+  overflow:hidden;
 }
 
 .hero-label{
   font-size:11px;
   font-weight:700;
   text-transform:uppercase;
-  letter-spacing:0.14em;
+  letter-spacing:0.12em;
   color:var(--red);
-  margin-bottom:28px;
-  background:rgba(255,59,48,0.08);
-  padding:6px 16px;
-  border-radius:100px;
-  border:1px solid rgba(255,59,48,0.18);
-  display:inline-block;
+  margin-bottom:32px;
+  opacity:0;
+  transform:translateY(12px);
+  animation:rise 0.7s 0.1s cubic-bezier(.22,1,.36,1) forwards;
 }
 
 .hero-title{
-  font-size:clamp(48px,8vw,92px);
+  font-size:clamp(52px,9vw,108px);
   font-weight:900;
-  line-height:1.05;
+  line-height:0.96;
   letter-spacing:-0.045em;
-  max-width:950px;
-  margin-bottom:28px;
-  background: linear-gradient(180deg, #FFFFFF 35%, #A1A1AA 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color:var(--w);
+  max-width:900px;
+  margin-bottom:24px;
 }
+
+/* word-by-word reveal */
+.hero-title .word{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(20px);
+  animation:rise 0.75s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero-title .word:nth-child(1){animation-delay:0.2s}
+.hero-title .word:nth-child(2){animation-delay:0.28s}
+.hero-title .word:nth-child(3){animation-delay:0.36s}
+.hero-title .word:nth-child(4){animation-delay:0.44s}
+.hero-title .br{display:block;height:0.06em}
 
 .hero-sub{
-  font-size:clamp(16px,2vw,19px);
+  font-size:clamp(15px,1.8vw,18px);
   color:var(--g1);
   font-weight:400;
-  line-height:1.6;
-  max-width:540px;
+  line-height:1.65;
+  max-width:400px;
   margin-bottom:48px;
+  opacity:0;
+  transform:translateY(14px);
+  animation:rise 0.75s 0.52s cubic-bezier(.22,1,.36,1) forwards;
 }
 
-/* Download button styling */
+/* Download button */
 .dl-wrap{
-  display:flex;flex-direction:column;align-items:center;gap:12px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  opacity:0;transform:translateY(14px);
+  animation:rise 0.75s 0.62s cubic-bezier(.22,1,.36,1) forwards;
 }
 
 .btn-dl{
-  display:inline-flex;align-items:center;gap:10px;
+  display:inline-flex;align-items:center;gap:9px;
   background:var(--red);color:#fff;text-decoration:none;
-  font-size:16px;font-weight:700;
-  padding:16px 36px;border-radius:12px;
+  font-size:15px;font-weight:700;
+  padding:15px 30px;border-radius:13px;
   letter-spacing:-0.01em;border:none;cursor:pointer;
-  transition:all 0.25s cubic-bezier(.25,1,.5,1);
-  box-shadow:0 8px 28px rgba(255,59,48,0.35);
+  position:relative;
+  transition:transform 0.22s cubic-bezier(.34,1.56,.64,1),opacity 0.15s;
+  box-shadow:0 6px 24px rgba(255,59,48,0.4);
 }
-.btn-dl:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(255,59,48,0.55)}
-.btn-dl:active{transform:translateY(1px)}
+.btn-dl:hover{transform:translateY(-2px) scale(1.02);opacity:0.92}
+.btn-dl:active{transform:scale(0.97)}
+.btn-dl.loading{opacity:0.45;pointer-events:none}
 
-.dl-meta{font-size:13px;color:var(--g2);letter-spacing:0.01em}
+.dl-meta{font-size:12px;color:var(--g2);letter-spacing:0.01em}
+
+@keyframes rise{
+  to{opacity:1;transform:translateY(0)}
+}
 
 /* scroll indicator */
 .scroll-hint{
-  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:8px;
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  opacity:0;animation:rise 1s 1.2s ease forwards;
 }
-.scroll-hint span{font-size:11px;color:var(--g2);font-weight:600;letter-spacing:0.1em;text-transform:uppercase}
+.scroll-hint span{font-size:11px;color:var(--g2);font-weight:500;letter-spacing:0.06em;text-transform:uppercase}
 .scroll-hint-arrow{
-  width:10px;height:10px;
-  border-right:2px solid var(--g2);
-  border-bottom:2px solid var(--g2);
+  width:20px;height:20px;
+  border-right:1.5px solid var(--g3);
+  border-bottom:1.5px solid var(--g3);
   transform:rotate(45deg);
-  animation:bounce 2s infinite;
+  animation:bounce 2s 1.5s ease-in-out infinite;
 }
 @keyframes bounce{
   0%,100%{transform:rotate(45deg) translateY(0)}
-  50%{transform:rotate(45deg) translateY(6px)}
+  50%{transform:rotate(45deg) translateY(4px)}
 }
 
 /* ─── SCROLL REVEAL BASE ─── */
 .reveal{
   opacity:0;
-  transform:translateY(24px);
-  transition:all 0.8s cubic-bezier(.22,1,.36,1);
+  transform:translateY(32px);
+  transition:opacity 0.75s cubic-bezier(.22,1,.36,1),
+             transform 0.75s cubic-bezier(.22,1,.36,1);
 }
 .reveal.visible{opacity:1;transform:translateY(0)}
 
 .reveal-scale{
   opacity:0;
-  transform:scale(0.97) translateY(20px);
-  transition:all 0.8s cubic-bezier(.22,1,.36,1);
+  transform:scale(0.96) translateY(24px);
+  transition:opacity 0.8s cubic-bezier(.22,1,.36,1),
+             transform 0.8s cubic-bezier(.22,1,.36,1);
 }
 .reveal-scale.visible{opacity:1;transform:scale(1) translateY(0)}
 
 /* stagger children */
 .stagger > *{
   opacity:0;
-  transform:translateY(20px);
-  transition:all 0.6s cubic-bezier(.22,1,.36,1);
+  transform:translateY(24px);
+  transition:opacity 0.65s cubic-bezier(.22,1,.36,1),
+             transform 0.65s cubic-bezier(.22,1,.36,1);
 }
 .stagger.visible > *:nth-child(1){opacity:1;transform:none;transition-delay:0s}
-.stagger.visible > *:nth-child(2){opacity:1;transform:none;transition-delay:0.05s}
-.stagger.visible > *:nth-child(3){opacity:1;transform:none;transition-delay:0.1s}
-.stagger.visible > *:nth-child(4){opacity:1;transform:none;transition-delay:0.15s}
-.stagger.visible > *:nth-child(5){opacity:1;transform:none;transition-delay:0.2s}
-.stagger.visible > *:nth-child(6){opacity:1;transform:none;transition-delay:0.25s}
+.stagger.visible > *:nth-child(2){opacity:1;transform:none;transition-delay:0.07s}
+.stagger.visible > *:nth-child(3){opacity:1;transform:none;transition-delay:0.14s}
+.stagger.visible > *:nth-child(4){opacity:1;transform:none;transition-delay:0.21s}
+.stagger.visible > *:nth-child(5){opacity:1;transform:none;transition-delay:0.28s}
+.stagger.visible > *:nth-child(6){opacity:1;transform:none;transition-delay:0.35s}
 
 /* ─── SECTION SHELL ─── */
-.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
-.section{padding:140px 0}
+.wrap{max-width:980px;margin:0 auto;padding:0 24px}
+
+.section{padding:120px 0}
 
 .eyebrow{
-  font-size:12px;font-weight:700;
-  text-transform:uppercase;letter-spacing:0.12em;
-  color:var(--red);margin-bottom:16px;
+  font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--red);margin-bottom:12px;
 }
 .sec-title{
-  font-size:clamp(32px,5vw,54px);
-  font-weight:800;line-height:1.1;
-  letter-spacing:-0.04em;
-  color:var(--w);margin-bottom:18px;
+  font-size:clamp(32px,4.5vw,52px);
+  font-weight:800;line-height:1.05;
+  letter-spacing:-0.035em;
+  color:var(--w);margin-bottom:14px;
 }
 .sec-body{
-  font-size:17px;color:var(--g1);
-  line-height:1.6;max-width:500px;
+  font-size:16px;color:var(--g1);
+  line-height:1.7;max-width:400px;
   margin-bottom:64px;
 }
 
-/* ─── FEATURES GRID (BENTO STYLING) ─── */
+/* ─── FEATURES GRID ─── */
 .feat-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:16px;
+  gap:1px;
+  background:var(--b);
+  border:1px solid var(--b);
+  border-radius:16px;
+  overflow:hidden;
 }
 
 .feat{
-  background:var(--s1);
-  border:1px solid var(--b);
-  border-radius:16px;
-  padding:36px 30px;
-  transition:all 0.3s cubic-bezier(.25,1,.5,1);
-  position:relative;
-  overflow:hidden;
-}
-.feat:hover{
   background:var(--s2);
-  border-color:var(--bh);
-  transform:translateY(-2px);
-  box-shadow:0 12px 30px rgba(0,0,0,0.5), 0 0 20px rgba(255,59,48,0.03);
+  padding:32px 26px;
+  transition:background 0.2s;
+  cursor:default;
 }
+.feat:hover{background:var(--s3)}
 
 .feat-ico{
-  width:42px;height:42px;
-  border-radius:12px;
+  width:38px;height:38px;
+  border-radius:10px;
   background:var(--red-a);
   display:flex;align-items:center;justify-content:center;
-  margin-bottom:24px;color:var(--red);
-  transition:transform 0.3s ease;
+  margin-bottom:18px;color:var(--red);
+  transition:transform 0.3s cubic-bezier(.34,1.56,.64,1),background 0.2s;
 }
-.feat:hover .feat-ico{transform:scale(1.05);background:rgba(255,59,48,0.25)}
-.feat-ico svg{width:20px;height:20px}
-.feat h3{font-size:16px;font-weight:700;color:var(--w);margin-bottom:10px;letter-spacing:-0.01em}
-.feat p{font-size:14px;color:var(--g1);line-height:1.6}
+.feat:hover .feat-ico{transform:scale(1.1);background:rgba(255,59,48,0.22)}
+.feat-ico svg{width:17px;height:17px}
+.feat h3{font-size:14px;font-weight:700;color:var(--w);margin-bottom:7px;letter-spacing:-0.01em}
+.feat p{font-size:13px;color:var(--g1);line-height:1.65}
 
 /* ─── SCREENSHOT SECTION — sticky scroll ─── */
-.shots-outer{position:relative; background: rgba(255,255,255,0.005);}
-.shots-sticky-wrap{height:260vh;position:relative}
-.shots-sticky{
-  position:sticky;top:0;height:100vh;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  overflow:hidden;padding:40px 24px;
+.shots-outer{
+  position:relative;
 }
-.shots-header{text-align:center;margin-bottom:40px;flex-shrink:0}
-.shots-track{position:relative;width:100%;max-width:960px;flex:1;display:flex;align-items:center}
+
+/* sticky container: 300vh gives scroll room */
+.shots-sticky-wrap{
+  height:300vh;
+  position:relative;
+}
+
+.shots-sticky{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:52px 24px 40px;
+}
+
+.shots-header{
+  text-align:center;
+  margin-bottom:36px;
+  flex-shrink:0;
+}
+
+.shots-track{
+  position:relative;
+  width:100%;
+  max-width:900px;
+  flex:1;
+  display:flex;
+  align-items:center;
+}
 
 .shot-frame{
   width:100%;
-  height:min(60vh,560px);
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,0.08);
+  height:min(56vh,520px);
+  border-radius:16px;
+  border:1px solid var(--b);
   overflow:hidden;
-  background:#09090d;
-  box-shadow:0 60px 130px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.02);
+  background:var(--s2);
+  box-shadow:0 40px 100px rgba(0,0,0,0.65);
   position:relative;
 }
 
+/* slide panels — absolutely positioned, swapped by JS */
 .shot-panel{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  transition:all 0.6s cubic-bezier(.16,1,.3,1);
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:opacity 0.5s cubic-bezier(.22,1,.36,1),transform 0.5s cubic-bezier(.22,1,.36,1);
 }
 .shot-panel img{width:100%;height:100%;object-fit:cover;display:block}
+
 .shot-panel.active{opacity:1;transform:scale(1)}
-.shot-panel.hidden-left{opacity:0;transform:scale(0.96) translateX(-40px);pointer-events:none}
-.shot-panel.hidden-right{opacity:0;transform:scale(0.96) translateX(40px);pointer-events:none}
+.shot-panel.hidden-left{opacity:0;transform:scale(0.97) translateX(-20px);pointer-events:none}
+.shot-panel.hidden-right{opacity:0;transform:scale(0.97) translateX(20px);pointer-events:none}
 
-/* PURE CSS PREMIUM APP MOCKUP (FALLBACK) */
-.css-mockup{
-  width:100%;height:100%;display:flex;background:#09090d;color:#fff;font-family:sans-serif;
+/* placeholder when no images */
+.shot-empty{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:100%;color:var(--g2);font-size:13px;text-align:center;gap:10px;
+  line-height:1.7;
 }
-.mock-sidebar{width:210px;background:#0e0e14;border-right:1px solid #1c1c28;padding:24px 16px;display:flex;flex-direction:column;gap:6px;text-align:left;}
-.mock-logo{font-weight:800;color:#FF3B30;margin-bottom:24px;font-size:16px;display:flex;align-items:center;gap:8px;letter-spacing:-0.02em;}
-.mock-item{padding:10px 14px;border-radius:8px;font-size:13px;color:#8e8e93;background:transparent;font-weight:500;}
-.mock-item.active{background:#FF3B30;color:#fff;font-weight:600;box-shadow:0 4px 12px rgba(255,59,48,0.25);}
-.mock-main{flex:1;padding:32px;background:#050508;display:flex;flex-direction:column;gap:24px;text-align:left;}
-.mock-header{font-size:20px;font-weight:800;border-bottom:1px solid #1c1c28;padding-bottom:14px;letter-spacing:-0.02em}
-.mock-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-.mock-card{background:#111118;border:1px solid #222232;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:8px;box-shadow:0 10px 20px rgba(0,0,0,0.4);transition:all 0.3s;}
-.mock-card:hover{border-color:#FF3B30;}
-.mock-card-title{font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px;}
-.mock-card-sub{font-size:12px;color:#666;font-family:monospace;}
-.mock-status{width:8px;height:8px;border-radius:50%;background:#30d158;display:inline-block;box-shadow:0 0 8px #30d158;}
+.shot-empty code{
+  font-family:'SF Mono','Fira Mono',monospace;font-size:11px;
+  background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;
+}
 
-.shot-dots{display:flex;gap:10px;margin-top:28px;flex-shrink:0}
+/* dots */
+.shot-dots{
+  display:flex;gap:7px;margin-top:20px;flex-shrink:0;
+}
 .shot-dot{
-  width:8px;height:8px;border-radius:50%;background:var(--g3);
-  transition:all 0.3s cubic-bezier(.25,1,.5,1);cursor:pointer;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--g3);
+  transition:background 0.3s,transform 0.3s cubic-bezier(.34,1.56,.64,1);
+  cursor:pointer;
 }
-.shot-dot.active{background:var(--w);transform:scale(1.4);box-shadow:0 0 10px rgba(255,255,255,0.4)}
+.shot-dot.active{background:var(--w);transform:scale(1.35)}
 
-.shots-progress{width:100%;max-width:960px;height:3px;background:var(--b);border-radius:3px;margin-top:24px;flex-shrink:0;overflow:hidden}
-.shots-bar{height:100%;background:var(--red);width:0%;transition:width 0.1s ease-out}
+/* progress bar under frame */
+.shots-progress{
+  width:100%;max-width:900px;
+  height:2px;
+  background:var(--b);
+  border-radius:2px;
+  margin-top:16px;
+  flex-shrink:0;
+  overflow:hidden;
+}
+.shots-bar{
+  height:100%;
+  background:var(--red);
+  border-radius:2px;
+  width:0%;
+  transition:width 0.05s linear;
+}
 
 /* ─── SECURITY ─── */
-.sec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.sec-item{background:var(--s1);border:1px solid var(--b);border-radius:16px;padding:36px;transition:all 0.3s;}
-.sec-item:hover{background:var(--s2);border-color:rgba(255,255,255,0.12)}
-.sec-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--red);display:block;margin-bottom:12px}
-.sec-item h4{font-size:16px;font-weight:700;color:var(--w);margin-bottom:8px}
-.sec-item p{font-size:14px;color:var(--g1);line-height:1.6}
+.sec-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1px;
+  background:var(--b);
+  border:1px solid var(--b);
+  border-radius:16px;
+  overflow:hidden;
+}
+.sec-item{
+  background:var(--s2);
+  padding:30px;
+  transition:background 0.2s;
+}
+.sec-item:hover{background:var(--s3)}
+.sec-tag{
+  font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.08em;
+  color:var(--red);display:block;margin-bottom:8px;
+}
+.sec-item h4{font-size:14px;font-weight:700;color:var(--w);margin-bottom:5px;letter-spacing:-0.01em}
+.sec-item p{font-size:13px;color:var(--g1);line-height:1.6}
 
 /* ─── CTA ─── */
-.cta-outer{padding:80px 24px 160px;text-align:center}
+.cta-outer{
+  padding:40px 24px 120px;
+  text-align:center;
+}
 .cta-card{
-  max-width:540px;margin:0 auto;background:linear-gradient(180deg, var(--s1) 0%, var(--bg) 100%);
-  border:1px solid var(--b);border-radius:24px;padding:64px 40px;position:relative;
-  transition:all 0.4s cubic-bezier(.16,1,.3,1);
+  max-width:460px;margin:0 auto;
+  background:var(--s2);
+  border:1px solid var(--b);
+  border-radius:22px;
+  padding:52px 40px 44px;
+  position:relative;
+  transition:border-color 0.3s,box-shadow 0.3s;
 }
 .cta-card:hover{
-  border-color:rgba(255,59,48,0.3);
-  box-shadow:0 30px 70px rgba(0,0,0,0.6), 0 0 40px rgba(255,59,48,0.04);
+  border-color:var(--bh);
+  box-shadow:0 0 0 1px var(--b),0 24px 60px rgba(0,0,0,0.5);
 }
 .cta-card::before{
-  content:'';position:absolute;top:-1px;left:20%;right:20%;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,59,48,0.5),transparent);
+  content:'';
+  position:absolute;top:-1px;left:25%;right:25%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,59,48,0.45),transparent);
+  border-radius:1px;
 }
-.cta-icon{width:52px;height:52px;margin:0 auto 28px}
-.cta-card h2{font-size:32px;font-weight:800;letter-spacing:-0.04em;margin-bottom:12px}
-.cta-card>p{font-size:15px;color:var(--g1);line-height:1.6;margin-bottom:36px}
+.cta-icon{width:46px;height:46px;margin:0 auto 22px}
+.cta-card h2{font-size:28px;font-weight:800;letter-spacing:-0.035em;margin-bottom:8px}
+.cta-card>p{font-size:14px;color:var(--g1);line-height:1.65;margin-bottom:32px}
 
-.chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:18px}
 .chip{
-  font-size:12px;font-weight:500;color:var(--g1);background:rgba(255,255,255,0.03);
-  border:1px solid var(--b);border-radius:100px;padding:6px 14px;
+  font-size:11px;font-weight:500;color:var(--g2);
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--b);
+  border-radius:100px;padding:4px 11px;
 }
-.ver-line{margin-top:24px;font-size:13px;color:var(--g2)}
-.ver-line a{color:var(--g1);text-decoration:none;border-bottom:1px solid transparent;transition:all 0.15s}
-.ver-line a:hover{color:var(--w);border-bottom-color:var(--w)}
 
-.line-div{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--b),transparent);margin:0 auto}
+.ver-line{margin-top:16px;font-size:12px;color:var(--g2)}
+.ver-line a{color:var(--g1);text-decoration:none;transition:color 0.15s}
+.ver-line a:hover{color:var(--w)}
+
+/* ─── LINE DIVIDER ─── */
+.line-div{
+  width:1px;height:80px;
+  background:linear-gradient(to bottom,transparent,var(--b),transparent);
+  margin:0 auto;
+}
 
 /* ─── FOOTER ─── */
 footer{
-  border-top:1px solid var(--b);max-width:1100px;margin:0 auto;padding:40px 24px;
+  border-top:1px solid var(--b);
+  max-width:980px;margin:0 auto;padding:28px 24px;
   display:flex;align-items:center;justify-content:space-between;
 }
-footer ul{display:flex;gap:24px;list-style:none}
-footer ul a{font-size:13px;color:var(--g1);text-decoration:none;transition:color 0.15s}
+footer ul{display:flex;gap:18px;list-style:none}
+footer ul a{font-size:13px;color:var(--g2);text-decoration:none;transition:color 0.15s}
 footer ul a:hover{color:var(--w)}
-.copy{font-size:13px;color:var(--g2)}
+.copy{font-size:12px;color:var(--g3)}
 
 /* ─── RESPONSIVE ─── */
-@media(max-width:900px){
-  .feat-grid{grid-template-columns:1fr 1fr}
-}
 @media(max-width:780px){
   nav ul{display:none}
+  .feat-grid{grid-template-columns:1fr 1fr}
   .sec-grid{grid-template-columns:1fr}
-  footer{flex-direction:column;gap:24px;text-align:center}
+  footer{flex-direction:column;gap:18px;text-align:center}
+  footer ul{justify-content:center}
+  .cta-card{padding:36px 22px 32px}
 }
-@media(max-width:600px){
+@media(max-width:520px){
   .feat-grid{grid-template-columns:1fr}
-  .mock-sidebar{display:none}
-  .mock-grid{grid-template-columns:1fr}
+  .shots-sticky{padding:52px 16px 32px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation:none!important;
+    transition:none!important;
+    opacity:1!important;
+    transform:none!important;
+  }
 }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav id="nav">
   <a href="#" class="logo">
     <svg class="logo-mark" viewBox="0 0 24 24" fill="none">
@@ -406,29 +496,39 @@ footer ul a:hover{color:var(--w)}
   </ul>
 </nav>
 
+<!-- ═══ HERO ═══ -->
 <section class="hero">
   <p class="hero-label">Remote Manager für Windows</p>
-  <h1 class="hero-title">Alle Geräte. Unter Kontrolle.</h1>
+
+  <h1 class="hero-title">
+    <span class="word">Alle</span>&thinsp;
+    <span class="word">Geräte.</span>
+    <span class="br"></span>
+    <span class="word">Unter</span>&thinsp;
+    <span class="word">Kontrolle.</span>
+  </h1>
+
   <p class="hero-sub">Multi-Monitor-VNC, verschlüsselter Vault, kein Account. Läuft vollständig lokal — auf Windows 10 und 11.</p>
 
   <div class="dl-wrap">
-    <a id="hero-btn" class="btn-dl" href="https://github.com/ReMa-RemoteManager/rema/releases/latest/download/rema.setup.exe">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <a id="hero-btn" class="btn-dl loading" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
         <polyline points="7 10 12 15 17 10"/>
         <line x1="12" y1="15" x2="12" y2="3"/>
       </svg>
-      <span id="hero-btn-text">ReMa herunterladen</span>
+      <span id="hero-btn-text">Lädt…</span>
     </a>
-    <p class="dl-meta" id="hero-meta">Windows 10 / 11 · 64-Bit · Direkt-Download</p>
+    <p class="dl-meta" id="hero-meta">Windows 10 / 11 · 64-Bit</p>
   </div>
 
   <div class="scroll-hint" aria-hidden="true">
-    <span>Scrollen</span>
+    <span>Scroll</span>
     <div class="scroll-hint-arrow"></div>
   </div>
 </section>
 
+<!-- ═══ FEATURES ═══ -->
 <div id="features" class="section">
   <div class="wrap">
     <p class="eyebrow reveal">Features</p>
@@ -503,71 +603,54 @@ footer ul a:hover{color:var(--w)}
   </div>
 </div>
 
+<!-- ═══ SCREENSHOTS — sticky scroll ═══ -->
 <div class="shots-outer">
   <div class="shots-sticky-wrap" id="shots-sticky-wrap">
     <div class="shots-sticky" id="shots-sticky">
 
       <div class="shots-header">
-        <p class="eyebrow" style="margin-bottom:8px">Live-Vorschau</p>
-        <h2 class="sec-title" style="margin-bottom:0;font-size:clamp(24px,3.5vw,38px)" id="shot-label">Übersicht</h2>
+        <p class="eyebrow" style="margin-bottom:8px">Screenshots</p>
+        <h2 class="sec-title" style="margin-bottom:0;font-size:clamp(26px,3.5vw,40px)" id="shot-label">Übersicht</h2>
       </div>
 
       <div class="shots-track">
         <div class="shot-frame" id="shot-frame">
+          <!-- Panel 0 -->
           <div class="shot-panel active" id="panel-0">
-            <img src="screenshot-main.png" alt="ReMa — Übersicht" onerror="handleImageError()"/>
+            <img src="screenshot-main.png" alt="ReMa — Übersicht"
+              onerror="document.getElementById('shots-empty').style.display='flex';this.parentElement.style.display='none'"/>
           </div>
+          <!-- Panel 1 -->
           <div class="shot-panel hidden-right" id="panel-1">
-            <img src="screenshot-unlock.png" alt="ReMa — Entsperren" onerror="handleImageError()"/>
+            <img src="screenshot-unlock.png" alt="ReMa — Entsperren"
+              onerror="this.parentElement.style.display='none'"/>
           </div>
+          <!-- Panel 2 -->
           <div class="shot-panel hidden-right" id="panel-2">
-            <img src="screenshot-settings.png" alt="ReMa — Einstellungen" onerror="handleImageError()"/>
+            <img src="screenshot-settings.png" alt="ReMa — Einstellungen"
+              onerror="this.parentElement.style.display='none'"/>
           </div>
-          
-          <div id="shots-fallback" class="css-mockup" style="display:none">
-            <div class="mock-sidebar">
-              <div class="mock-logo">
-                <span style="display:inline-block;width:12px;height:12px;border:2.5px solid #FF3B30;border-radius:4px;"></span> ReMa
-              </div>
-              <div class="mock-item active">Dashboard</div>
-              <div class="mock-item">Sitzungstresor</div>
-              <div class="mock-item">Multi-Display</div>
-              <div class="mock-item" style="margin-top:auto;">Optionen</div>
-            </div>
-            <div class="mock-main">
-              <div class="mock-header">Gespeicherte Verbindungen</div>
-              <div class="mock-grid">
-                <div class="mock-card">
-                  <div class="mock-card-title"><span class="mock-status"></span> BAA01</div>
-                  <div class="mock-card-sub">VNC · 192.168.1.102</div>
-                </div>
-                <div class="mock-card">
-                  <div class="mock-card-title"><span class="mock-status"></span> BAA02</div>
-                  <div class="mock-card-sub">VNC · 192.168.1.105</div>
-                </div>
-                <div class="mock-card">
-                  <div class="mock-card-title"><span class="mock-status" style="background:#ff9500; box-shadow:0 0 8px #ff9500"></span> BAA03</div>
-                  <div class="mock-card-sub">Verbindung aufbauen...</div>
-                </div>
-              </div>
-            </div>
+          <!-- Fallback -->
+          <div id="shots-empty" class="shot-empty" style="display:none">
+            <p style="font-size:36px">🖥</p>
+            <p>Lege <code>screenshot-main.png</code>, <code>screenshot-unlock.png</code><br>und <code>screenshot-settings.png</code> neben die <code>index.html</code>.</p>
           </div>
-
         </div>
       </div>
 
       <div class="shots-progress"><div class="shots-bar" id="shots-bar"></div></div>
 
       <div class="shot-dots" role="tablist">
-        <div class="shot-dot active" role="tab" data-idx="0" onclick="goShot(0)"></div>
-        <div class="shot-dot" role="tab" data-idx="1" onclick="goShot(1)"></div>
-        <div class="shot-dot" role="tab" data-idx="2" onclick="goShot(2)"></div>
+        <div class="shot-dot active" role="tab" data-idx="0" onclick="goShot(0)" title="Übersicht"></div>
+        <div class="shot-dot" role="tab" data-idx="1" onclick="goShot(1)" title="Entsperren"></div>
+        <div class="shot-dot" role="tab" data-idx="2" onclick="goShot(2)" title="Einstellungen"></div>
       </div>
 
     </div>
   </div>
 </div>
 
+<!-- ═══ SECURITY ═══ -->
 <div class="line-div"></div>
 
 <div id="security" class="section">
@@ -601,8 +684,8 @@ footer ul a:hover{color:var(--w)}
   </div>
 </div>
 
+<!-- ═══ DOWNLOAD CTA ═══ -->
 <div class="line-div"></div>
-
 <div class="cta-outer" id="download">
   <div class="cta-card reveal-scale">
     <div class="cta-icon">
@@ -612,22 +695,22 @@ footer ul a:hover{color:var(--w)}
         <circle cx="36" cy="10" r="7" fill="#FF3B30"/>
       </svg>
     </div>
-    <h2>Jetzt kostenlos laden</h2>
-    <p>Kein Account. Keine Cloud. Einfach installieren und direkt loslegen.</p>
+    <h2>Kostenlos herunterladen</h2>
+    <p>Kein Account. Keine Cloud. Einfach installieren und loslegen.</p>
 
-    <a id="cta-btn" class="btn-dl" href="https://github.com/ReMa-RemoteManager/rema/releases/latest/download/rema.setup.exe">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <a id="cta-btn" class="btn-dl loading" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
         <polyline points="7 10 12 15 17 10"/>
         <line x1="12" y1="15" x2="12" y2="3"/>
       </svg>
-      <span id="cta-btn-text">ReMa herunterladen</span>
+      <span id="cta-btn-text">Lädt…</span>
     </a>
 
     <div class="chips">
       <span class="chip">Windows 10 / 11</span>
       <span class="chip">64-Bit</span>
-      <span class="chip">.NET 10 ready</span>
+      <span class="chip">.NET 10 inklusive</span>
     </div>
 
     <p class="ver-line" id="ver-line">
@@ -636,6 +719,7 @@ footer ul a:hover{color:var(--w)}
   </div>
 </div>
 
+<!-- ═══ FOOTER ═══ -->
 <footer>
   <a href="#" class="logo">
     <svg class="logo-mark" viewBox="0 0 24 24" fill="none">
@@ -650,28 +734,23 @@ footer ul a:hover{color:var(--w)}
     <li><a href="https://github.com/ReMa-RemoteManager/rema/issues" target="_blank" rel="noopener">Issues</a></li>
     <li><a href="https://github.com/ReMa-RemoteManager/rema/releases" target="_blank" rel="noopener">Releases</a></li>
   </ul>
-  <span class="copy">© 2026 ReMa</span>
+  <span class="copy">© 2025 ReMa</span>
 </footer>
 
 <script>
+/* ─── CONFIG ─── */
 const GH_USER = "ReMa-RemoteManager";
 const GH_REPO = "rema";
 const EXE     = "rema.setup.exe";
+/* ────────────── */
 
-/* Nav transparent -> dark-blur on scroll */
+/* ── Nav scroll tint ── */
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 20);
 }, {passive:true});
 
-/* Intelligent Image Fallback */
-function handleImageError() {
-  document.querySelectorAll('.shot-panel').forEach(p => p.style.display = 'none');
-  const fallback = document.getElementById('shots-fallback');
-  if(fallback) fallback.style.display = 'flex';
-}
-
-/* Scroll Reveal Engine */
+/* ── Scroll reveal ── */
 const io = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
@@ -679,19 +758,20 @@ const io = new IntersectionObserver((entries) => {
       io.unobserve(e.target);
     }
   });
-}, {threshold:0.1, rootMargin:'0px 0px -20px 0px'});
+}, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
 
 document.querySelectorAll('.reveal,.reveal-scale,.stagger').forEach(el => io.observe(el));
 
-/* Interactive Screenshot Carousel */
+/* ── Screenshot sticky scroll ── */
 const SHOTS = [
-  {label:'Übersicht'},
-  {label:'Entsperren'},
-  {label:'Einstellungen'},
+  {label:'Übersicht',     src:'screenshot-main.png'},
+  {label:'Entsperren',    src:'screenshot-unlock.png'},
+  {label:'Einstellungen', src:'screenshot-settings.png'},
 ];
+
 let currentShot = 0;
 
-function goShot(idx) {
+function goShot(idx, fromScroll=false) {
   if (idx === currentShot) return;
   const prev = currentShot;
   currentShot = idx;
@@ -700,19 +780,19 @@ function goShot(idx) {
   const dots   = document.querySelectorAll('.shot-dot');
   const label  = document.getElementById('shot-label');
 
-  if(panels.length > prev && panels[idx]) {
-    const dir = idx > prev ? 1 : -1;
-    panels[prev].classList.remove('active');
-    panels[prev].classList.add(dir > 0 ? 'hidden-left' : 'hidden-right');
+  const dir = idx > prev ? 1 : -1;
 
-    panels[idx].classList.remove('hidden-left','hidden-right');
-    panels[idx].classList.add('active');
-  }
+  panels[prev].classList.remove('active');
+  panels[prev].classList.add(dir > 0 ? 'hidden-left' : 'hidden-right');
+
+  panels[idx].classList.remove('hidden-left','hidden-right');
+  panels[idx].classList.add('active');
 
   dots.forEach((d,i) => d.classList.toggle('active', i === idx));
   if (label) label.textContent = SHOTS[idx].label;
 }
 
+/* Scroll-driven screenshot switcher */
 function onScroll() {
   const wrap = document.getElementById('shots-sticky-wrap');
   const bar  = document.getElementById('shots-bar');
@@ -724,45 +804,54 @@ function onScroll() {
   const progress = Math.min(1, Math.max(0, scrolled / total));
 
   if (bar) bar.style.width = (progress * 100) + '%';
+
   const idx = Math.min(SHOTS.length - 1, Math.floor(progress * SHOTS.length));
-  if (idx !== currentShot) goShot(idx);
+  if (idx !== currentShot) goShot(idx, true);
 }
+
 window.addEventListener('scroll', onScroll, {passive:true});
 
-/* Intelligent GitHub API Fetcher & Direct Fallback */
+/* ── GitHub release fetch ── */
 async function init() {
-  // Der unschlagbare Direct-Download-Link von GitHub als Fallback, falls API blockiert
-  const directFallback = `https://github.com/${GH_USER}/${GH_REPO}/releases/latest/download/${EXE}`;
-  
+  const fallback = `https://github.com/${GH_USER}/${GH_REPO}/releases/latest`;
   try {
-    const r = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/releases/latest`);
+    const r = await fetch(
+      `https://api.github.com/repos/${GH_USER}/${GH_REPO}/releases/latest`,
+      {headers:{Accept:'application/vnd.github+json'}}
+    );
     if (!r.ok) throw 0;
-    const d = await r.json();
-    const ver = d.tag_name ?? '';
+
+    const d     = await r.json();
+    const ver   = d.tag_name ?? '';
     const asset = d.assets?.find(a => a.name === EXE);
-    
-    // Holt sich die direkte Browser-Download-URL des Assets aus der API oder baut sie nach
-    const url = asset?.browser_download_url ?? directFallback;
-    const mb = asset ? (asset.size / 1048576).toFixed(1) + ' MB' : '';
+    const url   = asset?.browser_download_url ?? fallback;
+    const mb    = asset ? (asset.size / 1048576).toFixed(1) + ' MB' : '';
+
+    const setText = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+    const label = ver ? `ReMa ${ver} herunterladen` : 'Neueste Version herunterladen';
 
     ['hero-btn','cta-btn'].forEach(id => {
       const el = document.getElementById(id);
-      if (el) { el.href = url; }
+      if (el) { el.href = url; el.classList.remove('loading'); }
     });
-    
+    setText('hero-btn-text', label);
+    setText('cta-btn-text',  label);
+
+    if (mb) setText('hero-meta', `Windows 10 / 11 · 64-Bit · ${mb}`);
     if (ver) {
-      document.getElementById('hero-btn-text').textContent = `ReMa ${ver} herunterladen`;
-      document.getElementById('cta-btn-text').textContent  = `ReMa ${ver} herunterladen`;
+      const vl = document.getElementById('ver-line');
+      if (vl) vl.innerHTML = `<span style="color:var(--g2)">${ver}</span> · <a href="https://github.com/${GH_USER}/${GH_REPO}/releases" target="_blank" rel="noopener">Alle Releases →</a>`;
     }
-    if (mb) document.getElementById('hero-meta').textContent = `Windows 10 / 11 · 64-Bit · ${mb} · Direkt-Download`;
   } catch {
-    // Falls API-Fehler auftritt, greift hier die sofortige, sichere Direkt-Download-URL
     ['hero-btn','cta-btn'].forEach(id => {
       const el = document.getElementById(id);
-      if (el) { el.href = directFallback; }
+      if (el) { el.href = fallback; el.classList.remove('loading'); }
     });
+    document.getElementById('hero-btn-text').textContent = 'Neueste Version herunterladen';
+    document.getElementById('cta-btn-text').textContent  = 'Neueste Version herunterladen';
   }
 }
+
 init();
 </script>
 </body>
