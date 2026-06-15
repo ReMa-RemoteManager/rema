@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ReMa — Remote Manager</title>
+<meta name="description" content="Sicherer Remote-Zugriff für Windows. Multi-Monitor, verschlüsselt, blitzschnell."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#08080A;
+  --s1:#111114;
+  --s2:#18181C;
+  --s3:#222226;
+  --b:rgba(255,255,255,0.055);
+  --bh:rgba(255,255,255,0.1);
+  --red:#FF3B30;
+  --red-a:rgba(255,59,48,0.15);
+  --w:#F5F5F7;
+  --g1:#A1A1AA;
+  --g2:#52525B;
+  --g3:#3F3F46;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--w);
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  line-height:1.5;
+}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;
+  inset:0 0 auto 0;
+  z-index:100;
+  height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  transition:background 0.3s,border-color 0.3s;
+  background:rgba(8,8,10,0);
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  background:rgba(8,8,10,0.85);
+  backdrop-filter:blur(28px) saturate(180%);
+  -webkit-backdrop-filter:blur(28px) saturate(180%);
+  border-bottom-color:var(--b);
+}
+
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.logo-mark{width:24px;height:24px;flex-shrink:0}
+.logo-name{font-size:14px;font-weight:700;color:var(--w);letter-spacing:-0.02em}
+
+nav ul{display:flex;gap:2px;list-style:none;align-items:center}
+nav ul a{
+  font-size:13px;font-weight:500;color:var(--g1);text-decoration:none;
+  padding:6px 12px;border-radius:7px;
+  transition:color 0.15s,background 0.15s;
+}
+nav ul a:hover{color:var(--w);background:rgba(255,255,255,0.055)}
+.nav-cta{
+  background:var(--red)!important;color:#fff!important;
+  font-weight:600!important;padding:6px 14px!important;
+  transition:opacity 0.15s!important;border-radius:8px!important;
+}
+.nav-cta:hover{opacity:0.85!important;background:var(--red)!important}
+
+/* ─── HERO ─── */
+.hero{
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:52px 24px 100px;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero-label{
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  color:var(--red);
+  margin-bottom:32px;
+  opacity:0;
+  transform:translateY(12px);
+  animation:rise 0.7s 0.1s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+.hero-title{
+  font-size:clamp(52px,9vw,108px);
+  font-weight:900;
+  line-height:0.96;
+  letter-spacing:-0.045em;
+  color:var(--w);
+  max-width:900px;
+  margin-bottom:24px;
+}
+
+/* word-by-word reveal */
+.hero-title .word{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(20px);
+  animation:rise 0.75s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero-title .word:nth-child(1){animation-delay:0.2s}
+.hero-title .word:nth-child(2){animation-delay:0.28s}
+.hero-title .word:nth-child(3){animation-delay:0.36s}
+.hero-title .word:nth-child(4){animation-delay:0.44s}
+.hero-title .br{display:block;height:0.06em}
+
+.hero-sub{
+  font-size:clamp(15px,1.8vw,18px);
+  color:var(--g1);
+  font-weight:400;
+  line-height:1.65;
+  max-width:400px;
+  margin-bottom:48px;
+  opacity:0;
+  transform:translateY(14px);
+  animation:rise 0.75s 0.52s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+/* Download button */
+.dl-wrap{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  opacity:0;transform:translateY(14px);
+  animation:rise 0.75s 0.62s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+.btn-dl{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--red);color:#fff;text-decoration:none;
+  font-size:15px;font-weight:700;
+  padding:15px 30px;border-radius:13px;
+  letter-spacing:-0.01em;border:none;cursor:pointer;
+  position:relative;
+  transition:transform 0.22s cubic-bezier(.34,1.56,.64,1),opacity 0.15s;
+  box-shadow:0 6px 24px rgba(255,59,48,0.4);
+}
+.btn-dl:hover{transform:translateY(-2px) scale(1.02);opacity:0.92}
+.btn-dl:active{transform:scale(0.97)}
+.btn-dl.loading{opacity:0.45;pointer-events:none}
+
+.dl-meta{font-size:12px;color:var(--g2);letter-spacing:0.01em}
+
+@keyframes rise{
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* scroll indicator */
+.scroll-hint{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  opacity:0;animation:rise 1s 1.2s ease forwards;
+}
+.scroll-hint span{font-size:11px;color:var(--g2);font-weight:500;letter-spacing:0.06em;text-transform:uppercase}
+.scroll-hint-arrow{
+  width:20px;height:20px;
+  border-right:1.5px solid var(--g3);
+  border-bottom:1.5px solid var(--g3);
+  transform:rotate(45deg);
+  animation:bounce 2s 1.5s ease-in-out infinite;
+}
+@keyframes bounce{
+  0%,100%{transform:rotate(45deg) translateY(0)}
+  50%{transform:rotate(45deg) translateY(4px)}
+}
+
+/* ─── SCROLL REVEAL BASE ─── */
+.reveal{
+  opacity:0;
+  transform:translateY(32px);
+  transition:opacity 0.75s cubic-bezier(.22,1,.36,1),
+             transform 0.75s cubic-bezier(.22,1,.36,1);
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+.reveal-scale{
+  opacity:0;
+  transform:scale(0.96) translateY(24px);
+  transition:opacity 0.8s cubic-bezier(.22,1,.36,1),
+             transform 0.8s cubic-bezier(.22,1,.36,1);
+}
+.reveal-scale.visible{opacity:1;transform:scale(1) translateY(0)}
+
+/* stagger children */
+.stagger > *{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity 0.65s cubic-bezier(.22,1,.36,1),
+             transform 0.65s cubic-bezier(.22,1,.36,1);
+}
+.stagger.visible > *:nth-child(1){opacity:1;transform:none;transition-delay:0s}
+.stagger.visible > *:nth-child(2){opacity:1;transform:none;transition-delay:0.07s}
+.stagger.visible > *:nth-child(3){opacity:1;transform:none;transition-delay:0.14s}
+.stagger.visible > *:nth-child(4){opacity:1;transform:none;transition-delay:0.21s}
+.stagger.visible > *:nth-child(5){opacity:1;transform:none;transition-delay:0.28s}
+.stagger.visible > *:nth-child(6){opacity:1;transform:none;transition-delay:0.35s}
+
+/* ─── SECTION SHELL ─── */
+.wrap{max-width:980px;margin:0 auto;padding:0 24px}
+
+.section{padding:120px 0}
+
+.eyebrow{
+  font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--red);margin-bottom:12px;
+}
+.sec-title{
+  font-size:clamp(32px,4.5vw,52px);
+  font-weight:800;line-height:1.05;
+  letter-spacing:-0.035em;
+  color:var(--w);margin-bottom:14px;
+}
+.sec-body{
+  font-size:16px;color:var(--g1);
+  line-height:1.7;max-width:400px;
+  margin-bottom:64px;
+}
+
+/* ─── FEATURES GRID ─── */
+.feat-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--b);
+  border:1px solid var(--b);
+  border-radius:16px;
+  overflow:hidden;
+}
+
+.feat{
+  background:var(--s2);
+  padding:32px 26px;
+  transition:background 0.2s;
+  cursor:default;
+}
+.feat:hover{background:var(--s3)}
+
+.feat-ico{
+  width:38px;height:38px;
+  border-radius:10px;
+  background:var(--red-a);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:18px;color:var(--red);
+  transition:transform 0.3s cubic-bezier(.34,1.56,.64,1),background 0.2s;
+}
+.feat:hover .feat-ico{transform:scale(1.1);background:rgba(255,59,48,0.22)}
+.feat-ico svg{width:17px;height:17px}
+.feat h3{font-size:14px;font-weight:700;color:var(--w);margin-bottom:7px;letter-spacing:-0.01em}
+.feat p{font-size:13px;color:var(--g1);line-height:1.65}
+
+/* ─── SCREENSHOT SECTION — sticky scroll ─── */
+.shots-outer{
+  position:relative;
+}
+
+/* sticky container: 300vh gives scroll room */
+.shots-sticky-wrap{
+  height:300vh;
+  position:relative;
+}
+
+.shots-sticky{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:52px 24px 40px;
+}
+
+.shots-header{
+  text-align:center;
+  margin-bottom:36px;
+  flex-shrink:0;
+}
+
+.shots-track{
+  position:relative;
+  width:100%;
+  max-width:900px;
+  flex:1;
+  display:flex;
+  align-items:center;
+}
+
+.shot-frame{
+  width:100%;
+  height:min(56vh,520px);
+  border-radius:16px;
+  border:1px solid var(--b);
+  overflow:hidden;
+  background:var(--s2);
+  box-shadow:0 40px 100px rgba(0,0,0,0.65);
+  position:relative;
+}
+
+/* slide panels — absolutely positioned, swapped by JS */
+.shot-panel{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:opacity 0.5s cubic-bezier(.22,1,.36,1),transform 0.5s cubic-bezier(.22,1,.36,1);
+}
+.shot-panel img{width:100%;height:100%;object-fit:cover;display:block}
+
+.shot-panel.active{opacity:1;transform:scale(1)}
+.shot-panel.hidden-left{opacity:0;transform:scale(0.97) translateX(-20px);pointer-events:none}
+.shot-panel.hidden-right{opacity:0;transform:scale(0.97) translateX(20px);pointer-events:none}
+
+/* placeholder when no images */
+.shot-empty{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:100%;color:var(--g2);font-size:13px;text-align:center;gap:10px;
+  line-height:1.7;
+}
+.shot-empty code{
+  font-family:'SF Mono','Fira Mono',monospace;font-size:11px;
+  background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;
+}
+
+/* dots */
+.shot-dots{
+  display:flex;gap:7px;margin-top:20px;flex-shrink:0;
+}
+.shot-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--g3);
+  transition:background 0.3s,transform 0.3s cubic-bezier(.34,1.56,.64,1);
+  cursor:pointer;
+}
+.shot-dot.active{background:var(--w);transform:scale(1.35)}
+
+/* progress bar under frame */
+.shots-progress{
+  width:100%;max-width:900px;
+  height:2px;
+  background:var(--b);
+  border-radius:2px;
+  margin-top:16px;
+  flex-shrink:0;
+  overflow:hidden;
+}
+.shots-bar{
+  height:100%;
+  background:var(--red);
+  border-radius:2px;
+  width:0%;
+  transition:width 0.05s linear;
+}
+
+/* ─── SECURITY ─── */
+.sec-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1px;
+  background:var(--b);
+  border:1px solid var(--b);
+  border-radius:16px;
+  overflow:hidden;
+}
+.sec-item{
+  background:var(--s2);
+  padding:30px;
+  transition:background 0.2s;
+}
+.sec-item:hover{background:var(--s3)}
+.sec-tag{
+  font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.08em;
+  color:var(--red);display:block;margin-bottom:8px;
+}
+.sec-item h4{font-size:14px;font-weight:700;color:var(--w);margin-bottom:5px;letter-spacing:-0.01em}
+.sec-item p{font-size:13px;color:var(--g1);line-height:1.6}
+
+/* ─── CTA ─── */
+.cta-outer{
+  padding:40px 24px 120px;
+  text-align:center;
+}
+.cta-card{
+  max-width:460px;margin:0 auto;
+  background:var(--s2);
+  border:1px solid var(--b);
+  border-radius:22px;
+  padding:52px 40px 44px;
+  position:relative;
+  transition:border-color 0.3s,box-shadow 0.3s;
+}
+.cta-card:hover{
+  border-color:var(--bh);
+  box-shadow:0 0 0 1px var(--b),0 24px 60px rgba(0,0,0,0.5);
+}
+.cta-card::before{
+  content:'';
+  position:absolute;top:-1px;left:25%;right:25%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,59,48,0.45),transparent);
+  border-radius:1px;
+}
+.cta-icon{width:46px;height:46px;margin:0 auto 22px}
+.cta-card h2{font-size:28px;font-weight:800;letter-spacing:-0.035em;margin-bottom:8px}
+.cta-card>p{font-size:14px;color:var(--g1);line-height:1.65;margin-bottom:32px}
+
+.chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.chip{
+  font-size:11px;font-weight:500;color:var(--g2);
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--b);
+  border-radius:100px;padding:4px 11px;
+}
+
+.ver-line{margin-top:16px;font-size:12px;color:var(--g2)}
+.ver-line a{color:var(--g1);text-decoration:none;transition:color 0.15s}
+.ver-line a:hover{color:var(--w)}
+
+/* ─── LINE DIVIDER ─── */
+.line-div{
+  width:1px;height:80px;
+  background:linear-gradient(to bottom,transparent,var(--b),transparent);
+  margin:0 auto;
+}
+
+/* ─── FOOTER ─── */
+footer{
+  border-top:1px solid var(--b);
+  max-width:980px;margin:0 auto;padding:28px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+footer ul{display:flex;gap:18px;list-style:none}
+footer ul a{font-size:13px;color:var(--g2);text-decoration:none;transition:color 0.15s}
+footer ul a:hover{color:var(--w)}
+.copy{font-size:12px;color:var(--g3)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:780px){
+  nav ul{display:none}
+  .feat-grid{grid-template-columns:1fr 1fr}
+  .sec-grid{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:18px;text-align:center}
+  footer ul{justify-content:center}
+  .cta-card{padding:36px 22px 32px}
+}
+@media(max-width:520px){
+  .feat-grid{grid-template-columns:1fr}
+  .shots-sticky{padding:52px 16px 32px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation:none!important;
+    transition:none!important;
+    opacity:1!important;
+    transform:none!important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">
+    <svg class="logo-mark" viewBox="0 0 24 24" fill="none">
+      <rect x="1" y="1" width="8.5" height="8.5" rx="2.2" stroke="#FF3B30" stroke-width="1.7"/>
+      <rect x="14.5" y="14.5" width="8.5" height="8.5" rx="2.2" stroke="#FF3B30" stroke-width="1.7"/>
+      <circle cx="18" cy="6" r="3.5" fill="#FF3B30"/>
+    </svg>
+    <span class="logo-name">ReMa</span>
+  </a>
+  <ul>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#security">Sicherheit</a></li>
+    <li><a href="#download" class="nav-cta">Download</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <p class="hero-label">Remote Manager für Windows</p>
+
+  <h1 class="hero-title">
+    <span class="word">Alle</span>&thinsp;
+    <span class="word">Geräte.</span>
+    <span class="br"></span>
+    <span class="word">Unter</span>&thinsp;
+    <span class="word">Kontrolle.</span>
+  </h1>
+
+  <p class="hero-sub">Multi-Monitor-VNC, verschlüsselter Vault, kein Account. Läuft vollständig lokal — auf Windows 10 und 11.</p>
+
+  <div class="dl-wrap">
+    <a id="hero-btn" class="btn-dl loading" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      <span id="hero-btn-text">Lädt…</span>
+    </a>
+    <p class="dl-meta" id="hero-meta">Windows 10 / 11 · 64-Bit</p>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="scroll-hint-arrow"></div>
+  </div>
+</section>
+
+<!-- ═══ FEATURES ═══ -->
+<div id="features" class="section">
+  <div class="wrap">
+    <p class="eyebrow reveal">Features</p>
+    <h2 class="sec-title reveal">Alles, was zählt.</h2>
+    <p class="sec-body reveal">Kein Bloat, kein Abo. Nur das, was du wirklich brauchst.</p>
+
+    <div class="feat-grid stagger">
+      <div class="feat">
+        <div class="feat-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <h3>Multi-Monitor</h3>
+        <p>Jeden Remote-Monitor separat oder als Ganzes — mit Zoom, Pan und eigenem Fenster.</p>
+      </div>
+
+      <div class="feat">
+        <div class="feat-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+          </svg>
+        </div>
+        <h3>Verschlüsselter Vault</h3>
+        <p>AES-256-GCM lokal. Deine Zugangsdaten landen nie in einer Cloud.</p>
+      </div>
+
+      <div class="feat">
+        <div class="feat-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+          </svg>
+        </div>
+        <h3>Ordner & Favoriten</h3>
+        <p>Geräte strukturiert verwalten, Tags vergeben, mit einem Klick verbinden.</p>
+      </div>
+
+      <div class="feat">
+        <div class="feat-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <h3>Layout-Erkennung</h3>
+        <p>Erkennt automatisch wie viele Monitore ein Gerät hat — oder du korrigierst per Drag-Editor.</p>
+      </div>
+
+      <div class="feat">
+        <div class="feat-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </div>
+        <h3>Hell & Dunkel</h3>
+        <p>Folgt dem System oder manuell wählbar. Akzentfarbe frei — bis zum Custom-Hex.</p>
+      </div>
+
+      <div class="feat">
+        <div class="feat-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3>Zero Telemetrie</h3>
+        <p>Keine Daten nach Hause. Kein Ping. Kein Tracking. Rein lokal.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREENSHOTS — sticky scroll ═══ -->
+<div class="shots-outer">
+  <div class="shots-sticky-wrap" id="shots-sticky-wrap">
+    <div class="shots-sticky" id="shots-sticky">
+
+      <div class="shots-header">
+        <p class="eyebrow" style="margin-bottom:8px">Screenshots</p>
+        <h2 class="sec-title" style="margin-bottom:0;font-size:clamp(26px,3.5vw,40px)" id="shot-label">Übersicht</h2>
+      </div>
+
+      <div class="shots-track">
+        <div class="shot-frame" id="shot-frame">
+          <!-- Panel 0 -->
+          <div class="shot-panel active" id="panel-0">
+            <img src="screenshot-main.png" alt="ReMa — Übersicht"
+              onerror="document.getElementById('shots-empty').style.display='flex';this.parentElement.style.display='none'"/>
+          </div>
+          <!-- Panel 1 -->
+          <div class="shot-panel hidden-right" id="panel-1">
+            <img src="screenshot-unlock.png" alt="ReMa — Entsperren"
+              onerror="this.parentElement.style.display='none'"/>
+          </div>
+          <!-- Panel 2 -->
+          <div class="shot-panel hidden-right" id="panel-2">
+            <img src="screenshot-settings.png" alt="ReMa — Einstellungen"
+              onerror="this.parentElement.style.display='none'"/>
+          </div>
+          <!-- Fallback -->
+          <div id="shots-empty" class="shot-empty" style="display:none">
+            <p style="font-size:36px">🖥</p>
+            <p>Lege <code>screenshot-main.png</code>, <code>screenshot-unlock.png</code><br>und <code>screenshot-settings.png</code> neben die <code>index.html</code>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="shots-progress"><div class="shots-bar" id="shots-bar"></div></div>
+
+      <div class="shot-dots" role="tablist">
+        <div class="shot-dot active" role="tab" data-idx="0" onclick="goShot(0)" title="Übersicht"></div>
+        <div class="shot-dot" role="tab" data-idx="1" onclick="goShot(1)" title="Entsperren"></div>
+        <div class="shot-dot" role="tab" data-idx="2" onclick="goShot(2)" title="Einstellungen"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECURITY ═══ -->
+<div class="line-div"></div>
+
+<div id="security" class="section">
+  <div class="wrap">
+    <p class="eyebrow reveal">Sicherheit</p>
+    <h2 class="sec-title reveal">Lokal. Verschlüsselt. Dein.</h2>
+    <p class="sec-body reveal">Keine Cloud, kein Account, keine Telemetrie. Alles auf deiner Maschine.</p>
+
+    <div class="sec-grid stagger">
+      <div class="sec-item">
+        <span class="sec-tag">Verschlüsselung</span>
+        <h4>AES-256-GCM</h4>
+        <p>Authentifizierte Verschlüsselung — erkennt Manipulation automatisch. Jeder Blob hat sein eigenes Salt.</p>
+      </div>
+      <div class="sec-item">
+        <span class="sec-tag">Key Derivation</span>
+        <h4>PBKDF2 · 210 000 Runden</h4>
+        <p>OWASP-Standard. Das Master-Passwort bleibt ausschließlich im Arbeitsspeicher.</p>
+      </div>
+      <div class="sec-item">
+        <span class="sec-tag">Speicherung</span>
+        <h4>Nur verschlüsselte Blobs</h4>
+        <p>In der lokalen SQLite-Datenbank steht niemals ein Passwort im Klartext.</p>
+      </div>
+      <div class="sec-item">
+        <span class="sec-tag">Master-Passwort</span>
+        <h4>Zero-Knowledge-Prüfung</h4>
+        <p>Ein Verifier-Blob bestätigt das Passwort, ohne es je zu speichern.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DOWNLOAD CTA ═══ -->
+<div class="line-div"></div>
+<div class="cta-outer" id="download">
+  <div class="cta-card reveal-scale">
+    <div class="cta-icon">
+      <svg viewBox="0 0 46 46" fill="none">
+        <rect x="1.5" y="1.5" width="16" height="16" rx="3.5" stroke="#FF3B30" stroke-width="2.2"/>
+        <rect x="28.5" y="28.5" width="16" height="16" rx="3.5" stroke="#FF3B30" stroke-width="2.2"/>
+        <circle cx="36" cy="10" r="7" fill="#FF3B30"/>
+      </svg>
+    </div>
+    <h2>Kostenlos herunterladen</h2>
+    <p>Kein Account. Keine Cloud. Einfach installieren und loslegen.</p>
+
+    <a id="cta-btn" class="btn-dl loading" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      <span id="cta-btn-text">Lädt…</span>
+    </a>
+
+    <div class="chips">
+      <span class="chip">Windows 10 / 11</span>
+      <span class="chip">64-Bit</span>
+      <span class="chip">.NET 10 inklusive</span>
+    </div>
+
+    <p class="ver-line" id="ver-line">
+      <a href="https://github.com/ReMa-RemoteManager/rema/releases" target="_blank" rel="noopener">Alle Releases auf GitHub →</a>
+    </p>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <a href="#" class="logo">
+    <svg class="logo-mark" viewBox="0 0 24 24" fill="none">
+      <rect x="1" y="1" width="8.5" height="8.5" rx="2.2" stroke="#FF3B30" stroke-width="1.7"/>
+      <rect x="14.5" y="14.5" width="8.5" height="8.5" rx="2.2" stroke="#FF3B30" stroke-width="1.7"/>
+      <circle cx="18" cy="6" r="3.5" fill="#FF3B30"/>
+    </svg>
+    <span class="logo-name">ReMa</span>
+  </a>
+  <ul>
+    <li><a href="https://github.com/ReMa-RemoteManager/rema" target="_blank" rel="noopener">GitHub</a></li>
+    <li><a href="https://github.com/ReMa-RemoteManager/rema/issues" target="_blank" rel="noopener">Issues</a></li>
+    <li><a href="https://github.com/ReMa-RemoteManager/rema/releases" target="_blank" rel="noopener">Releases</a></li>
+  </ul>
+  <span class="copy">© 2025 ReMa</span>
+</footer>
+
+<script>
+/* ─── CONFIG ─── */
+const GH_USER = "ReMa-RemoteManager";
+const GH_REPO = "rema";
+const EXE     = "rema.setup.exe";
+/* ────────────── */
+
+/* ── Nav scroll tint ── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+}, {passive:true});
+
+/* ── Scroll reveal ── */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+
+document.querySelectorAll('.reveal,.reveal-scale,.stagger').forEach(el => io.observe(el));
+
+/* ── Screenshot sticky scroll ── */
+const SHOTS = [
+  {label:'Übersicht',     src:'screenshot-main.png'},
+  {label:'Entsperren',    src:'screenshot-unlock.png'},
+  {label:'Einstellungen', src:'screenshot-settings.png'},
+];
+
+let currentShot = 0;
+
+function goShot(idx, fromScroll=false) {
+  if (idx === currentShot) return;
+  const prev = currentShot;
+  currentShot = idx;
+
+  const panels = document.querySelectorAll('.shot-panel');
+  const dots   = document.querySelectorAll('.shot-dot');
+  const label  = document.getElementById('shot-label');
+
+  const dir = idx > prev ? 1 : -1;
+
+  panels[prev].classList.remove('active');
+  panels[prev].classList.add(dir > 0 ? 'hidden-left' : 'hidden-right');
+
+  panels[idx].classList.remove('hidden-left','hidden-right');
+  panels[idx].classList.add('active');
+
+  dots.forEach((d,i) => d.classList.toggle('active', i === idx));
+  if (label) label.textContent = SHOTS[idx].label;
+}
+
+/* Scroll-driven screenshot switcher */
+function onScroll() {
+  const wrap = document.getElementById('shots-sticky-wrap');
+  const bar  = document.getElementById('shots-bar');
+  if (!wrap) return;
+
+  const rect     = wrap.getBoundingClientRect();
+  const total    = wrap.offsetHeight - window.innerHeight;
+  const scrolled = Math.max(0, -rect.top);
+  const progress = Math.min(1, Math.max(0, scrolled / total));
+
+  if (bar) bar.style.width = (progress * 100) + '%';
+
+  const idx = Math.min(SHOTS.length - 1, Math.floor(progress * SHOTS.length));
+  if (idx !== currentShot) goShot(idx, true);
+}
+
+window.addEventListener('scroll', onScroll, {passive:true});
+
+/* ── GitHub release fetch ── */
+async function init() {
+  const fallback = `https://github.com/${GH_USER}/${GH_REPO}/releases/latest`;
+  try {
+    const r = await fetch(
+      `https://api.github.com/repos/${GH_USER}/${GH_REPO}/releases/latest`,
+      {headers:{Accept:'application/vnd.github+json'}}
+    );
+    if (!r.ok) throw 0;
+
+    const d     = await r.json();
+    const ver   = d.tag_name ?? '';
+    const asset = d.assets?.find(a => a.name === EXE);
+    const url   = asset?.browser_download_url ?? fallback;
+    const mb    = asset ? (asset.size / 1048576).toFixed(1) + ' MB' : '';
+
+    const setText = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+    const label = ver ? `ReMa ${ver} herunterladen` : 'Neueste Version herunterladen';
+
+    ['hero-btn','cta-btn'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.href = url; el.classList.remove('loading'); }
+    });
+    setText('hero-btn-text', label);
+    setText('cta-btn-text',  label);
+
+    if (mb) setText('hero-meta', `Windows 10 / 11 · 64-Bit · ${mb}`);
+    if (ver) {
+      const vl = document.getElementById('ver-line');
+      if (vl) vl.innerHTML = `<span style="color:var(--g2)">${ver}</span> · <a href="https://github.com/${GH_USER}/${GH_REPO}/releases" target="_blank" rel="noopener">Alle Releases →</a>`;
+    }
+  } catch {
+    ['hero-btn','cta-btn'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.href = fallback; el.classList.remove('loading'); }
+    });
+    document.getElementById('hero-btn-text').textContent = 'Neueste Version herunterladen';
+    document.getElementById('cta-btn-text').textContent  = 'Neueste Version herunterladen';
+  }
+}
+
+init();
+</script>
+</body>
+</html>
