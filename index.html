@@ -12,19 +12,19 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-  --bg:#050507;
-  --s1:#0b0b0d;
-  --s2:#121216;
-  --s3:#1a1a22;
+  --bg:#040406;
+  --s1:#0a0a0d;
+  --s2:#111116;
+  --s3:#171721;
   --b:rgba(255,255,255,0.06);
-  --bh:rgba(255,59,48,0.2);
+  --bh:rgba(255,59,48,0.25);
   --red:#FF3B30;
-  --red-glow:rgba(255,59,48,0.12);
-  --red-a:rgba(255,59,48,0.15);
+  --red-glow:rgba(255,59,48,0.15);
+  --red-a:rgba(255,59,48,0.12);
   --w:#FFFFFF;
   --g1:#A1A1AA;
-  --g2:#636366;
-  --g3:#3A3A3C;
+  --g2:#52525B;
+  --g3:#27272A;
 }
 
 html{scroll-behavior:smooth}
@@ -36,11 +36,11 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
   line-height:1.5;
-  /* High-Tech Grid Background */
+  /* Ultra Clean Cyber Grid Pattern */
   background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-  background-size: 60px 60px;
+    linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+  background-size: 50px 50px;
   background-position: center top;
 }
 
@@ -55,13 +55,13 @@ nav{
   justify-content:space-between;
   padding:0 32px;
   transition:all 0.3s ease;
-  background:rgba(5,5,7,0);
+  background:rgba(4,4,6,0);
   border-bottom:1px solid transparent;
 }
 nav.scrolled{
-  background:rgba(5,5,7,0.75);
-  backdrop-filter:blur(20px) saturate(180%);
-  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  background:rgba(4,4,6,0.75);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
   border-bottom-color:var(--b);
 }
 
@@ -95,57 +95,57 @@ nav ul a:hover{color:var(--w);background:rgba(255,255,255,0.05)}
   position:relative;
 }
 
-/* Ambient Background Glow */
+/* Ambient Deep Space Red Glow */
 .hero::before {
   content: '';
   position: absolute;
-  top: 40%; left: 50%;
+  top: 45%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(255,59,48,0.15) 0%, transparent 70%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(255,59,48,0.14) 0%, transparent 65%);
   z-index: -1;
   pointer-events: none;
-  filter: blur(40px);
+  filter: blur(50px);
 }
 
 .hero-label{
-  font-size:12px;
+  font-size:11px;
   font-weight:700;
   text-transform:uppercase;
-  letter-spacing:0.15em;
+  letter-spacing:0.14em;
   color:var(--red);
-  margin-bottom:24px;
-  background:rgba(255,59,48,0.1);
+  margin-bottom:28px;
+  background:rgba(255,59,48,0.08);
   padding:6px 16px;
   border-radius:100px;
-  border:1px solid rgba(255,59,48,0.2);
+  border:1px solid rgba(255,59,48,0.18);
   display:inline-block;
 }
 
 .hero-title{
-  font-size:clamp(44px,7.5vw,96px);
+  font-size:clamp(48px,8vw,92px);
   font-weight:900;
   line-height:1.05;
-  letter-spacing:-0.05em;
+  letter-spacing:-0.045em;
   max-width:950px;
   margin-bottom:28px;
-  background: linear-gradient(180deg, #FFFFFF 30%, #A1A1AA 100%);
+  background: linear-gradient(180deg, #FFFFFF 35%, #A1A1AA 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .hero-sub{
-  font-size:clamp(16px,2vw,20px);
+  font-size:clamp(16px,2vw,19px);
   color:var(--g1);
   font-weight:400;
   line-height:1.6;
-  max-width:560px;
+  max-width:540px;
   margin-bottom:48px;
 }
 
-/* Download button */
+/* Download button styling */
 .dl-wrap{
-  display:flex;flex-direction:column;align-items:center;gap:14px;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
 }
 
 .btn-dl{
@@ -155,11 +155,10 @@ nav ul a:hover{color:var(--w);background:rgba(255,255,255,0.05)}
   padding:16px 36px;border-radius:12px;
   letter-spacing:-0.01em;border:none;cursor:pointer;
   transition:all 0.25s cubic-bezier(.25,1,.5,1);
-  box-shadow:0 8px 30px rgba(255,59,48,0.4);
+  box-shadow:0 8px 28px rgba(255,59,48,0.35);
 }
-.btn-dl:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(255,59,48,0.6)}
+.btn-dl:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(255,59,48,0.55)}
 .btn-dl:active{transform:translateY(1px)}
-.btn-dl.loading{opacity:0.6;pointer-events:none}
 
 .dl-meta{font-size:13px;color:var(--g2);letter-spacing:0.01em}
 
@@ -171,8 +170,8 @@ nav ul a:hover{color:var(--w);background:rgba(255,255,255,0.05)}
 .scroll-hint span{font-size:11px;color:var(--g2);font-weight:600;letter-spacing:0.1em;text-transform:uppercase}
 .scroll-hint-arrow{
   width:10px;height:10px;
-  border-right:2px solid var(--g3);
-  border-bottom:2px solid var(--g3);
+  border-right:2px solid var(--g2);
+  border-bottom:2px solid var(--g2);
   transform:rotate(45deg);
   animation:bounce 2s infinite;
 }
@@ -219,7 +218,7 @@ nav ul a:hover{color:var(--w);background:rgba(255,255,255,0.05)}
   color:var(--red);margin-bottom:16px;
 }
 .sec-title{
-  font-size:clamp(32px,5vw,56px);
+  font-size:clamp(32px,5vw,54px);
   font-weight:800;line-height:1.1;
   letter-spacing:-0.04em;
   color:var(--w);margin-bottom:18px;
@@ -230,7 +229,7 @@ nav ul a:hover{color:var(--w);background:rgba(255,255,255,0.05)}
   margin-bottom:64px;
 }
 
-/* ─── FEATURES GRID (BENTO STYLE) ─── */
+/* ─── FEATURES GRID (BENTO STYLING) ─── */
 .feat-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -250,7 +249,7 @@ nav ul a:hover{color:var(--w);background:rgba(255,255,255,0.05)}
   background:var(--s2);
   border-color:var(--bh);
   transform:translateY(-2px);
-  box-shadow:0 12px 30px rgba(0,0,0,0.4);
+  box-shadow:0 12px 30px rgba(0,0,0,0.5), 0 0 20px rgba(255,59,48,0.03);
 }
 
 .feat-ico{
@@ -267,24 +266,24 @@ nav ul a:hover{color:var(--w);background:rgba(255,255,255,0.05)}
 .feat p{font-size:14px;color:var(--g1);line-height:1.6}
 
 /* ─── SCREENSHOT SECTION — sticky scroll ─── */
-.shots-outer{position:relative; background: rgba(255,255,255,0.01);}
-.shots-sticky-wrap{height:250vh;position:relative}
+.shots-outer{position:relative; background: rgba(255,255,255,0.005);}
+.shots-sticky-wrap{height:260vh;position:relative}
 .shots-sticky{
   position:sticky;top:0;height:100vh;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   overflow:hidden;padding:40px 24px;
 }
 .shots-header{text-align:center;margin-bottom:40px;flex-shrink:0}
-.shots-track{position:relative;width:100%;max-width:1000px;flex:1;display:flex;align-items:center}
+.shots-track{position:relative;width:100%;max-width:960px;flex:1;display:flex;align-items:center}
 
 .shot-frame{
   width:100%;
-  height:min(60vh,580px);
+  height:min(60vh,560px);
   border-radius:20px;
-  border:1px solid rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.08);
   overflow:hidden;
-  background:#0d0d11;
-  box-shadow:0 50px 120px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05);
+  background:#09090d;
+  box-shadow:0 60px 130px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.02);
   position:relative;
 }
 
@@ -295,39 +294,40 @@ nav ul a:hover{color:var(--w);background:rgba(255,255,255,0.05)}
 }
 .shot-panel img{width:100%;height:100%;object-fit:cover;display:block}
 .shot-panel.active{opacity:1;transform:scale(1)}
-.shot-panel.hidden-left{opacity:0;transform:scale(0.95) translateX(-30px);pointer-events:none}
-.shot-panel.hidden-right{opacity:0;transform:scale(0.95) translateX(30px);pointer-events:none}
+.shot-panel.hidden-left{opacity:0;transform:scale(0.96) translateX(-40px);pointer-events:none}
+.shot-panel.hidden-right{opacity:0;transform:scale(0.96) translateX(40px);pointer-events:none}
 
-/* PURE CSS APP MOCKUP (FALLBACK) */
+/* PURE CSS PREMIUM APP MOCKUP (FALLBACK) */
 .css-mockup{
-  width:100%;height:100%;display:flex;background:#0f0f14;color:#fff;font-family:sans-serif;
+  width:100%;height:100%;display:flex;background:#09090d;color:#fff;font-family:sans-serif;
 }
-.mock-sidebar{width:220px;background:#14141c;border-right:1px solid #222230;padding:20px;display:flex;flex-direction:column;gap:8px;text-align:left;}
-.mock-logo{font-weight:800;color:#FF3B30;margin-bottom:15px;font-size:15px;display:flex;align-items:center;gap:6px;}
-.mock-item{padding:8px 12px;border-radius:6px;font-size:12px;color:#a1a1aa;background:transparent;}
-.mock-item.active{background:#FF3B30;color:#fff;font-weight:600;}
-.mock-main{flex:1;padding:30px;background:#0b0b0f;display:flex;flex-direction:column;gap:20px;text-align:left;}
-.mock-header{font-size:18px;font-weight:700;border-bottom:1px solid #222;padding-bottom:10px;}
-.mock-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;}
-.mock-card{background:#161622;border:1px solid #2c2c3e;border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:8px;box-shadow:0 4px 12px rgba(0,0,0,0.3);}
-.mock-card-title{font-size:14px;font-weight:700;color:#fff;}
-.mock-card-sub{font-size:11px;color:#777;}
-.mock-status{width:8px;height:8px;border-radius:50%;background:#30d158;display:inline-block;}
+.mock-sidebar{width:210px;background:#0e0e14;border-right:1px solid #1c1c28;padding:24px 16px;display:flex;flex-direction:column;gap:6px;text-align:left;}
+.mock-logo{font-weight:800;color:#FF3B30;margin-bottom:24px;font-size:16px;display:flex;align-items:center;gap:8px;letter-spacing:-0.02em;}
+.mock-item{padding:10px 14px;border-radius:8px;font-size:13px;color:#8e8e93;background:transparent;font-weight:500;}
+.mock-item.active{background:#FF3B30;color:#fff;font-weight:600;box-shadow:0 4px 12px rgba(255,59,48,0.25);}
+.mock-main{flex:1;padding:32px;background:#050508;display:flex;flex-direction:column;gap:24px;text-align:left;}
+.mock-header{font-size:20px;font-weight:800;border-bottom:1px solid #1c1c28;padding-bottom:14px;letter-spacing:-0.02em}
+.mock-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.mock-card{background:#111118;border:1px solid #222232;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:8px;box-shadow:0 10px 20px rgba(0,0,0,0.4);transition:all 0.3s;}
+.mock-card:hover{border-color:#FF3B30;}
+.mock-card-title{font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px;}
+.mock-card-sub{font-size:12px;color:#666;font-family:monospace;}
+.mock-status{width:8px;height:8px;border-radius:50%;background:#30d158;display:inline-block;box-shadow:0 0 8px #30d158;}
 
 .shot-dots{display:flex;gap:10px;margin-top:28px;flex-shrink:0}
 .shot-dot{
   width:8px;height:8px;border-radius:50%;background:var(--g3);
   transition:all 0.3s cubic-bezier(.25,1,.5,1);cursor:pointer;
 }
-.shot-dot.active{background:var(--w);transform:scale(1.4);box-shadow:0 0 10px rgba(255,255,255,0.5)}
+.shot-dot.active{background:var(--w);transform:scale(1.4);box-shadow:0 0 10px rgba(255,255,255,0.4)}
 
-.shots-progress{width:100%;max-width:1000px;height:3px;background:var(--b);border-radius:3px;margin-top:24px;flex-shrink:0;overflow:hidden}
+.shots-progress{width:100%;max-width:960px;height:3px;background:var(--b);border-radius:3px;margin-top:24px;flex-shrink:0;overflow:hidden}
 .shots-bar{height:100%;background:var(--red);width:0%;transition:width 0.1s ease-out}
 
 /* ─── SECURITY ─── */
 .sec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .sec-item{background:var(--s1);border:1px solid var(--b);border-radius:16px;padding:36px;transition:all 0.3s;}
-.sec-item:hover{background:var(--s2);border-color:rgba(255,255,255,0.15)}
+.sec-item:hover{background:var(--s2);border-color:rgba(255,255,255,0.12)}
 .sec-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--red);display:block;margin-bottom:12px}
 .sec-item h4{font-size:16px;font-weight:700;color:var(--w);margin-bottom:8px}
 .sec-item p{font-size:14px;color:var(--g1);line-height:1.6}
@@ -341,11 +341,11 @@ nav ul a:hover{color:var(--w);background:rgba(255,255,255,0.05)}
 }
 .cta-card:hover{
   border-color:rgba(255,59,48,0.3);
-  box-shadow:0 30px 70px rgba(0,0,0,0.6), 0 0 40px rgba(255,59,48,0.05);
+  box-shadow:0 30px 70px rgba(0,0,0,0.6), 0 0 40px rgba(255,59,48,0.04);
 }
 .cta-card::before{
   content:'';position:absolute;top:-1px;left:20%;right:20%;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,59,48,0.6),transparent);
+  background:linear-gradient(90deg,transparent,rgba(255,59,48,0.5),transparent);
 }
 .cta-icon{width:52px;height:52px;margin:0 auto 28px}
 .cta-card h2{font-size:32px;font-weight:800;letter-spacing:-0.04em;margin-bottom:12px}
@@ -353,7 +353,7 @@ nav ul a:hover{color:var(--w);background:rgba(255,255,255,0.05)}
 
 .chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:24px}
 .chip{
-  font-size:12px;font-weight:500;color:var(--g1);background:rgba(255,255,255,0.04);
+  font-size:12px;font-weight:500;color:var(--g1);background:rgba(255,255,255,0.03);
   border:1px solid var(--b);border-radius:100px;padding:6px 14px;
 }
 .ver-line{margin-top:24px;font-size:13px;color:var(--g2)}
@@ -412,19 +412,19 @@ footer ul a:hover{color:var(--w)}
   <p class="hero-sub">Multi-Monitor-VNC, verschlüsselter Vault, kein Account. Läuft vollständig lokal — auf Windows 10 und 11.</p>
 
   <div class="dl-wrap">
-    <a id="hero-btn" class="btn-dl loading" href="#">
+    <a id="hero-btn" class="btn-dl" href="https://github.com/ReMa-RemoteManager/rema/releases/latest/download/rema.setup.exe">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
         <polyline points="7 10 12 15 17 10"/>
         <line x1="12" y1="15" x2="12" y2="3"/>
       </svg>
-      <span id="hero-btn-text">Lädt…</span>
+      <span id="hero-btn-text">ReMa herunterladen</span>
     </a>
-    <p class="dl-meta" id="hero-meta">Windows 10 / 11 · 64-Bit</p>
+    <p class="dl-meta" id="hero-meta">Windows 10 / 11 · 64-Bit · Direkt-Download</p>
   </div>
 
   <div class="scroll-hint" aria-hidden="true">
-    <span>Scollen</span>
+    <span>Scrollen</span>
     <div class="scroll-hint-arrow"></div>
   </div>
 </section>
@@ -508,7 +508,7 @@ footer ul a:hover{color:var(--w)}
     <div class="shots-sticky" id="shots-sticky">
 
       <div class="shots-header">
-        <p class="eyebrow" style="margin-bottom:8px">Live Vorschau</p>
+        <p class="eyebrow" style="margin-bottom:8px">Live-Vorschau</p>
         <h2 class="sec-title" style="margin-bottom:0;font-size:clamp(24px,3.5vw,38px)" id="shot-label">Übersicht</h2>
       </div>
 
@@ -527,28 +527,27 @@ footer ul a:hover{color:var(--w)}
           <div id="shots-fallback" class="css-mockup" style="display:none">
             <div class="mock-sidebar">
               <div class="mock-logo">
-                <span style="display:inline-block;width:12px;height:12px;border:2px solid #FF3B30;border-radius:3px;"></span> ReMa
+                <span style="display:inline-block;width:12px;height:12px;border:2.5px solid #FF3B30;border-radius:4px;"></span> ReMa
               </div>
-              <div class="mock-item active">Übersicht</div>
-              <div class="mock-item">Sitzungen</div>
-              <div class="mock-item">Sprache</div>
-              <div class="mock-item">Netzwerk</div>
-              <div class="mock-item" style="margin-top:auto;">Einstellungen</div>
+              <div class="mock-item active">Dashboard</div>
+              <div class="mock-item">Sitzungstresor</div>
+              <div class="mock-item">Multi-Display</div>
+              <div class="mock-item" style="margin-top:auto;">Optionen</div>
             </div>
             <div class="mock-main">
-              <div class="mock-header">Meine Verbindungen</div>
+              <div class="mock-header">Gespeicherte Verbindungen</div>
               <div class="mock-grid">
                 <div class="mock-card">
                   <div class="mock-card-title"><span class="mock-status"></span> BAA01</div>
-                  <div class="mock-card-sub">Windows 11 · 192.168.1.50</div>
+                  <div class="mock-card-sub">VNC · 192.168.1.102</div>
                 </div>
                 <div class="mock-card">
                   <div class="mock-card-title"><span class="mock-status"></span> BAA02</div>
-                  <div class="mock-card-sub">Windows 10 · 192.168.1.51</div>
+                  <div class="mock-card-sub">VNC · 192.168.1.105</div>
                 </div>
                 <div class="mock-card">
-                  <div class="mock-card-title"><span class="mock-status" style="background:#ff9500"></span> BAA03</div>
-                  <div class="mock-card-sub">Verbindung trennen...</div>
+                  <div class="mock-card-title"><span class="mock-status" style="background:#ff9500; box-shadow:0 0 8px #ff9500"></span> BAA03</div>
+                  <div class="mock-card-sub">Verbindung aufbauen...</div>
                 </div>
               </div>
             </div>
@@ -616,13 +615,13 @@ footer ul a:hover{color:var(--w)}
     <h2>Jetzt kostenlos laden</h2>
     <p>Kein Account. Keine Cloud. Einfach installieren und direkt loslegen.</p>
 
-    <a id="cta-btn" class="btn-dl loading" href="#">
+    <a id="cta-btn" class="btn-dl" href="https://github.com/ReMa-RemoteManager/rema/releases/latest/download/rema.setup.exe">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
         <polyline points="7 10 12 15 17 10"/>
         <line x1="12" y1="15" x2="12" y2="3"/>
       </svg>
-      <span id="cta-btn-text">Lädt…</span>
+      <span id="cta-btn-text">ReMa herunterladen</span>
     </a>
 
     <div class="chips">
@@ -659,7 +658,7 @@ const GH_USER = "ReMa-RemoteManager";
 const GH_REPO = "rema";
 const EXE     = "rema.setup.exe";
 
-/* Nav scroll tint */
+/* Nav transparent -> dark-blur on scroll */
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 20);
@@ -672,7 +671,7 @@ function handleImageError() {
   if(fallback) fallback.style.display = 'flex';
 }
 
-/* Scroll reveal engine */
+/* Scroll Reveal Engine */
 const io = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
@@ -684,7 +683,7 @@ const io = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal,.reveal-scale,.stagger').forEach(el => io.observe(el));
 
-/* Screenshot Slider Script */
+/* Interactive Screenshot Carousel */
 const SHOTS = [
   {label:'Übersicht'},
   {label:'Entsperren'},
@@ -730,32 +729,38 @@ function onScroll() {
 }
 window.addEventListener('scroll', onScroll, {passive:true});
 
-/* Release Fetch */
+/* Intelligent GitHub API Fetcher & Direct Fallback */
 async function init() {
-  const fallback = `https://github.com/${GH_USER}/${GH_REPO}/releases/latest`;
+  // Der unschlagbare Direct-Download-Link von GitHub als Fallback, falls API blockiert
+  const directFallback = `https://github.com/${GH_USER}/${GH_REPO}/releases/latest/download/${EXE}`;
+  
   try {
     const r = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/releases/latest`);
     if (!r.ok) throw 0;
     const d = await r.json();
     const ver = d.tag_name ?? '';
     const asset = d.assets?.find(a => a.name === EXE);
-    const url = asset?.browser_download_url ?? fallback;
+    
+    // Holt sich die direkte Browser-Download-URL des Assets aus der API oder baut sie nach
+    const url = asset?.browser_download_url ?? directFallback;
     const mb = asset ? (asset.size / 1048576).toFixed(1) + ' MB' : '';
 
     ['hero-btn','cta-btn'].forEach(id => {
       const el = document.getElementById(id);
-      if (el) { el.href = url; el.classList.remove('loading'); }
+      if (el) { el.href = url; }
     });
-    document.getElementById('hero-btn-text').textContent = ver ? `ReMa ${ver} herunterladen` : 'Herunterladen';
-    document.getElementById('cta-btn-text').textContent  = ver ? `ReMa ${ver} herunterladen` : 'Herunterladen';
-    if (mb) document.getElementById('hero-meta').textContent = `Windows 10 / 11 · 64-Bit · ${mb}`;
+    
+    if (ver) {
+      document.getElementById('hero-btn-text').textContent = `ReMa ${ver} herunterladen`;
+      document.getElementById('cta-btn-text').textContent  = `ReMa ${ver} herunterladen`;
+    }
+    if (mb) document.getElementById('hero-meta').textContent = `Windows 10 / 11 · 64-Bit · ${mb} · Direkt-Download`;
   } catch {
+    // Falls API-Fehler auftritt, greift hier die sofortige, sichere Direkt-Download-URL
     ['hero-btn','cta-btn'].forEach(id => {
       const el = document.getElementById(id);
-      if (el) { el.href = fallback; el.classList.remove('loading'); }
+      if (el) { el.href = directFallback; }
     });
-    document.getElementById('hero-btn-text').textContent = 'Neueste Version herunterladen';
-    document.getElementById('cta-btn-text').textContent  = 'Neueste Version herunterladen';
   }
 }
 init();
