@@ -221,7 +221,7 @@ nav.solid{
   animation:rise .75s .60s cubic-bezier(.22,1,.36,1) forwards;
 }
 .btn-dl{
-  display:inline-flex;align-items:center;gap:9px;
+  display:inline-flex;flex-direction:column;align-items:center;
   background:var(--red);color:#fff;text-decoration:none;
   font-size:15px;font-weight:700;
   padding:15px 30px;border-radius:13px;
@@ -229,6 +229,9 @@ nav.solid{
   transition:transform .22s cubic-bezier(.34,1.56,.64,1),opacity .15s;
   box-shadow:0 6px 28px rgba(255,59,48,.4);
   position:relative;
+}
+.btn-dl-top{
+  display:flex;align-items:center;gap:9px;
 }
 .btn-dl:hover{transform:translateY(-2px) scale(1.025);opacity:.91}
 .btn-dl:active{transform:scale(.97)}
@@ -621,11 +624,6 @@ footer ul a:hover{color:var(--w)}
   margin-top:4px;
   text-align:center;
 }
-.btn-dl-inner{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
 .btn-dl-ver{
   display:block;
   font-size:10.5px;
@@ -697,15 +695,15 @@ footer ul a:hover{color:var(--w)}
 
     <div class="dl-group">
       <a id="hero-btn" class="btn-dl loading" href="#" aria-label="ReMa herunterladen" target="_blank" rel="noopener noreferrer">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-          <polyline points="7 10 12 15 17 10"/>
-          <line x1="12" y1="15" x2="12" y2="3"/>
-        </svg>
-        <span class="btn-dl-inner">
+        <span class="btn-dl-top">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
           <span id="hero-btn-txt" data-i18n="btn_loading">Lädt…</span>
-          <span class="btn-dl-ver" id="hero-btn-ver"></span>
         </span>
+        <span class="btn-dl-ver" id="hero-btn-ver"></span>
       </a>
       <p class="dl-meta" id="hero-meta">Windows 10 / 11 · 64-Bit</p>
     </div>
@@ -923,15 +921,15 @@ footer ul a:hover{color:var(--w)}
     <p data-i18n="cta_sub">Kein Account. Keine Cloud. Einfach installieren und loslegen.</p>
 
     <a id="cta-btn" class="btn-dl loading" href="#" target="_blank" rel="noopener noreferrer">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-        <polyline points="7 10 12 15 17 10"/>
-        <line x1="12" y1="15" x2="12" y2="3"/>
-      </svg>
-      <span class="btn-dl-inner">
+      <span class="btn-dl-top">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
         <span id="cta-btn-txt" data-i18n="btn_loading">Lädt…</span>
-        <span class="btn-dl-ver" id="cta-btn-ver"></span>
       </span>
+      <span class="btn-dl-ver" id="cta-btn-ver"></span>
     </a>
 
     <div class="chips">
