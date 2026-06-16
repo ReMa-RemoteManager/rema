@@ -112,13 +112,6 @@ nav.solid{
 .lang-opt:hover{background:rgba(255,255,255,.07);color:var(--w)}
 .lang-opt.active{color:var(--red);background:var(--red-a)}
 
-/* preview bar: Windows style */
-.preview-bar{
-  height:40px;background:#1a1a1e;
-  display:flex;align-items:center;padding:0 0 0 10px;
-  border-bottom:1px solid var(--b);flex-shrink:0;
-  gap:0;
-}
 .preview-bar-l{display:flex;align-items:center;gap:5px;flex-shrink:0}
 .pbar-logo{width:16px;height:16px;object-fit:contain}
 .pbar-appname{font-size:11px;font-weight:700;color:var(--w);letter-spacing:-.01em}
@@ -353,6 +346,10 @@ nav.solid{
   .preview-sidebar{display:none}
   .preview-ui{height:clamp(180px,50vw,320px)}
   .preview-grid{grid-template-columns:repeat(2,1fr)}
+  /* Fix title bar overflow on narrow screens */
+  .pbar-appsub{display:none}
+  .preview-title{display:none}
+  .pwb{width:28px}
 }
 
 /* scroll arrow */
@@ -471,6 +468,26 @@ nav.solid{
   position:relative;flex:1;
   display:flex;align-items:center;
 }
+/* Prev/Next arrow buttons */
+.shot-nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(14,14,18,.72);
+  border:1px solid var(--b);color:var(--g1);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:10;flex-shrink:0;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  transition:background .15s,color .15s,
+             transform .22s cubic-bezier(.34,1.56,.64,1);
+}
+.shot-nav:hover{
+  background:rgba(255,255,255,.12);color:var(--w);
+  transform:translateY(-50%) scale(1.1);
+}
+.shot-nav:active{transform:translateY(-50%) scale(.94)}
+.shot-nav svg{pointer-events:none}
+.shot-prev{left:-19px}
+.shot-next{right:-19px}
 .shot-frame{
   width:100%;
   height:min(54svh,500px);
@@ -642,6 +659,10 @@ footer ul a:hover{color:var(--w)}
   .shot-dot{width:8px;height:8px}
   .shot-dot::after{inset:-18px}
   .shots-footer{margin-top:12px}
+  /* Arrows float inside the image area on mobile */
+  .shot-prev{left:10px}
+  .shot-next{right:10px}
+  .shot-nav{background:rgba(8,8,10,.65);border-color:rgba(255,255,255,.1)}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{
@@ -888,6 +909,9 @@ footer ul a:hover{color:var(--w)}
       <h2 class="sec-h" id="shot-lbl">Übersicht</h2>
     </div>
     <div class="shot-stage">
+      <button class="shot-nav shot-prev" onclick="prevShot()" aria-label="Vorheriges Screenshot">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
       <div class="shot-frame" id="sf" aria-live="polite">
         <div class="shot-p active" id="sp0">
           <img src="screenshot-main.png" alt="ReMa Übersicht" loading="lazy"
@@ -906,13 +930,16 @@ footer ul a:hover{color:var(--w)}
           <p>Lege <code>screenshot-main.png</code>,<br><code>screenshot-unlock.png</code> und<br><code>screenshot-settings.png</code><br>neben die <code>index.html</code>.</p>
         </div>
       </div>
+      <button class="shot-nav shot-next" onclick="nextShot()" aria-label="Nächstes Screenshot">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
     </div>
     <div class="shots-footer">
       <div class="shots-prog"><div class="shots-bar" id="sbar"></div></div>
       <div class="shot-dots" role="tablist" aria-label="Screenshots">
-        <button class="shot-dot active" onclick="goShot(0)" aria-label="Übersicht" role="tab" aria-selected="true"></button>
-        <button class="shot-dot" onclick="goShot(1)" aria-label="Entsperren" role="tab" aria-selected="false"></button>
-        <button class="shot-dot" onclick="goShot(2)" aria-label="Einstellungen" role="tab" aria-selected="false"></button>
+        <button class="shot-dot active" onclick="navShot(0)" aria-label="Übersicht" role="tab" aria-selected="true"></button>
+        <button class="shot-dot" onclick="navShot(1)" aria-label="Entsperren" role="tab" aria-selected="false"></button>
+        <button class="shot-dot" onclick="navShot(2)" aria-label="Einstellungen" role="tab" aria-selected="false"></button>
       </div>
     </div>
   </div>
@@ -1267,6 +1294,30 @@ function showShotEmpty(){
   document.getElementById('shot-empty').style.display = 'flex';
 }
 
+/* ── Shot navigation helpers ─────────────────────────────── */
+function navShot(idx){
+  /* On desktop: sync scroll so the scroll-driver stays in control.
+     On mobile:  scroll-driver is disabled — call goShot directly. */
+  if(window.innerWidth > 700){
+    scrollToShot(idx);
+  } else {
+    goShot(idx);
+  }
+}
+
+function scrollToShot(idx){
+  const wrap = document.getElementById('ssw');
+  if(!wrap) return;
+  const total = wrap.offsetHeight - window.innerHeight;
+  /* Land in the center of slide idx's scroll range */
+  const prog  = Math.min(1, Math.max(0, (idx + 0.5) / SHOTS_N));
+  const targetY = wrap.getBoundingClientRect().top + window.scrollY + total * prog;
+  window.scrollTo({top:targetY, behavior:'smooth'});
+}
+
+function prevShot(){ navShot(Math.max(0, currentShotIdx - 1)); }
+function nextShot(){ navShot(Math.min(SHOTS_N - 1, currentShotIdx + 1)); }
+
 /* scroll-driven switching — desktop only */
 window.addEventListener('scroll', () => {
   if(window.innerWidth <= 700) return;
@@ -1301,6 +1352,17 @@ window.addEventListener('scroll', () => {
     if(next !== currentShotIdx) goShot(next, dx < 0 ? 1 : -1);
   }, {passive:true});
 })();
+
+/* Keyboard navigation for screenshot slider */
+document.addEventListener('keydown', e => {
+  const ssw = document.getElementById('ssw');
+  if(!ssw) return;
+  const r = ssw.getBoundingClientRect();
+  /* Only active when ssw is in view */
+  if(r.bottom < 0 || r.top > window.innerHeight) return;
+  if(e.key === 'ArrowLeft')  { e.preventDefault(); prevShot(); }
+  if(e.key === 'ArrowRight') { e.preventDefault(); nextShot(); }
+});
 
 /* ══════════════════════════════════════════════
    GITHUB RELEASE FETCH — direct asset URL
