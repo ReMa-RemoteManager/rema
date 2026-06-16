@@ -485,7 +485,7 @@ nav.solid{
   transition:opacity .5s cubic-bezier(.22,1,.36,1),
              transform .5s cubic-bezier(.22,1,.36,1);
 }
-.shot-p img{width:100%;height:100%;object-fit:cover;display:block}
+.shot-p img{width:100%;height:100%;object-fit:contain;display:block;background:var(--s1)}
 .shot-p.active{opacity:1;transform:scale(1)}
 .shot-p.off-l{opacity:0;transform:scale(.97) translateX(-18px);pointer-events:none}
 .shot-p.off-r{opacity:0;transform:scale(.97) translateX(18px);pointer-events:none}
@@ -509,7 +509,11 @@ nav.solid{
 .shot-dot{
   width:6px;height:6px;border-radius:50%;background:var(--g3);
   cursor:pointer;transition:background .25s,transform .3s cubic-bezier(.34,1.56,.64,1);
+  border:none;padding:0;flex-shrink:0;
+  position:relative;
 }
+/* 44×44px touch target (WCAG) without affecting visual size */
+.shot-dot::after{content:'';position:absolute;inset:-19px}
 .shot-dot.active{background:var(--w);transform:scale(1.5)}
 
 /* ══════════════════════════════
@@ -602,6 +606,42 @@ footer ul a:hover{color:var(--w)}
   footer ul{justify-content:center}
   .cta-card{padding:36px 20px 32px}
   .hero-logo-svg{width:56px;height:56px}
+}
+
+/* ══════════════════════════════
+   SCREENSHOTS — MOBILE
+══════════════════════════════ */
+@media(max-width:700px){
+  /* Disable sticky-scroll: become a normal swipe carousel */
+  .shots-sticky-wrap{height:auto}
+  .shots-sticky{
+    position:relative;
+    height:auto;
+    padding:72px 16px 32px;
+    justify-content:flex-start;
+    min-height:0;
+  }
+  .shots-hdr{margin-bottom:16px}
+  /* Give shot-stage a defined height instead of flex:1 */
+  .shot-stage{
+    flex:none;
+    height:auto;
+    width:100%;
+  }
+  .shot-frame{
+    /* Taller relative height on mobile so image fills screen */
+    height:min(62svh,520px);
+    border-radius:12px;
+    /* horizontal swipe: let browser handle vertical, JS handles horizontal */
+    touch-action:pan-y;
+  }
+  /* Scroll-progress bar is irrelevant without scroll-driver */
+  .shots-prog{display:none}
+  /* Larger dots & more spacing for touch */
+  .shot-dots{gap:14px;margin-top:20px}
+  .shot-dot{width:8px;height:8px}
+  .shot-dot::after{inset:-18px}
+  .shots-footer{margin-top:12px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{
@@ -869,10 +909,10 @@ footer ul a:hover{color:var(--w)}
     </div>
     <div class="shots-footer">
       <div class="shots-prog"><div class="shots-bar" id="sbar"></div></div>
-      <div class="shot-dots">
-        <div class="shot-dot active" onclick="goShot(0)" title="Übersicht" role="tab" aria-selected="true"></div>
-        <div class="shot-dot" onclick="goShot(1)" title="Entsperren" role="tab"></div>
-        <div class="shot-dot" onclick="goShot(2)" title="Einstellungen" role="tab"></div>
+      <div class="shot-dots" role="tablist" aria-label="Screenshots">
+        <button class="shot-dot active" onclick="goShot(0)" aria-label="Übersicht" role="tab" aria-selected="true"></button>
+        <button class="shot-dot" onclick="goShot(1)" aria-label="Entsperren" role="tab" aria-selected="false"></button>
+        <button class="shot-dot" onclick="goShot(2)" aria-label="Einstellungen" role="tab" aria-selected="false"></button>
       </div>
     </div>
   </div>
@@ -1213,7 +1253,10 @@ function goShot(idx, dir){
   panels[idx].classList.remove('off-l','off-r');
   panels[idx].classList.add('active');
 
-  dots.forEach((d2,i) => d2.classList.toggle('active', i === idx));
+  dots.forEach((d2,i) => {
+    d2.classList.toggle('active', i === idx);
+    d2.setAttribute('aria-selected', i === idx ? 'true' : 'false');
+  });
 
   const sl = document.getElementById('shot-lbl');
   if(sl){ const arr = t('shot_labels'); sl.textContent = Array.isArray(arr) ? arr[idx] : arr; }
@@ -1224,8 +1267,9 @@ function showShotEmpty(){
   document.getElementById('shot-empty').style.display = 'flex';
 }
 
-/* scroll-driven switching */
+/* scroll-driven switching — desktop only */
 window.addEventListener('scroll', () => {
+  if(window.innerWidth <= 700) return;
   const wrap = document.getElementById('ssw');
   if(!wrap) return;
   const bar = document.getElementById('sbar');
@@ -1237,15 +1281,20 @@ window.addEventListener('scroll', () => {
   if(idx !== currentShotIdx) goShot(idx);
 }, {passive:true});
 
-/* touch swipe */
+/* touch swipe — works on all screen sizes */
 (function(){
   const sf = document.getElementById('sf');
   if(!sf) return;
-  let tx = 0;
-  sf.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  let tx = 0, ty = 0;
+  sf.addEventListener('touchstart', e => {
+    tx = e.touches[0].clientX;
+    ty = e.touches[0].clientY;
+  }, {passive:true});
   sf.addEventListener('touchend', e => {
     const dx = e.changedTouches[0].clientX - tx;
-    if(Math.abs(dx) < 40) return;
+    const dy = e.changedTouches[0].clientY - ty;
+    /* require predominantly horizontal movement (not a scroll) */
+    if(Math.abs(dx) < 30 || Math.abs(dy) > Math.abs(dx) * 0.8) return;
     const next = dx < 0
       ? Math.min(SHOTS_N - 1, currentShotIdx + 1)
       : Math.max(0, currentShotIdx - 1);
