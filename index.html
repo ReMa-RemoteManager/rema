@@ -14,501 +14,154 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
-
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
-      --bg:#050506;
-      --s1:#0B0B0E;
-      --s2:#121217;
-      --s3:#1A1A20;
-      --b:rgba(255,255,255,0.06);
-      --bh:rgba(255,255,255,0.11);
-      --red:#FF3B30;
-      --red-a:rgba(255,59,48,0.14);
-      --red-b:rgba(255,59,48,0.24);
-      --w:#F5F5F7;
-      --g1:#A1A1AA;
-      --g2:#62626B;
-      --g3:#3F3F46;
+      --bg:#050506;--s1:#0B0B0E;--s2:#121217;--s3:#1A1A20;
+      --b:rgba(255,255,255,0.06);--bh:rgba(255,255,255,0.11);
+      --red:#FF3B30;--red-a:rgba(255,59,48,0.14);--red-b:rgba(255,59,48,0.26);
+      --w:#F5F5F7;--g1:#A1A1AA;--g2:#62626B;--g3:#3F3F46;
     }
     html{scroll-behavior:smooth;height:100%}
-    body{
-      background:var(--bg);
-      color:var(--w);
-      font-family:'Inter',system-ui,-apple-system,sans-serif;
-      -webkit-font-smoothing:antialiased;
-      overflow-x:hidden;
-      line-height:1.5;
-    }
-    @media(prefers-reduced-motion:reduce){
-      *,*::before,*::after{
-        animation-duration:.001ms!important;
-        animation-iteration-count:1!important;
-        transition-duration:.001ms!important;
-        scroll-behavior:auto!important;
-      }
-    }
+    body{background:var(--bg);color:var(--w);font-family:'Inter',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.5}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
 
-    /* ═══════════════════════ NAV ═══════════════════════ */
-    nav{
-      position:fixed;top:0;left:0;right:0;z-index:200;
-      height:56px;display:flex;align-items:center;
-      justify-content:space-between;padding:0 32px;
-      transition:background .3s,border-color .3s,box-shadow .3s;
-      border-bottom:1px solid transparent;
-    }
-    nav.solid{
-      background:rgba(5,5,6,.92);
-      backdrop-filter:blur(28px) saturate(180%);
-      -webkit-backdrop-filter:blur(28px) saturate(180%);
-      border-bottom-color:var(--b);
-      box-shadow:0 18px 40px rgba(0,0,0,.5);
-    }
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;transition:background .35s,border-color .35s,box-shadow .35s;border-bottom:1px solid transparent}
+    nav.solid{background:rgba(5,5,6,.88);backdrop-filter:blur(32px) saturate(180%);-webkit-backdrop-filter:blur(32px) saturate(180%);border-bottom-color:var(--b);box-shadow:0 1px 0 rgba(255,255,255,.04),0 20px 50px rgba(0,0,0,.5)}
     .nav-l{display:flex;align-items:center;gap:10px;text-decoration:none}
-    .nav-logo{
-      width:26px;height:26px;border-radius:7px;
-      overflow:hidden;flex-shrink:0;
-      box-shadow:0 0 0 1px rgba(255,255,255,.06),
-                 0 0 16px rgba(255,59,48,.4);
-    }
+    .nav-logo{width:27px;height:27px;border-radius:8px;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 0 18px rgba(255,59,48,.4);transition:box-shadow .3s}
+    .nav-l:hover .nav-logo{box-shadow:0 0 0 1px rgba(255,255,255,.15),0 0 28px rgba(255,59,48,.6)}
     .nav-logo img{width:100%;height:100%;object-fit:cover;display:block}
-    .nav-name{font-size:15px;font-weight:700;color:var(--w);letter-spacing:-.03em}
-    .nav-r{display:flex;align-items:center;gap:6px}
-    .nav-r a{
-      font-size:13px;font-weight:500;color:var(--g1);text-decoration:none;
-      padding:6px 11px;border-radius:999px;
-      transition:color .15s,background .15s;
-    }
+    .nav-name{font-size:15px;font-weight:800;color:var(--w);letter-spacing:-.04em}
+    .nav-r{display:flex;align-items:center;gap:5px}
+    .nav-r a{font-size:13px;font-weight:500;color:var(--g1);text-decoration:none;padding:6px 12px;border-radius:999px;transition:color .15s,background .15s}
     .nav-r a:hover{color:var(--w);background:rgba(255,255,255,.06)}
-    .nav-dl-btn{
-      background:var(--red)!important;color:#fff!important;
-      font-weight:600!important;border-radius:999px!important;
-      padding:7px 15px!important;
-      box-shadow:0 6px 22px rgba(255,59,48,.5)!important;
-      display:flex;align-items:center;gap:7px;
-      transition:opacity .15s,transform .18s!important;
-    }
-    .nav-dl-btn:hover{opacity:.88!important;transform:translateY(-1px)!important}
-    .nav-dl-btn span{font-size:13px}
+    .nav-dl-btn{background:var(--red)!important;color:#fff!important;font-weight:700!important;border-radius:999px!important;padding:7px 16px!important;box-shadow:0 6px 22px rgba(255,59,48,.45)!important;display:flex;align-items:center;gap:7px;transition:opacity .15s,transform .2s,box-shadow .2s!important}
+    .nav-dl-btn:hover{opacity:.9!important;transform:translateY(-1px)!important;box-shadow:0 8px 28px rgba(255,59,48,.6)!important}
     .nav-dl-btn svg{width:13px;height:13px}
-
-    /* Language pill */
-    .lang-pill{
-      display:flex;align-items:center;gap:6px;
-      padding:6px 10px;border-radius:999px;
-      border:1px solid var(--b);
-      background:rgba(255,255,255,.03);
-      cursor:pointer;
-      font-size:12px;font-weight:500;color:var(--g1);
-      transition:background .15s,border-color .15s,color .15s;
-    }
+    .lang-pill{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid var(--b);background:rgba(255,255,255,.03);cursor:pointer;font-size:12px;font-weight:500;color:var(--g1);transition:background .15s,border-color .15s,color .15s}
     .lang-pill:hover{background:rgba(255,255,255,.07);border-color:var(--bh);color:var(--w)}
     .lang-pill svg{width:13px;height:13px}
-    .lang-menu-inline{display:flex;align-items:center;gap:4px;margin-left:4px}
-    .lang-menu-inline button{
-      border:none;background:none;color:var(--g2);
-      font-size:11px;padding:2px 6px;border-radius:999px;
-      cursor:pointer;transition:background .15s,color .15s;font-family:inherit;
-    }
-    .lang-menu-inline button.active{color:var(--red);background:var(--red-a)}
-    .lang-menu-inline button:hover{color:var(--w);background:rgba(255,255,255,.08)}
+    .lang-btns{display:flex;align-items:center;gap:3px;margin-left:4px}
+    .lang-btn{border:none;background:none;color:var(--g2);font-size:10.5px;padding:2px 6px;border-radius:999px;cursor:pointer;transition:background .15s,color .15s;font-family:inherit}
+    .lang-btn.active{color:var(--red);background:var(--red-a)}
+    .lang-btn:hover:not(.active){color:var(--w);background:rgba(255,255,255,.08)}
 
-    /* ═══════════════════════ HERO ═══════════════════════ */
-    @keyframes riseIn{
-      to{opacity:1;transform:translateY(0) scale(1)}
-    }
-    @keyframes cueBob{
-      0%,100%{transform:rotate(45deg) translate(0,0)}
-      50%{transform:rotate(45deg) translate(3px,3px)}
-    }
-    @keyframes glowPulse{
-      0%,100%{opacity:.5}
-      50%{opacity:.9}
-    }
+    /* HERO */
+    @keyframes riseIn{to{opacity:1;transform:translateY(0) scale(1)}}
+    @keyframes cueBob{0%,100%{transform:rotate(45deg) translate(0,0)}50%{transform:rotate(45deg) translate(3px,3px)}}
+    @keyframes glowPulse{0%,100%{opacity:.45}50%{opacity:.88}}
 
-    .hero{
-      min-height:100svh;
-      display:grid;
-      grid-template-rows:1fr auto;
-      padding-top:56px;
-      overflow:hidden;
-      position:relative;
-      /* Subtle radial gradient for hero atmosphere */
-      background:radial-gradient(ellipse 80% 55% at 50% 0%,#1A1826 0%,#050506 60%);
-    }
-    /* Dot grid texture */
-    .hero::before{
-      content:'';
-      position:absolute;inset:0;
-      background-image:radial-gradient(rgba(255,255,255,.028) 1px,transparent 1px);
-      background-size:28px 28px;
-      mask-image:radial-gradient(ellipse 65% 50% at 50% 10%,black 0%,transparent 100%);
-      -webkit-mask-image:radial-gradient(ellipse 65% 50% at 50% 10%,black 0%,transparent 100%);
-      z-index:0;pointer-events:none;
-    }
-    /* Red ambient top glow */
-    .hero::after{
-      content:'';
-      position:absolute;
-      top:-80px;left:50%;
-      transform:translateX(-50%);
-      width:700px;height:300px;
-      background:radial-gradient(ellipse at center,rgba(255,59,48,.055) 0%,transparent 70%);
-      filter:blur(30px);
-      pointer-events:none;z-index:0;
-    }
-
-    .hero-content{
-      display:flex;flex-direction:column;
-      align-items:center;justify-content:center;
-      text-align:center;
-      padding:70px 24px 44px;
-      position:relative;z-index:2;
-    }
-
-    .hero-logo-stack{
-      display:flex;flex-direction:column;align-items:center;
-      margin-bottom:40px;position:relative;
-      opacity:0;transform:translateY(18px);
-      animation:riseIn .8s .05s cubic-bezier(.22,1,.36,1) forwards;
-    }
-    .hero-logo-stack::before{
-      content:'';
-      position:absolute;width:130px;height:130px;border-radius:50%;
-      background:radial-gradient(circle,rgba(255,59,48,.22) 0%,transparent 60%);
-      filter:blur(22px);opacity:.7;z-index:-1;
-      animation:glowPulse 3s 1.5s ease-in-out infinite;
-    }
-    .hero-logo-stack img{
-      width:80px;height:80px;border-radius:22px;
-      object-fit:cover;
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,.09),
-        0 0 28px rgba(255,59,48,.5),
-        0 12px 40px rgba(0,0,0,.5);
-      transition:transform .3s cubic-bezier(.34,1.56,.64,1),
-                 box-shadow .3s;
-    }
-    .hero-logo-stack img:hover{
-      transform:scale(1.04);
-      box-shadow:0 0 0 1px rgba(255,255,255,.12),
-                 0 0 36px rgba(255,59,48,.65),
-                 0 16px 50px rgba(0,0,0,.55);
-    }
-    .hero-logo-label{
-      font-size:12px;font-weight:600;color:var(--g2);
-      letter-spacing:.1em;text-transform:uppercase;margin-top:13px;
-    }
-
-    .hero-h1{
-      font-size:clamp(46px,7.8vw,96px);
-      font-weight:900;line-height:.96;
-      letter-spacing:-.045em;color:var(--w);
-      max-width:880px;margin-bottom:22px;
-    }
-    /* Word-by-word animation spans (injected by JS) */
-    .hero-h1 .word{
-      display:inline-block;
-      opacity:0;transform:translateY(22px);
-      animation:riseIn .75s cubic-bezier(.22,1,.36,1) forwards;
-    }
-    .hero-h1 .w1{animation-delay:.16s}
-    .hero-h1 .w2{animation-delay:.24s}
-    .hero-h1 .w3{animation-delay:.33s}
-    .hero-h1 .w4{animation-delay:.42s}
-    .hero-h1 .br{display:block;height:.08em}
-
-    .hero-sub{
-      font-size:clamp(15px,1.8vw,18px);
-      color:var(--g1);font-weight:400;line-height:1.7;
-      max-width:420px;margin-bottom:34px;
-      opacity:0;transform:translateY(16px);
-      animation:riseIn .8s .52s cubic-bezier(.22,1,.36,1) forwards;
-    }
-    .hero-ctas{
-      display:flex;flex-wrap:wrap;justify-content:center;
-      gap:12px;margin-bottom:18px;
-      opacity:0;transform:translateY(16px);
-      animation:riseIn .8s .64s cubic-bezier(.22,1,.36,1) forwards;
-    }
-    .btn-primary{
-      display:inline-flex;align-items:center;gap:9px;
-      background:var(--red);color:#fff;text-decoration:none;
-      font-size:15px;font-weight:700;
-      padding:14px 26px;border-radius:999px;
-      letter-spacing:-.01em;border:none;cursor:pointer;
-      transition:transform .22s cubic-bezier(.34,1.56,.64,1),opacity .15s;
-      box-shadow:0 10px 30px rgba(255,59,48,.5);
-    }
+    .hero{min-height:100svh;display:grid;grid-template-rows:1fr auto;padding-top:56px;overflow:hidden;position:relative;background:radial-gradient(ellipse 90% 60% at 50% 0%,#1C1A2A 0%,#050506 65%)}
+    .hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.025) 1px,transparent 1px);background-size:26px 26px;mask-image:radial-gradient(ellipse 70% 55% at 50% 8%,black 0%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 70% 55% at 50% 8%,black 0%,transparent 100%);pointer-events:none;z-index:0}
+    .hero::after{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:800px;height:350px;background:radial-gradient(ellipse at center,rgba(255,59,48,.06) 0%,transparent 68%);filter:blur(40px);pointer-events:none;z-index:0}
+    .hero-content{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:76px 24px 48px;position:relative;z-index:2}
+    .hero-logo-stack{display:flex;flex-direction:column;align-items:center;margin-bottom:44px;position:relative;opacity:0;transform:translateY(18px);animation:riseIn .8s .05s cubic-bezier(.22,1,.36,1) forwards}
+    .hero-logo-stack::before{content:'';position:absolute;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(255,59,48,.28) 0%,transparent 65%);filter:blur(28px);opacity:.65;z-index:-1;animation:glowPulse 3s 1.5s ease-in-out infinite}
+    .hero-logo-stack img{width:84px;height:84px;border-radius:22px;object-fit:cover;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 0 32px rgba(255,59,48,.55),0 14px 44px rgba(0,0,0,.5);transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s}
+    .hero-logo-stack img:hover{transform:scale(1.05) translateY(-2px);box-shadow:0 0 0 1px rgba(255,255,255,.16),0 0 44px rgba(255,59,48,.7),0 18px 55px rgba(0,0,0,.55)}
+    .hero-logo-label{font-size:11.5px;font-weight:600;color:var(--g2);letter-spacing:.12em;text-transform:uppercase;margin-top:14px}
+    .hero-h1{font-size:clamp(48px,8vw,100px);font-weight:900;line-height:.94;letter-spacing:-.05em;color:var(--w);max-width:900px;margin-bottom:24px}
+    .hero-h1 .word{display:inline-block;opacity:0;transform:translateY(24px);animation:riseIn .75s cubic-bezier(.22,1,.36,1) forwards}
+    .hero-h1 .w1{animation-delay:.16s}.hero-h1 .w2{animation-delay:.25s}.hero-h1 .w3{animation-delay:.35s}.hero-h1 .w4{animation-delay:.45s}
+    .hero-h1 .br{display:block;height:.06em}
+    .hero-h1 .acc{background:linear-gradient(135deg,#FF3B30 0%,#FF7060 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-sub{font-size:clamp(15px,1.9vw,18.5px);color:var(--g1);font-weight:400;line-height:1.75;max-width:430px;margin-bottom:36px;opacity:0;transform:translateY(16px);animation:riseIn .8s .55s cubic-bezier(.22,1,.36,1) forwards}
+    .hero-ctas{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:20px;opacity:0;transform:translateY(16px);animation:riseIn .8s .67s cubic-bezier(.22,1,.36,1) forwards}
+    .btn-primary{display:inline-flex;align-items:center;gap:9px;background:var(--red);color:#fff;text-decoration:none;font-size:15px;font-weight:700;padding:14px 28px;border-radius:999px;letter-spacing:-.015em;border:none;cursor:pointer;font-family:inherit;box-shadow:0 10px 30px rgba(255,59,48,.5),0 1px 0 rgba(255,255,255,.15) inset;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .15s,box-shadow .25s}
     .btn-primary svg{width:15px;height:15px}
-    .btn-primary:hover{transform:translateY(-2px) scale(1.025);opacity:.92}
+    .btn-primary:hover{transform:translateY(-2px) scale(1.025);opacity:.92;box-shadow:0 14px 38px rgba(255,59,48,.65),0 1px 0 rgba(255,255,255,.15) inset}
     .btn-primary:active{transform:scale(.97)}
-    .btn-secondary{
-      display:inline-flex;align-items:center;gap:7px;
-      background:rgba(255,255,255,.04);color:var(--w);
-      text-decoration:none;font-size:14px;font-weight:500;
-      padding:14px 20px;border-radius:999px;
-      border:1px solid var(--b);cursor:pointer;
-      transition:background .15s,border-color .15s,transform .18s;
-    }
+    .btn-secondary{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.04);color:var(--w);text-decoration:none;font-size:14px;font-weight:500;padding:14px 22px;border-radius:999px;border:1px solid var(--b);cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s,transform .2s}
     .btn-secondary svg{width:13px;height:13px}
-    .btn-secondary:hover{background:rgba(255,255,255,.08);border-color:var(--bh);transform:translateY(-1px)}
+    .btn-secondary:hover{background:rgba(255,255,255,.09);border-color:var(--bh);transform:translateY(-1px)}
+    .hero-meta{font-size:12px;color:var(--g2);margin-top:8px;opacity:0;transform:translateY(12px);animation:riseIn .8s .79s cubic-bezier(.22,1,.36,1) forwards}
+    .hero-meta strong{color:var(--g1);font-weight:500}
+    .scroll-cue{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:36px;opacity:0;animation:riseIn 1s 1.2s ease forwards;transition:opacity .4s}
+    .scroll-cue.hidden{opacity:0!important;pointer-events:none}
+    .scroll-cue span{font-size:10px;color:var(--g3);font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+    .scroll-cue-chev{width:13px;height:13px;border-right:1.5px solid var(--g3);border-bottom:1.5px solid var(--g3);transform:rotate(45deg);animation:cueBob 2.2s 1.5s ease-in-out infinite}
 
-    .hero-meta{
-      font-size:12px;color:var(--g2);margin-top:6px;
-      opacity:0;transform:translateY(12px);
-      animation:riseIn .8s .76s cubic-bezier(.22,1,.36,1) forwards;
-      transition:opacity .4s,transform .4s;
-    }
-    .hero-meta span{color:var(--w);font-weight:500}
-
-    .scroll-cue{
-      display:flex;flex-direction:column;align-items:center;gap:7px;
-      margin-top:34px;
-      opacity:0;
-      animation:riseIn 1s 1.2s ease forwards;
-      transition:opacity .4s,transform .4s;
-    }
-    .scroll-cue.hidden{opacity:0!important;transform:translateY(-8px)!important}
-    .scroll-cue span{
-      font-size:10px;color:var(--g3);font-weight:600;
-      letter-spacing:.1em;text-transform:uppercase;
-    }
-    .scroll-cue-chev{
-      width:14px;height:14px;
-      border-right:1.5px solid var(--g3);
-      border-bottom:1.5px solid var(--g3);
-      transform:rotate(45deg);
-      animation:cueBob 2.2s 1.5s ease-in-out infinite;
-    }
-
-    /* ═══════════════════════ HERO PREVIEW — FIXED ═══════════════════════ */
-    .hero-preview{
-      width:100%;max-width:1060px;margin:0 auto;
-      /* KEY FIX: no bottom padding — window bleeds to edge */
-      padding:0 20px;
-      opacity:0;transform:translateY(40px) scale(.98);
-      animation:riseIn 1s .82s cubic-bezier(.22,1,.36,1) forwards;
-      position:relative;z-index:1;
-    }
-    /* Red ambient glow behind the preview window */
-    .hero-preview::before{
-      content:'';
-      position:absolute;
-      top:-10px;left:50%;
-      transform:translateX(-50%);
-      width:72%;height:90px;
-      background:radial-gradient(ellipse at center,rgba(255,59,48,.16) 0%,transparent 68%);
-      filter:blur(28px);
-      z-index:-1;pointer-events:none;
-    }
-
-    /* KEY FIX: window frame rises from bottom – no bottom radius, no bottom border */
-    .preview-frame{
-      width:100%;
-      border-radius:16px 16px 0 0;
-      border:1px solid var(--bh);
-      border-bottom:none;
-      overflow:hidden;
-      background:linear-gradient(to bottom,#181820 0%,#0F0F16 50%,#0A0A0F 100%);
-      box-shadow:
-        0 -1px 0 0 rgba(255,255,255,.09) inset,
-        0 0 0 1px rgba(255,255,255,.03) inset,
-        0 40px 130px rgba(0,0,0,.85),
-        0 0 80px rgba(255,59,48,.04);
-      position:relative;
-    }
-
-    /* Title bar */
-    .preview-bar{
-      height:38px;
-      background:linear-gradient(to right,#0E0E14,#16161E);
-      display:flex;align-items:center;padding:0 0 0 14px;gap:8px;
-      border-bottom:1px solid rgba(255,255,255,.06);
-      flex-shrink:0;user-select:none;
-    }
-    .preview-bar-l{display:flex;align-items:center;gap:8px;flex-shrink:0}
+    /* HERO PREVIEW */
+    .hero-preview{width:100%;max-width:1080px;margin:0 auto;padding:0 20px;opacity:0;transform:translateY(44px) scale(.98);animation:riseIn 1s .84s cubic-bezier(.22,1,.36,1) forwards;position:relative;z-index:1}
+    .hero-preview::before{content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:70%;height:100px;background:radial-gradient(ellipse at center,rgba(255,59,48,.18) 0%,transparent 68%);filter:blur(30px);z-index:-1;pointer-events:none}
+    .preview-frame{width:100%;border-radius:16px 16px 0 0;border:1px solid var(--bh);border-bottom:none;overflow:hidden;background:linear-gradient(to bottom,#181820 0%,#0F0F16 50%,#0A0A0F 100%);box-shadow:0 -1px 0 rgba(255,255,255,.09) inset,0 50px 150px rgba(0,0,0,.9)}
+    .preview-bar{height:40px;background:linear-gradient(to right,#0E0E14,#161622);display:flex;align-items:center;padding:0 0 0 14px;gap:9px;border-bottom:1px solid rgba(255,255,255,.06);user-select:none}
+    .preview-bar-l{display:flex;align-items:center;gap:7px;flex-shrink:0}
     .pbar-logo{width:18px;height:18px;border-radius:5px;object-fit:cover;box-shadow:0 0 0 1px rgba(255,255,255,.08)}
-    .pbar-appname{font-size:12px;font-weight:700;color:var(--w);letter-spacing:-.01em}
-    .pbar-appsub{font-size:11px;color:var(--g2);font-weight:400}
-    .preview-title{
-      font-size:11px;color:var(--g2);font-weight:400;
-      flex:1;text-align:center;letter-spacing:.01em;pointer-events:none;
-    }
+    .pbar-appname{font-size:12px;font-weight:700;color:var(--w);letter-spacing:-.015em}
+    .pbar-appsub{font-size:11px;color:var(--g2)}
+    .preview-title{font-size:11px;color:var(--g2);flex:1;text-align:center;letter-spacing:.01em;pointer-events:none}
     .preview-winbtns{display:flex;align-items:stretch;align-self:stretch;flex-shrink:0;margin-left:auto}
-    .pwb{
-      display:flex;align-items:center;justify-content:center;
-      width:42px;height:100%;color:var(--g2);
-      transition:background .12s,color .12s;
-    }
+    .pwb{display:flex;align-items:center;justify-content:center;width:42px;height:100%;color:var(--g2);transition:background .12s,color .12s}
     .pwb:hover{background:rgba(255,255,255,.07);color:var(--w)}
     .pwb-close:hover{background:#C42B1C!important;color:#fff!important}
-
-    /* App UI layout */
-    .preview-ui{display:flex;height:clamp(260px,32vw,445px);overflow:hidden}
-
-    /* LEFT SIDEBAR */
-    .preview-sidebar{
-      width:190px;flex-shrink:0;
-      border-right:1px solid rgba(255,255,255,.06);
-      display:flex;flex-direction:column;
-      background:linear-gradient(to bottom,#101017,#0A0A0F);
-    }
+    .preview-ui{display:flex;height:clamp(270px,32vw,455px);overflow:hidden}
+    .preview-sidebar{width:190px;flex-shrink:0;border-right:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;background:linear-gradient(to bottom,#101017,#0A0A0F)}
     .ps-logo{display:flex;align-items:center;gap:8px;padding:13px 14px 11px;border-bottom:1px solid rgba(255,255,255,.06)}
     .ps-logo-ico{width:20px;height:20px;border-radius:6px;object-fit:cover;flex-shrink:0;box-shadow:0 0 0 1px rgba(255,255,255,.08)}
     .ps-logo-txt{font-size:12px;font-weight:700;color:var(--w);letter-spacing:-.01em}
-    .ps-logo-sub{font-size:9.5px;color:var(--g2);font-weight:400}
+    .ps-logo-sub{font-size:9.5px;color:var(--g2)}
     .ps-nav{padding:10px 6px;display:flex;flex-direction:column;gap:2px}
-    .ps-item{
-      display:flex;align-items:center;gap:8px;
-      padding:7px 10px;border-radius:8px;
-      font-size:11.5px;color:var(--g1);cursor:pointer;
-      transition:background .14s,color .14s;user-select:none;
-    }
+    .ps-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;font-size:11.5px;color:var(--g1);cursor:pointer;transition:background .14s,color .14s;user-select:none}
     .ps-item:hover{background:rgba(255,255,255,.06);color:var(--w)}
     .ps-item.active{background:var(--red-a);color:var(--red)}
     .ps-item svg{width:13px;height:13px;flex-shrink:0;opacity:.85}
     .ps-item.active svg{opacity:1}
-    .ps-section{
-      font-size:9.5px;color:var(--g3);font-weight:600;
-      letter-spacing:.08em;text-transform:uppercase;
-      padding:12px 10px 4px;
-    }
-    .ps-folder{
-      display:flex;align-items:center;gap:6px;
-      padding:5px 10px;border-radius:7px;
-      font-size:11px;color:var(--g2);cursor:pointer;
-      transition:background .12s,color .12s;
-    }
+    .ps-section{font-size:9.5px;color:var(--g3);font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:12px 10px 4px}
+    .ps-folder{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:7px;font-size:11px;color:var(--g2);cursor:pointer;transition:background .12s,color .12s}
     .ps-folder:hover{background:rgba(255,255,255,.05);color:var(--g1)}
     .ps-folder svg{width:12px;height:12px;flex-shrink:0}
     .ps-folder-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-left:auto;background:var(--g3)}
     .ps-folder-dot.on{background:#30D158}
-
-    /* MAIN CONTENT AREA */
-    .preview-main{
-      flex:1;overflow:hidden;display:flex;flex-direction:column;
-      background:radial-gradient(circle at 50% 0%,#16161E 0%,#0D0D13 55%,#0A0A0F 100%);
-    }
-    .preview-topbar{
-      height:42px;border-bottom:1px solid rgba(255,255,255,.06);
-      display:flex;align-items:center;padding:0 16px;gap:8px;flex-shrink:0;
-    }
-    .ptb-tab{
-      font-size:12px;font-weight:500;color:var(--g2);
-      padding:5px 12px;border-radius:7px 7px 0 0;
-      border-bottom:2px solid transparent;cursor:default;
-    }
+    .preview-main{flex:1;overflow:hidden;display:flex;flex-direction:column;background:radial-gradient(circle at 50% 0%,#16161E 0%,#0D0D13 55%,#0A0A0F 100%)}
+    .preview-topbar{height:42px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;padding:0 16px;gap:8px;flex-shrink:0}
+    .ptb-tab{font-size:12px;font-weight:500;color:var(--g2);padding:5px 12px;border-radius:7px 7px 0 0;border-bottom:2px solid transparent;cursor:default}
     .ptb-tab.active{color:var(--w);border-bottom-color:var(--red)}
     .ptb-spacer{flex:1}
-    .ptb-search{
-      display:flex;align-items:center;gap:6px;
-      background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.07);
-      border-radius:8px;padding:4px 10px;
-      font-size:11px;color:var(--g2);width:128px;
-    }
+    .ptb-search{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:4px 10px;font-size:11px;color:var(--g2);width:130px}
     .ptb-search svg{width:11px;height:11px;flex-shrink:0}
-    .ptb-add{
-      font-size:11px;font-weight:600;color:#fff;
-      background:var(--red);padding:5px 10px;border-radius:7px;
-      display:flex;align-items:center;gap:5px;cursor:default;white-space:nowrap;
-      box-shadow:0 4px 14px rgba(255,59,48,.35);
-    }
+    .ptb-add{font-size:11px;font-weight:700;color:#fff;background:var(--red);padding:5px 10px;border-radius:7px;display:flex;align-items:center;gap:5px;cursor:default;white-space:nowrap;box-shadow:0 4px 14px rgba(255,59,48,.35)}
     .ptb-add svg{width:10px;height:10px}
-
-    /* DEVICE GRID */
     .preview-body{flex:1;display:flex;overflow:hidden}
     .preview-grid-wrap{flex:1;overflow:hidden;padding:14px;display:flex;flex-direction:column;gap:12px}
-    .pgw-section-label{font-size:10px;font-weight:600;color:var(--g3);letter-spacing:.07em;text-transform:uppercase}
     .preview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-    .pg-card{
-      background:rgba(10,10,16,.9);
-      border:1px solid rgba(255,255,255,.06);
-      border-radius:10px;padding:12px;
-      display:flex;flex-direction:column;gap:6px;
-      cursor:pointer;position:relative;
-      transition:transform .24s cubic-bezier(.22,1,.36,1),
-                 border-color .18s,background .18s,box-shadow .24s;
-    }
-    .pg-card:hover{
-      border-color:rgba(255,255,255,.14);
-      background:rgba(18,18,24,.9);
-      transform:translateY(-2px);
-      box-shadow:0 8px 24px rgba(0,0,0,.4);
-    }
-    .pg-card.selected{
-      border-color:var(--red);
-      background:var(--red-a);
-      box-shadow:0 8px 24px rgba(255,59,48,.15);
-    }
+    .pg-card{background:rgba(10,10,16,.9);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:transform .25s cubic-bezier(.22,1,.36,1),border-color .18s,background .18s,box-shadow .25s}
+    .pg-card:hover{border-color:rgba(255,255,255,.14);background:rgba(18,18,24,.9);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+    .pg-card.selected{border-color:var(--red);background:var(--red-a);box-shadow:0 8px 24px rgba(255,59,48,.15)}
     .pgc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
-    .pgc-badge{
-      font-size:8.5px;font-weight:700;
-      background:#0a9e8f;color:#fff;
-      padding:2px 5px;border-radius:4px;letter-spacing:.04em;
-    }
+    .pgc-badge{font-size:8.5px;font-weight:700;background:#0a9e8f;color:#fff;padding:2px 5px;border-radius:4px;letter-spacing:.04em}
     .pgc-badge.rdp{background:#2563eb}
     .pgc-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-    .pgc-dot.on{background:#30D158}
-    .pgc-dot.off{background:var(--g3)}
+    .pgc-dot.on{background:#30D158}.pgc-dot.off{background:var(--g3)}
     .pgc-name{font-size:11.5px;font-weight:600;color:var(--w);margin-top:2px}
     .pgc-host{font-size:10px;color:var(--g2)}
-
-    /* RIGHT DETAIL PANEL */
-    .preview-detail{
-      width:208px;flex-shrink:0;
-      border-left:1px solid rgba(255,255,255,.06);
-      background:linear-gradient(to bottom,#0F0F17,#0A0A0F);
-      display:flex;flex-direction:column;
-    }
-    .pd-top{
-      padding:12px 14px 10px;
-      border-bottom:1px solid rgba(255,255,255,.06);
-      display:flex;align-items:center;justify-content:space-between;
-    }
+    .preview-detail{width:208px;flex-shrink:0;border-left:1px solid rgba(255,255,255,.06);background:linear-gradient(to bottom,#0F0F17,#0A0A0F);display:flex;flex-direction:column}
+    .pd-top{padding:12px 14px 10px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between}
     .pd-badge{font-size:8.5px;font-weight:700;background:#0a9e8f;color:#fff;padding:3px 7px;border-radius:5px;letter-spacing:.04em}
+    .pd-badge.rdp{background:#2563eb}
     .pd-star{color:var(--g3);font-size:14px}
-    .pd-title{font-size:15px;font-weight:700;color:var(--w);padding:10px 14px 0;
-      transition:color .2s;}
+    .pd-title{font-size:15px;font-weight:700;color:var(--w);padding:10px 14px 0}
     .pd-fields{padding:10px 14px;display:flex;flex-direction:column;gap:10px;flex:1}
     .pd-field-label{font-size:9px;font-weight:600;color:var(--g3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
     .pd-field-val{font-size:11px;color:var(--g1)}
     .pd-field-val.offline{display:flex;align-items:center;gap:5px}
-    .pd-offline-dot{width:7px;height:7px;border-radius:50%;background:var(--g3);flex-shrink:0}
+    .pd-offline-dot{width:7px;height:7px;border-radius:50%}
     .pd-pw{display:flex;align-items:center;gap:6px}
     .pd-pw-dots{font-size:13px;color:var(--g1);letter-spacing:1px}
     .pd-pw-show{font-size:9.5px;color:var(--red);cursor:pointer}
-    .pd-connect{
-      margin:12px 14px;
-      background:var(--red);color:#fff;font-size:12px;font-weight:700;
-      border-radius:8px;padding:9px;text-align:center;cursor:pointer;
-      box-shadow:0 6px 18px rgba(255,59,48,.35);
-      transition:transform .18s cubic-bezier(.34,1.56,.64,1),opacity .15s;
-    }
+    .pd-connect{margin:12px 14px;background:var(--red);color:#fff;font-size:12px;font-weight:700;border-radius:8px;padding:9px;text-align:center;cursor:pointer;box-shadow:0 6px 18px rgba(255,59,48,.35);transition:transform .18s cubic-bezier(.34,1.56,.64,1),opacity .15s}
     .pd-connect:hover{transform:translateY(-1px) scale(1.02);opacity:.92}
     .pd-actions{display:flex;align-items:center;justify-content:space-between;padding:0 14px 14px}
     .pd-action-btn{font-size:11px;color:var(--g1);cursor:pointer;transition:color .12s}
     .pd-action-btn:hover{color:var(--w)}
-
-    /* FAVORITES VIEW */
     .preview-fav-grid{padding:20px;display:flex;gap:10px;flex-wrap:wrap;align-content:flex-start}
-    .fav-card{
-      width:160px;background:rgba(10,10,14,.9);
-      border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px;
-      display:flex;flex-direction:column;gap:6px;
-    }
+    .fav-card{width:160px;background:rgba(10,10,14,.9);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:6px}
     .fav-card-top{display:flex;align-items:center;justify-content:space-between}
     .fav-star{color:#f5a623;font-size:13px}
-
-    /* QUICK CONNECT VIEW */
     .preview-qc{flex:1;display:flex;align-items:center;justify-content:center}
-    .qc-modal{
-      background:#181820;border:1px solid var(--bh);
-      border-radius:14px;padding:26px 26px 22px;width:320px;
-      box-shadow:0 24px 60px rgba(0,0,0,.6);
-    }
+    .qc-modal{background:#181820;border:1px solid var(--bh);border-radius:14px;padding:26px 26px 22px;width:320px;box-shadow:0 24px 60px rgba(0,0,0,.6)}
     .qc-title{font-size:16px;font-weight:700;color:var(--w);margin-bottom:4px}
     .qc-sub{font-size:11.5px;color:var(--g2);margin-bottom:18px}
     .qc-tabs{display:flex;gap:2px;background:rgba(255,255,255,.05);border-radius:8px;padding:3px;margin-bottom:16px}
@@ -517,982 +170,543 @@
     .qc-row{display:flex;gap:10px;margin-bottom:10px}
     .qc-field{flex:1;display:flex;flex-direction:column;gap:4px}
     .qc-label{font-size:10.5px;color:var(--g2)}
-    .qc-input{
-      background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.09);
-      border-radius:7px;padding:7px 10px;
-      font-size:11.5px;color:var(--g1);
-    }
+    .qc-input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:7px;padding:7px 10px;font-size:11.5px;color:var(--g1)}
     .qc-btns{display:flex;gap:10px;margin-top:18px;justify-content:flex-end}
-    .qc-cancel{font-size:12px;color:var(--g1);padding:8px 16px;cursor:pointer;transition:color .12s}
-    .qc-cancel:hover{color:var(--w)}
-    .qc-go{
-      background:var(--red);color:#fff;font-size:12px;font-weight:700;
-      padding:8px 18px;border-radius:8px;cursor:pointer;
-      transition:transform .18s cubic-bezier(.34,1.56,.64,1),opacity .15s;
-    }
-    .qc-go:hover{transform:translateY(-1px) scale(1.03);opacity:.9}
-
+    .qc-cancel{font-size:12px;color:var(--g1);padding:8px 16px;cursor:pointer}
+    .qc-go{background:var(--red);color:#fff;font-size:12px;font-weight:700;padding:8px 18px;border-radius:8px;cursor:pointer;transition:transform .18s cubic-bezier(.34,1.56,.64,1)}
+    .qc-go:hover{transform:translateY(-1px) scale(1.03)}
     .preview-view{display:none}
     .preview-view.active{display:flex;flex:1;overflow:hidden}
+    @media(max-width:700px){.preview-sidebar,.preview-detail{display:none}.preview-ui{height:clamp(220px,55vw,360px)}.preview-grid{grid-template-columns:repeat(2,1fr)}.pbar-appsub,.preview-title{display:none}.pwb{width:30px}.ptb-search{display:none}}
 
-    /* Preview mobile responsive */
-    @media(max-width:700px){
-      .preview-sidebar{display:none}
-      .preview-detail{display:none}
-      .preview-ui{height:clamp(220px,55vw,360px)}
-      .preview-grid{grid-template-columns:repeat(2,1fr)}
-      .pbar-appsub{display:none}
-      .preview-title{display:none}
-      .pwb{width:30px}
-      .ptb-search{display:none}
-    }
-
-    /* ═══════════════════════ SECTIONS ═══════════════════════ */
+    /* SECTIONS */
     .w{max-width:980px;margin:0 auto;padding:0 24px}
     .sec{padding:110px 0}
-    .eyebrow{
-      font-size:11px;font-weight:700;text-transform:uppercase;
-      letter-spacing:.1em;color:var(--red);margin-bottom:12px;
-    }
-    .sec-h{
-      font-size:clamp(30px,4.2vw,50px);font-weight:800;
-      line-height:1.05;letter-spacing:-.035em;
-      color:var(--w);margin-bottom:13px;
-    }
-    .sec-p{
-      font-size:16px;color:var(--g1);line-height:1.7;
-      max-width:420px;margin-bottom:50px;
-    }
+    .eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--red);margin-bottom:14px}
+    .sec-h{font-size:clamp(30px,4.2vw,52px);font-weight:800;line-height:1.04;letter-spacing:-.038em;color:var(--w);margin-bottom:14px}
+    .sec-p{font-size:16px;color:var(--g1);line-height:1.75;max-width:420px;margin-bottom:52px}
 
-    /* ═══════════════════════ FEATURES ═══════════════════════ */
-    .feat-grid{
-      display:grid;grid-template-columns:repeat(3,1fr);
-      gap:1px;background:var(--b);
-      border-radius:16px;overflow:hidden;border:1px solid var(--b);
-    }
-    .feat{
-      background:var(--s2);padding:28px 24px;
-      cursor:default;
-      transition:background .2s;
-    }
+    /* FEATURES */
+    .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--b);border-radius:18px;overflow:hidden;border:1px solid var(--b)}
+    .feat{background:var(--s2);padding:30px 26px;cursor:default;transition:background .2s}
     .feat:hover{background:var(--s3)}
-    .feat-ico{
-      width:36px;height:36px;border-radius:10px;
-      background:var(--red-a);
-      display:flex;align-items:center;justify-content:center;
-      margin-bottom:14px;color:var(--red);
-      transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .2s;
-    }
-    .feat:hover .feat-ico{transform:scale(1.12);background:var(--red-b)}
-    .feat-ico svg{width:16px;height:16px}
-    .feat h3{font-size:14px;font-weight:700;color:var(--w);margin-bottom:6px;letter-spacing:-.01em}
-    .feat p{font-size:13px;color:var(--g1);line-height:1.65}
+    .feat-ico{width:38px;height:38px;border-radius:11px;background:var(--red-a);display:flex;align-items:center;justify-content:center;margin-bottom:16px;color:var(--red);transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .2s}
+    .feat:hover .feat-ico{transform:scale(1.14);background:var(--red-b)}
+    .feat-ico svg{width:17px;height:17px}
+    .feat h3{font-size:14px;font-weight:700;color:var(--w);margin-bottom:7px;letter-spacing:-.01em}
+    .feat p{font-size:13px;color:var(--g1);line-height:1.7}
 
-    /* ═══════════════════════ SCREENSHOTS ═══════════════════════ */
+    /* SCREENSHOTS */
     .shots{padding:90px 0 80px}
     .shots-inner{max-width:980px;margin:0 auto;padding:0 24px}
-    .shots-header{text-align:center;margin-bottom:28px}
-    .shots-header .sec-h{font-size:32px;margin-bottom:8px}
+    .shots-header{text-align:center;margin-bottom:32px}
+    .shots-header .sec-h{font-size:clamp(28px,3.8vw,44px);margin-bottom:8px}
     .shots-header .sec-p{margin:0 auto;max-width:460px}
-    .shots-frame{
-      border-radius:18px;
-      border:1px solid var(--b);
-      background:var(--s2);
-      box-shadow:0 32px 90px rgba(0,0,0,.7);
-      overflow:hidden;position:relative;
-      touch-action:pan-y;
-    }
-    .shots-main{
-      width:100%;height:min(480px,60vh);
-      display:flex;align-items:center;justify-content:center;
-      background:#050506;
-    }
-    .shots-main img{width:100%;height:100%;object-fit:contain;display:block}
-    .shots-nav{
-      position:absolute;top:50%;left:0;right:0;
-      display:flex;justify-content:space-between;
-      padding:0 14px;transform:translateY(-50%);
-      pointer-events:none;
-    }
-    .shots-arrow{
-      width:34px;height:34px;border-radius:50%;
-      background:rgba(10,10,14,.8);
-      border:1px solid var(--b);
-      display:flex;align-items:center;justify-content:center;
-      color:var(--g1);cursor:pointer;pointer-events:auto;
-      backdrop-filter:blur(10px);
-      transition:background .15s,color .15s,transform .18s;
-    }
-    .shots-arrow:hover{background:rgba(255,255,255,.12);color:var(--w);transform:scale(1.1)}
+    .shots-frame{border-radius:20px;border:1px solid var(--b);background:var(--s2);box-shadow:0 36px 100px rgba(0,0,0,.75);overflow:hidden;position:relative;touch-action:pan-y}
+    .shots-main{width:100%;height:min(500px,62vh);display:flex;align-items:center;justify-content:center;background:#050506;position:relative;overflow:hidden}
+    .shots-slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity .25s,transform .3s cubic-bezier(.22,1,.36,1)}
+    .shots-slide img{width:100%;height:100%;object-fit:contain;display:block}
+    .shots-slide.active{opacity:1;transform:scale(1);z-index:1}
+    .shots-slide.gone{opacity:0;transform:scale(.99);z-index:0;pointer-events:none}
+    .shots-nav{position:absolute;top:50%;left:0;right:0;display:flex;justify-content:space-between;padding:0 14px;transform:translateY(-50%);pointer-events:none;z-index:2}
+    .shots-arrow{width:36px;height:36px;border-radius:50%;background:rgba(10,10,14,.82);border:1px solid var(--b);display:flex;align-items:center;justify-content:center;color:var(--g1);cursor:pointer;pointer-events:auto;backdrop-filter:blur(12px);transition:background .15s,color .15s,transform .2s}
+    .shots-arrow:hover{background:rgba(255,255,255,.13);color:var(--w);transform:scale(1.1)}
     .shots-arrow svg{width:14px;height:14px}
-    .shots-thumbs{
-      display:flex;gap:8px;padding:10px 12px;
-      background:linear-gradient(to right,#0D0D11,#15151B);
-      border-top:1px solid var(--b);overflow-x:auto;
-    }
-    .shots-thumb{
-      flex:0 0 80px;height:50px;border-radius:9px;
-      border:1px solid var(--b);overflow:hidden;
-      cursor:pointer;opacity:.6;
-      transition:opacity .15s,border-color .15s,transform .18s;
-    }
+    .shots-thumbs{display:flex;gap:8px;padding:12px;background:linear-gradient(to right,#0D0D11,#15151B);border-top:1px solid var(--b);overflow-x:auto}
+    .shots-thumb{flex:0 0 90px;height:56px;border-radius:10px;border:1px solid var(--b);overflow:hidden;cursor:pointer;opacity:.55;transition:opacity .15s,border-color .15s,transform .2s;background:#0A0A0F}
     .shots-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .shots-thumb.active{opacity:1;border-color:var(--red);transform:translateY(-1px)}
+    .shots-thumb.active{opacity:1;border-color:var(--red);transform:translateY(-2px)}
 
-    /* ═══════════════════════ SECURITY ═══════════════════════ */
-    .sec-grid{
-      display:grid;grid-template-columns:repeat(2,1fr);
-      gap:1px;background:var(--b);
-      border-radius:16px;overflow:hidden;border:1px solid var(--b);
-    }
-    .sec-item{background:var(--s2);padding:28px 26px;transition:background .18s}
+    /* SECURITY */
+    .sec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--b);border-radius:18px;overflow:hidden;border:1px solid var(--b)}
+    .sec-item{background:var(--s2);padding:30px 28px;transition:background .18s}
     .sec-item:hover{background:var(--s3)}
-    .sec-tag{
-      font-size:10px;font-weight:700;text-transform:uppercase;
-      letter-spacing:.08em;color:var(--red);margin-bottom:8px;
-    }
-    .sec-item h4{font-size:14px;font-weight:700;color:var(--w);margin-bottom:5px;letter-spacing:-.01em}
-    .sec-item p{font-size:13px;color:var(--g1);line-height:1.6}
+    .sec-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--red);margin-bottom:9px;display:block}
+    .sec-item h4{font-size:14.5px;font-weight:700;color:var(--w);margin-bottom:6px;letter-spacing:-.01em}
+    .sec-item p{font-size:13px;color:var(--g1);line-height:1.65}
 
-    /* ═══════════════════════ DOWNLOAD ═══════════════════════ */
-    .cta-wrap{padding:70px 24px 90px}
-    .cta-card{
-      max-width:520px;margin:0 auto;
-      background:var(--s2);
-      border-radius:22px;border:1px solid var(--b);
-      padding:46px 40px 40px;
-      text-align:center;position:relative;
-      box-shadow:0 30px 90px rgba(0,0,0,.7);
-    }
-    .cta-card::before{
-      content:'';
-      position:absolute;top:-1px;left:20%;right:20%;height:1px;
-      background:linear-gradient(90deg,transparent,rgba(255,59,48,.55),transparent);
-    }
-    .cta-logo{
-      width:54px;height:54px;border-radius:16px;
-      overflow:hidden;margin:0 auto 20px;
-      box-shadow:0 0 0 1px rgba(255,255,255,.08),
-                 0 0 26px rgba(255,59,48,.5);
-    }
+    /* DOWNLOAD */
+    .cta-wrap{padding:70px 24px 100px}
+    .cta-card{max-width:540px;margin:0 auto;background:var(--s2);border-radius:24px;border:1px solid var(--b);padding:50px 44px 44px;text-align:center;position:relative;box-shadow:0 40px 100px rgba(0,0,0,.75)}
+    .cta-card::before{content:'';position:absolute;top:-1px;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,59,48,.6),transparent)}
+    .cta-logo{width:62px;height:62px;border-radius:18px;overflow:hidden;margin:0 auto 22px;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 0 30px rgba(255,59,48,.55)}
     .cta-logo img{width:100%;height:100%;object-fit:cover;display:block}
-    .cta-card h2{font-size:28px;font-weight:800;letter-spacing:-.035em;margin-bottom:8px}
-    .cta-card>p{font-size:14px;color:var(--g1);line-height:1.7;margin-bottom:26px}
-    .cta-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:16px}
-    .cta-meta{font-size:12px;color:var(--g2);margin-top:6px}
-    .cta-meta span{color:var(--w);font-weight:500}
+    .cta-card h2{font-size:30px;font-weight:800;letter-spacing:-.04em;margin-bottom:9px}
+    .cta-card>p{font-size:14px;color:var(--g1);line-height:1.75;margin-bottom:28px}
+    .cta-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:18px}
+    .cta-meta{font-size:12px;color:var(--g2);margin-top:8px}
+    .cta-meta strong{color:var(--g1);font-weight:500}
     .cta-meta a{color:var(--g1);text-decoration:none}
     .cta-meta a:hover{color:var(--w)}
-    .chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:18px}
-    .chip{
-      font-size:11px;font-weight:500;color:var(--g2);
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--b);border-radius:999px;
-      padding:4px 11px;
-    }
+    .chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:20px}
+    .chip{font-size:11px;font-weight:500;color:var(--g2);background:rgba(255,255,255,.04);border:1px solid var(--b);border-radius:999px;padding:4px 12px}
 
-    /* ═══════════════════════ RELEASES ═══════════════════════ */
-    .rel-wrap{padding:40px 24px 80px}
-    .rel-card{
-      max-width:980px;margin:0 auto;
-      border-radius:18px;border:1px solid var(--b);
-      background:var(--s2);padding:26px 24px;
-    }
-    .rel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-    .rel-header h3{font-size:18px;font-weight:700;letter-spacing:-.02em}
+    /* RELEASES */
+    .rel-wrap{padding:40px 24px 90px}
+    .rel-card{max-width:980px;margin:0 auto;border-radius:20px;border:1px solid var(--b);background:var(--s2);padding:28px 26px}
+    .rel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .rel-header h3{font-size:19px;font-weight:700;letter-spacing:-.025em}
     .rel-header span{font-size:12px;color:var(--g2)}
     .rel-list{border-radius:12px;border:1px solid rgba(255,255,255,.05);overflow:hidden}
-    .rel-row{
-      display:grid;grid-template-columns:1.2fr .8fr .6fr .6fr;
-      padding:10px 12px;font-size:12px;color:var(--g1);
-      background:rgba(10,10,14,.9);
-    }
+    .rel-row{display:grid;grid-template-columns:1.2fr .8fr .6fr .6fr;padding:10px 14px;font-size:12px;color:var(--g1);background:rgba(10,10,14,.9)}
     .rel-row:nth-child(odd){background:rgba(14,14,18,.9)}
     .rel-row strong{color:var(--w);font-weight:600}
     .rel-row a{color:var(--red);text-decoration:none;font-weight:500}
     .rel-row a:hover{text-decoration:underline}
 
-    /* ═══════════════════════ FOOTER ═══════════════════════ */
-    footer{
-      border-top:1px solid var(--b);
-      max-width:980px;margin:0 auto;
-      padding:24px;
-      display:flex;align-items:center;justify-content:space-between;
-      font-size:12px;color:var(--g3);
-    }
-    footer ul{display:flex;gap:16px;list-style:none}
+    /* FOOTER */
+    footer{border-top:1px solid var(--b);max-width:980px;margin:0 auto;padding:26px 24px;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--g3)}
+    footer ul{display:flex;gap:18px;list-style:none}
     footer a{color:var(--g2);text-decoration:none}
     footer a:hover{color:var(--w)}
 
-    /* ═══════════════════════ RESPONSIVE ═══════════════════════ */
-    @media(max-width:960px){
-      .feat-grid{grid-template-columns:repeat(2,1fr)}
-      .sec-grid{grid-template-columns:1fr}
-      .rel-row{grid-template-columns:1.4fr .9fr .7fr .7fr}
-    }
-    @media(max-width:720px){
-      nav{padding:0 18px}
-      .nav-r a.nav-hide{display:none}
-      .hero-content{padding-top:64px}
-      .feat-grid{grid-template-columns:1fr}
-      .rel-row{grid-template-columns:1.6fr 1fr}
-      .rel-row span:nth-child(3),.rel-row span:nth-child(4){display:none}
-      .cta-card{padding:36px 24px 32px}
-    }
+    /* RESPONSIVE */
+    @media(max-width:960px){.feat-grid{grid-template-columns:repeat(2,1fr)}.sec-grid{grid-template-columns:1fr}.rel-row{grid-template-columns:1.4fr .9fr .7fr .7fr}}
+    @media(max-width:720px){nav{padding:0 18px}.nav-r a.nav-hide{display:none}.hero-content{padding-top:68px}.feat-grid{grid-template-columns:1fr}.rel-row{grid-template-columns:1.6fr 1fr}.rel-row span:nth-child(3),.rel-row span:nth-child(4){display:none}.cta-card{padding:38px 26px 34px}footer{flex-direction:column;gap:14px;text-align:center}}
 
-    /* ═══════════════════════ SCROLL REVEAL ═══════════════════════ */
-    .rev{
-      opacity:0;transform:translateY(28px);
-      transition:opacity .7s cubic-bezier(.22,1,.36,1),
-                 transform .7s cubic-bezier(.22,1,.36,1);
-    }
+    /* REVEAL */
+    .rev{opacity:0;transform:translateY(28px);transition:opacity .72s cubic-bezier(.22,1,.36,1),transform .72s cubic-bezier(.22,1,.36,1)}
     .rev.in{opacity:1;transform:none}
-    .rev-s{
-      opacity:0;transform:scale(.97) translateY(20px);
-      transition:opacity .8s cubic-bezier(.22,1,.36,1),
-                 transform .8s cubic-bezier(.22,1,.36,1);
-    }
+    .rev-s{opacity:0;transform:scale(.97) translateY(22px);transition:opacity .85s cubic-bezier(.22,1,.36,1),transform .85s cubic-bezier(.22,1,.36,1)}
     .rev-s.in{opacity:1;transform:none}
-    .stag>*{
-      opacity:0;transform:translateY(24px);
-      transition:opacity .6s cubic-bezier(.22,1,.36,1),
-                 transform .6s cubic-bezier(.22,1,.36,1);
-    }
-    .stag.in>*:nth-child(1){opacity:1;transform:none;transition-delay:.00s}
-    .stag.in>*:nth-child(2){opacity:1;transform:none;transition-delay:.06s}
-    .stag.in>*:nth-child(3){opacity:1;transform:none;transition-delay:.12s}
-    .stag.in>*:nth-child(4){opacity:1;transform:none;transition-delay:.18s}
-    .stag.in>*:nth-child(5){opacity:1;transform:none;transition-delay:.24s}
-    .stag.in>*:nth-child(6){opacity:1;transform:none;transition-delay:.30s}
-    .stag.in>*:nth-child(7){opacity:1;transform:none;transition-delay:.36s}
-    .stag.in>*:nth-child(8){opacity:1;transform:none;transition-delay:.42s}
+    .stag>*{opacity:0;transform:translateY(22px);transition:opacity .62s cubic-bezier(.22,1,.36,1),transform .62s cubic-bezier(.22,1,.36,1)}
+    .stag.in>*:nth-child(1){opacity:1;transform:none;transition-delay:0s}
+    .stag.in>*:nth-child(2){opacity:1;transform:none;transition-delay:.07s}
+    .stag.in>*:nth-child(3){opacity:1;transform:none;transition-delay:.14s}
+    .stag.in>*:nth-child(4){opacity:1;transform:none;transition-delay:.21s}
+    .stag.in>*:nth-child(5){opacity:1;transform:none;transition-delay:.28s}
+    .stag.in>*:nth-child(6){opacity:1;transform:none;transition-delay:.35s}
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav id="nav">
-    <a href="#hero" class="nav-l">
-      <div class="nav-logo"><img src="logo.png" alt="ReMa Logo"></div>
-      <span class="nav-name">ReMa</span>
+<nav id="nav">
+  <a href="#hero" class="nav-l">
+    <div class="nav-logo"><img src="logo.png" alt="ReMa Logo"></div>
+    <span class="nav-name">ReMa</span>
+  </a>
+  <div class="nav-r">
+    <a href="#features" class="nav-hide" data-i18n="nav.features">Features</a>
+    <a href="#security" class="nav-hide" data-i18n="nav.security">Sicherheit</a>
+    <a href="#releases" data-i18n="nav.releases">Releases</a>
+    <a href="#download" class="nav-dl-btn" id="nav-dl-link">
+      <svg viewBox="0 0 16 16"><path fill="currentColor" d="M7.25 2.25a.75.75 0 0 1 1.5 0v6.19l2.22-2.22a.75.75 0 1 1 1.06 1.06l-3.5 3.5a.75.75 0 0 1-1.06 0l-3.5-3.5a.75.75 0 0 1 1.06-1.06L7.25 8.44V2.25z"/><path fill="currentColor" d="M3.5 12.25a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1-.75-.75z"/></svg>
+      <span data-i18n="nav.download">Download für Windows</span>
     </a>
-    <div class="nav-r">
-      <a href="#features" class="nav-hide">Features</a>
-      <a href="#security" class="nav-hide">Sicherheit</a>
-      <a href="#releases">Releases</a>
-      <a href="#download" class="nav-dl-btn">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M7.25 2.25a.75.75 0 0 1 1.5 0v6.19l2.22-2.22a.75.75 0 1 1 1.06 1.06l-3.5 3.5a.75.75 0 0 1-1.06 0l-3.5-3.5a.75.75 0 0 1 1.06-1.06L7.25 8.44V2.25z"/><path fill="currentColor" d="M3.5 12.25a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1-.75-.75z"/></svg>
-        <span>Download für Windows</span>
+    <div class="lang-pill">
+      <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.75c0 0-2 2-2 6.25s2 6.25 2 6.25" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.75c0 0 2 2 2 6.25S8 14.25 8 14.25" stroke="currentColor" stroke-width="1.3"/><line x1="1.75" y1="8" x2="14.25" y2="8" stroke="currentColor" stroke-width="1.3"/><line x1="2.25" y1="5.5" x2="13.75" y2="5.5" stroke="currentColor" stroke-width="1.3"/><line x1="2.25" y1="10.5" x2="13.75" y2="10.5" stroke="currentColor" stroke-width="1.3"/></svg>
+      <span id="lang-label">Deutsch</span>
+      <div class="lang-btns">
+        <button class="lang-btn active" data-lang="de">DE</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+        <button class="lang-btn" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="zh">中文</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section id="hero" class="hero">
+  <div class="hero-content">
+    <div class="hero-logo-stack">
+      <img src="logo.png" alt="ReMa Logo">
+      <div class="hero-logo-label" data-i18n="hero.logoLabel">Remote Manager für Windows</div>
+    </div>
+    <h1 class="hero-h1">
+      <span class="word w1" data-i18n="hero.h1.w1">Alle</span> <span class="word w2 acc" data-i18n="hero.h1.w2">Geräte.</span>
+      <span class="br"></span>
+      <span class="word w3" data-i18n="hero.h1.w3">Unter</span> <span class="word w4" data-i18n="hero.h1.w4">Kontrolle.</span>
+    </h1>
+    <p class="hero-sub" data-i18n="hero.sub">Sicherer Remote-Zugriff für Windows. Multi-Monitor, verschlüsselt und lokal – ohne Cloud, ohne Telemetrie.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary" id="hero-download">
+        <svg viewBox="0 0 16 16"><path fill="currentColor" d="M7.25 2.25a.75.75 0 0 1 1.5 0v6.19l2.22-2.22a.75.75 0 1 1 1.06 1.06l-3.5 3.5a.75.75 0 0 1-1.06 0l-3.5-3.5a.75.75 0 0 1 1.06-1.06L7.25 8.44V2.25z"/><path fill="currentColor" d="M3.5 12.25a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1-.75-.75z"/></svg>
+        <span data-i18n="hero.cta.download">Download für Windows</span>
+      </button>
+      <a href="#releases" class="btn-secondary">
+        <svg viewBox="0 0 16 16"><path fill="currentColor" d="M3.25 2.75A.75.75 0 0 1 4 2h8a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-1.28.53L8 10.06l-3.47 3.72a.75.75 0 0 1-1.28-.53V2.75z"/></svg>
+        <span data-i18n="nav.releases">Releases</span>
       </a>
-      <div class="lang-pill" id="lang-pill">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1.25a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5zm0 1.5a5.23 5.23 0 0 1 1.4.2 9.3 9.3 0 0 1-.9 2.3H7.5V2.8A5.3 5.3 0 0 1 8 2.75zm-1.5.05v2.5H5.5a9.3 9.3 0 0 1-.9-2.3 5.23 5.23 0 0 1 1.9-.2zm-3 1.3a7.8 7.8 0 0 0 .7 2.1H3.1a5.3 5.3 0 0 1 .6-2.1zm0 3.6h1.1a9.2 9.2 0 0 0-.7 2.1 5.3 5.3 0 0 1-.4-2.1zm1.9 0h1.6v2.5a5.2 5.2 0 0 1-1.9-.2 9.3 9.3 0 0 1 .3-2.3zm3.1 0h1.6a9.3 9.3 0 0 1 .3 2.3 5.2 5.2 0 0 1-1.9.2V8.25zm2.5 0h1.1a5.3 5.3 0 0 1-.4 2.1 7.8 7.8 0 0 0-.7-2.1zm1.1-1.5h-1.1a7.8 7.8 0 0 0 .7-2.1 5.3 5.3 0 0 1 .4 2.1z"/></svg>
-        <span id="lang-label">Deutsch</span>
-        <div class="lang-menu-inline">
-          <button data-lang="de" class="active">DE</button>
-          <button data-lang="en">EN</button>
-          <button data-lang="fr">FR</button>
-          <button data-lang="es">ES</button>
-          <button data-lang="zh">中文</button>
+    </div>
+    <div class="hero-meta"><strong id="meta-version">v1.0.0</strong> · <span data-i18n="hero.meta">lokal · kostenlos · Windows</span></div>
+    <div class="scroll-cue" id="scroll-cue" aria-hidden="true">
+      <span data-i18n="hero.scroll">Scroll</span>
+      <div class="scroll-cue-chev"></div>
+    </div>
+  </div>
+
+  <div class="hero-preview" id="hero-preview">
+    <div class="preview-frame">
+      <div class="preview-bar">
+        <div class="preview-bar-l">
+          <img src="logo.png" class="pbar-logo" alt="" aria-hidden="true">
+          <span class="pbar-appname">ReMa</span>
+          <span class="pbar-appsub">RemoteManager</span>
+        </div>
+        <span class="preview-title" id="prev-titlebar">Meine Geräte — ReMa</span>
+        <div class="preview-winbtns" aria-hidden="true">
+          <div class="pwb"><svg width="10" height="1" viewBox="0 0 10 1"><line x1="0" y1=".5" x2="10" y2=".5" stroke="currentColor" stroke-width="1"/></svg></div>
+          <div class="pwb"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x=".5" y=".5" width="8" height="8" stroke="currentColor"/></svg></div>
+          <div class="pwb pwb-close"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="1" y1="1" x2="9" y2="9" stroke="currentColor" stroke-width="1.2"/><line x1="9" y1="1" x2="1" y2="9" stroke="currentColor" stroke-width="1.2"/></svg></div>
+        </div>
+      </div>
+      <div class="preview-ui">
+        <div class="preview-sidebar">
+          <div class="ps-logo">
+            <img src="logo.png" class="ps-logo-ico" alt="" aria-hidden="true">
+            <div><div class="ps-logo-txt">ReMa</div><div class="ps-logo-sub">RemoteManager</div></div>
+          </div>
+          <div class="ps-nav">
+            <div class="ps-item active" id="nav-all" onclick="prevSetView('all')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+              <span data-i18n="preview.allDevices">Alle Geräte</span>
+            </div>
+            <div class="ps-item" id="nav-fav" onclick="prevSetView('fav')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span data-i18n="preview.favorites">Favoriten</span>
+            </div>
+            <div class="ps-item" id="nav-quick" onclick="prevSetView('quick')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+              <span data-i18n="preview.quickConnect">Schnellverbinden</span>
+            </div>
+          </div>
+          <div class="ps-section" data-i18n="preview.folders">Ordner</div>
+          <div class="ps-nav">
+            <div class="ps-folder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>devices</span></div>
+            <div class="ps-folder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>rasp</span></div>
+            <div class="ps-folder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg><span>Management PC</span><div class="ps-folder-dot on"></div></div>
+          </div>
+        </div>
+
+        <div class="preview-view active" id="view-all">
+          <div class="preview-main">
+            <div class="preview-topbar">
+              <span class="ptb-tab active" data-i18n="preview.overview">Übersicht</span>
+              <div class="ptb-spacer"></div>
+              <div class="ptb-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span data-i18n="preview.search">Suchen</span></div>
+              <div class="ptb-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span data-i18n="preview.device">Gerät</span></div>
+            </div>
+            <div class="preview-body">
+              <div class="preview-grid-wrap">
+                <div class="preview-grid" id="device-grid">
+                  <div class="pg-card selected" data-name="SV-CTRX" data-host="192.168.1.10" data-proto="VNC" data-online="1" onclick="prevSelectDevice(this)"><div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot on"></div></div><div class="pgc-name">SV-CTRX</div><div class="pgc-host">192.168.1.10</div></div>
+                  <div class="pg-card" data-name="Raspberry" data-host="192.168.1.21" data-proto="VNC" data-online="0" onclick="prevSelectDevice(this)"><div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot off"></div></div><div class="pgc-name">Raspberry</div><div class="pgc-host">192.168.1.21</div></div>
+                  <div class="pg-card" data-name="PC-User01" data-host="10.0.0.5" data-proto="VNC" data-online="0" onclick="prevSelectDevice(this)"><div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot off"></div></div><div class="pgc-name">PC-User01</div><div class="pgc-host">10.0.0.5</div></div>
+                  <div class="pg-card" data-name="PC-IT01" data-host="10.0.0.44" data-proto="VNC" data-online="1" onclick="prevSelectDevice(this)"><div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot on"></div></div><div class="pgc-name">PC-IT01</div><div class="pgc-host">10.0.0.44</div></div>
+                  <div class="pg-card" data-name="SV-DomCTRL01" data-host="192.168.1.33" data-proto="RDP" data-online="1" onclick="prevSelectDevice(this)"><div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div><div class="pgc-name">SV-DomCTRL01</div><div class="pgc-host">192.168.1.33</div></div>
+                  <div class="pg-card" data-name="SV-DomCTRL02" data-host="10.0.0.12" data-proto="RDP" data-online="1" onclick="prevSelectDevice(this)"><div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div><div class="pgc-name">SV-DomCTRL02</div><div class="pgc-host">10.0.0.12</div></div>
+                  <div class="pg-card" data-name="SERVER" data-host="10.0.0.1" data-proto="RDP" data-online="1" onclick="prevSelectDevice(this)"><div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div><div class="pgc-name">SERVER</div><div class="pgc-host">10.0.0.1</div></div>
+                  <div class="pg-card" data-name="Management PC" data-host="10.0.1.250" data-proto="RDP" data-online="1" onclick="prevSelectDevice(this)"><div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div><div class="pgc-name">Management PC</div><div class="pgc-host">10.0.1.250</div></div>
+                </div>
+              </div>
+              <div class="preview-detail">
+                <div class="pd-top"><span class="pd-badge" id="pd-proto">VNC</span><span class="pd-star">★</span></div>
+                <div class="pd-title" id="pd-title">SV-CTRX</div>
+                <div class="pd-fields">
+                  <div><div class="pd-field-label" data-i18n="detail.status">Status</div><div class="pd-field-val offline" id="pd-status"><div class="pd-offline-dot" style="background:#30D158"></div><span data-i18n="detail.online">Online</span></div></div>
+                  <div><div class="pd-field-label" data-i18n="detail.address">Adresse</div><div class="pd-field-val" id="pd-host">192.168.1.10</div></div>
+                  <div><div class="pd-field-label" data-i18n="detail.password">Passwort</div><div class="pd-pw"><span class="pd-pw-dots">••••••••</span><span class="pd-pw-show" data-i18n="detail.show">Anzeigen</span></div></div>
+                  <div><div class="pd-field-label" data-i18n="detail.folder">Ordner</div><div class="pd-field-val">devices</div></div>
+                </div>
+                <div class="pd-connect" data-i18n="detail.connect">Verbinden</div>
+                <div class="pd-actions"><span class="pd-action-btn" data-i18n="detail.edit">Bearbeiten</span><span class="pd-action-btn" style="color:#ff6b61" data-i18n="detail.delete">Löschen</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-view" id="view-fav">
+          <div class="preview-main">
+            <div class="preview-topbar"><span class="ptb-tab active" data-i18n="preview.favorites">Favoriten</span></div>
+            <div class="preview-fav-grid">
+              <div class="fav-card"><div class="fav-card-top"><span class="pgc-badge rdp">RDP</span><span class="fav-star">★</span></div><div class="pgc-name">Management PC</div><div class="pgc-host">10.0.1.250</div></div>
+              <div class="fav-card"><div class="fav-card-top"><span class="pgc-badge">VNC</span><span class="fav-star">★</span></div><div class="pgc-name">SV-CTRX</div><div class="pgc-host">192.168.1.10</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-view" id="view-quick">
+          <div class="preview-main">
+            <div class="preview-qc">
+              <div class="qc-modal">
+                <div class="qc-title" data-i18n="qc.title">Schnellverbinden</div>
+                <div class="qc-sub" data-i18n="qc.sub">Sofort verbinden — ohne Gerät zu speichern.</div>
+                <div class="qc-tabs"><div class="qc-tab active">RDP</div><div class="qc-tab">VNC</div></div>
+                <div class="qc-row"><div class="qc-field" style="flex:2"><span class="qc-label" data-i18n="qc.host">Host oder IP-Adresse</span><div class="qc-input">&nbsp;</div></div><div class="qc-field"><span class="qc-label" data-i18n="qc.port">Port</span><div class="qc-input">3389</div></div></div>
+                <div class="qc-row"><div class="qc-field"><span class="qc-label" data-i18n="qc.user">Benutzername</span><div class="qc-input">&nbsp;</div></div><div class="qc-field"><span class="qc-label" data-i18n="qc.domain">Domäne (optional)</span><div class="qc-input">&nbsp;</div></div></div>
+                <div class="qc-btns"><span class="qc-cancel" data-i18n="qc.cancel">Abbrechen</span><span class="qc-go" data-i18n="qc.connect">Verbinden</span></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </nav>
+  </div>
+</section>
 
-  <!-- HERO -->
-  <section id="hero" class="hero">
-    <div class="hero-content">
-      <div class="hero-logo-stack">
-        <img src="logo.png" alt="ReMa Logo">
-        <div class="hero-logo-label">Remote Manager für Windows</div>
-      </div>
-
-      <h1 class="hero-h1">
-        <span class="word w1">Alle</span>&thinsp;<span class="word w2">Geräte.</span>
-        <span class="br"></span>
-        <span class="word w3">Unter</span>&thinsp;<span class="word w4">Kontrolle.</span>
-      </h1>
-
-      <p class="hero-sub">
-        Sicherer Remote-Zugriff für Windows. Multi-Monitor, verschlüsselt und lokal – ohne Cloud, ohne Telemetrie.
-      </p>
-      <div class="hero-ctas">
-        <button class="btn-primary" id="hero-download">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M7.25 2.25a.75.75 0 0 1 1.5 0v6.19l2.22-2.22a.75.75 0 1 1 1.06 1.06l-3.5 3.5a.75.75 0 0 1-1.06 0l-3.5-3.5a.75.75 0 0 1 1.06-1.06L7.25 8.44V2.25z"/><path fill="currentColor" d="M3.5 12.25a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1-.75-.75z"/></svg>
-          <span>Download für Windows</span>
-        </button>
-        <a href="#releases" class="btn-secondary">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.25 2.75A.75.75 0 0 1 4 2h8a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-1.28.53L8 10.06l-3.47 3.72a.75.75 0 0 1-1.28-.53V2.75z"/></svg>
-          Releases
-        </a>
-      </div>
-      <div class="hero-meta">
-        <span id="meta-version">v1.0.0</span> · lokal · kostenlos · Windows
-      </div>
-      <div class="scroll-cue" id="scroll-cue" aria-hidden="true">
-        <span>Scroll</span>
-        <div class="scroll-cue-chev"></div>
-      </div>
+<section id="features" class="sec">
+  <div class="w">
+    <div class="eyebrow rev" data-i18n="feat.eyebrow">Features</div>
+    <h2 class="sec-h rev" style="transition-delay:.08s" data-i18n="feat.h">Alles, was zählt.</h2>
+    <p class="sec-p rev" style="transition-delay:.16s" data-i18n="feat.p">ReMa konzentriert sich auf das Wesentliche: stabile Verbindungen, klare Organisation und volle Kontrolle – ohne Ballast.</p>
+    <div class="feat-grid stag">
+      <div class="feat"><div class="feat-ico"><svg viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="6" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="6" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="9" width="6" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="6" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/></svg></div><h3 data-i18n="feat.1.h">Multi-Monitor</h3><p data-i18n="feat.1.p">Jeden Monitor separat oder gemeinsam verwalten. Präzise Kontrolle für komplexe Setups.</p></div>
+      <div class="feat"><div class="feat-ico"><svg viewBox="0 0 16 16" fill="none"><rect x="3" y="6" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 6V4.5a3 3 0 0 1 6 0V6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="10" r="1.2" fill="currentColor"/></svg></div><h3 data-i18n="feat.2.h">Verschlüsselter Vault</h3><p data-i18n="feat.2.p">AES-256-GCM. Lokale Speicherung. Keine Klartext-Passwörter, keine Cloud-Abhängigkeit.</p></div>
+      <div class="feat"><div class="feat-ico"><svg viewBox="0 0 16 16" fill="none"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h4L9 5h3.5A1.5 1.5 0 0 1 14 6.5v6A1.5 1.5 0 0 1 12.5 14h-9A1.5 1.5 0 0 1 2 12.5v-8z" stroke="currentColor" stroke-width="1.3"/></svg></div><h3 data-i18n="feat.3.h">Ordner &amp; Favoriten</h3><p data-i18n="feat.3.p">Geräte organisieren, Tags verwenden, Favoriten setzen. Schneller Zugriff auf das, was zählt.</p></div>
+      <div class="feat"><div class="feat-ico"><svg viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="14" height="5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="9" width="14" height="5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="4" cy="4.5" r="1" fill="currentColor"/><circle cx="4" cy="11.5" r="1" fill="currentColor"/></svg></div><h3 data-i18n="feat.4.h">Layout-Erkennung</h3><p data-i18n="feat.4.p">Monitor-Layouts automatisch erkennen, manuell anpassen. ReMa versteht deine Umgebung.</p></div>
+      <div class="feat"><div class="feat-ico"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 8a2.5 2.5 0 0 1 5 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M8 5.5v1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div><h3 data-i18n="feat.5.h">Hell &amp; Dunkel</h3><p data-i18n="feat.5.p">Systemintegration oder manuelle Auswahl. ReMa fügt sich nahtlos in dein Setup ein.</p></div>
+      <div class="feat"><div class="feat-ico"><svg viewBox="0 0 16 16" fill="none"><path d="M8 2L9.5 6h4.5L10.5 9l1.5 4.5L8 11l-4 2.5L5.5 9 2 6h4.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></div><h3 data-i18n="feat.6.h">Zero Telemetrie</h3><p data-i18n="feat.6.p">Keine Datensammlung, keine versteckten Requests. ReMa bleibt lokal – Punkt.</p></div>
     </div>
+  </div>
+</section>
 
-    <!-- APP PREVIEW — real window frame, rising from bottom -->
-    <div class="hero-preview" id="hero-preview">
-      <div class="preview-frame">
-        <div class="preview-bar">
-          <div class="preview-bar-l">
-            <img src="logo.png" class="pbar-logo" alt="" aria-hidden="true">
-            <span class="pbar-appname">ReMa</span>
-            <span class="pbar-appsub">RemoteManager</span>
-          </div>
-          <span class="preview-title" id="prev-titlebar">Meine Geräte — ReMa</span>
-          <div class="preview-winbtns" aria-hidden="true">
-            <div class="pwb pwb-min"><svg width="10" height="1" viewBox="0 0 10 1"><line x1="0" y1=".5" x2="10" y2=".5" stroke="currentColor" stroke-width="1"/></svg></div>
-            <div class="pwb pwb-max"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x=".5" y=".5" width="8" height="8" stroke="currentColor"/></svg></div>
-            <div class="pwb pwb-close"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="1" y1="1" x2="9" y2="9" stroke="currentColor" stroke-width="1.2"/><line x1="9" y1="1" x2="1" y2="9" stroke="currentColor" stroke-width="1.2"/></svg></div>
-          </div>
-        </div>
-
-        <div class="preview-ui">
-
-          <!-- LEFT SIDEBAR — clickable navigation -->
-          <div class="preview-sidebar">
-            <div class="ps-logo">
-              <img src="logo.png" class="ps-logo-ico" alt="" aria-hidden="true">
-              <div><div class="ps-logo-txt">ReMa</div><div class="ps-logo-sub">RemoteManager</div></div>
-            </div>
-            <div class="ps-nav">
-              <div class="ps-item active" id="nav-all" onclick="prevSetView('all')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
-                <span>Alle Geräte</span>
-              </div>
-              <div class="ps-item" id="nav-fav" onclick="prevSetView('fav')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span>Favoriten</span>
-              </div>
-              <div class="ps-item" id="nav-quick" onclick="prevSetView('quick')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
-                <span>Schnellverbinden</span>
-              </div>
-            </div>
-            <div class="ps-section">Ordner</div>
-            <div class="ps-nav">
-              <div class="ps-folder">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
-                <span>devices</span>
-              </div>
-              <div class="ps-folder">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
-                <span>rasp</span>
-              </div>
-              <div class="ps-folder">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg>
-                <span>Management PC</span>
-                <div class="ps-folder-dot on"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- VIEW: All devices -->
-          <div class="preview-view active" id="view-all">
-            <div class="preview-main">
-              <div class="preview-topbar">
-                <span class="ptb-tab active">Übersicht</span>
-                <div class="ptb-spacer"></div>
-                <div class="ptb-search">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                  <span>Suchen</span>
-                </div>
-                <div class="ptb-add">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                  <span>Gerät</span>
-                </div>
-              </div>
-              <div class="preview-body">
-                <div class="preview-grid-wrap">
-                  <div class="preview-grid" id="device-grid">
-                    <div class="pg-card selected" data-name="SV-CTRX" data-host="192.168.1.10" data-proto="VNC" data-online="1" onclick="prevSelectDevice(this)">
-                      <div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot on"></div></div>
-                      <div class="pgc-name">SV-CTRX</div><div class="pgc-host">192.168.1.10</div>
-                    </div>
-                    <div class="pg-card" data-name="Raspberry" data-host="192.168.1.21" data-proto="VNC" data-online="0" onclick="prevSelectDevice(this)">
-                      <div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot off"></div></div>
-                      <div class="pgc-name">Raspberry</div><div class="pgc-host">192.168.1.21</div>
-                    </div>
-                    <div class="pg-card" data-name="PC-User01" data-host="10.0.0.5" data-proto="VNC" data-online="0" onclick="prevSelectDevice(this)">
-                      <div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot off"></div></div>
-                      <div class="pgc-name">PC-User01</div><div class="pgc-host">10.0.0.5</div>
-                    </div>
-                    <div class="pg-card" data-name="PC-IT01" data-host="10.0.0.44" data-proto="VNC" data-online="1" onclick="prevSelectDevice(this)">
-                      <div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot on"></div></div>
-                      <div class="pgc-name">PC-IT01</div><div class="pgc-host">10.0.0.44</div>
-                    </div>
-                    <div class="pg-card" data-name="SV-DomCTRL01" data-host="192.168.1.33" data-proto="RDP" data-online="1" onclick="prevSelectDevice(this)">
-                      <div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div>
-                      <div class="pgc-name">SV-DomCTRL01</div><div class="pgc-host">192.168.1.33</div>
-                    </div>
-                    <div class="pg-card" data-name="SV-DomCTRL02" data-host="10.0.0.12" data-proto="RDP" data-online="1" onclick="prevSelectDevice(this)">
-                      <div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div>
-                      <div class="pgc-name">SV-DomCTRL02</div><div class="pgc-host">10.0.0.12</div>
-                    </div>
-                    <div class="pg-card" data-name="SERVER" data-host="10.0.0.1" data-proto="RDP" data-online="1" onclick="prevSelectDevice(this)">
-                      <div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div>
-                      <div class="pgc-name">SERVER</div><div class="pgc-host">10.0.0.1</div>
-                    </div>
-                    <div class="pg-card" data-name="Management PC" data-host="10.0.1.250" data-proto="RDP" data-online="1" onclick="prevSelectDevice(this)">
-                      <div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div>
-                      <div class="pgc-name">Management PC</div><div class="pgc-host">10.0.1.250</div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- RIGHT DETAIL PANEL -->
-                <div class="preview-detail">
-                  <div class="pd-top">
-                    <span class="pd-badge" id="pd-proto">VNC</span>
-                    <span class="pd-star">★</span>
-                  </div>
-                  <div class="pd-title" id="pd-title">SV-CTRX</div>
-                  <div class="pd-fields">
-                    <div>
-                      <div class="pd-field-label">Status</div>
-                      <div class="pd-field-val offline" id="pd-status">
-                        <div class="pd-offline-dot" style="background:#30D158"></div>
-                        <span>Online</span>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="pd-field-label">Adresse</div>
-                      <div class="pd-field-val" id="pd-host">192.168.1.10</div>
-                    </div>
-                    <div>
-                      <div class="pd-field-label">Passwort</div>
-                      <div class="pd-pw">
-                        <span class="pd-pw-dots">••••••••</span>
-                        <span class="pd-pw-show">Anzeigen</span>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="pd-field-label">Ordner</div>
-                      <div class="pd-field-val">devices</div>
-                    </div>
-                  </div>
-                  <div class="pd-connect">Verbinden</div>
-                  <div class="pd-actions">
-                    <span class="pd-action-btn">Bearbeiten</span>
-                    <span class="pd-action-btn" style="color:#ff6b61">Löschen</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- VIEW: Favorites -->
-          <div class="preview-view" id="view-fav">
-            <div class="preview-main">
-              <div class="preview-topbar">
-                <span class="ptb-tab active">Favoriten</span>
-              </div>
-              <div class="preview-fav-grid">
-                <div class="fav-card">
-                  <div class="fav-card-top"><span class="pgc-badge rdp">RDP</span><span class="fav-star">★</span></div>
-                  <div class="pgc-name">Management PC</div>
-                  <div class="pgc-host">10.0.1.250</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- VIEW: Quick connect -->
-          <div class="preview-view" id="view-quick">
-            <div class="preview-main">
-              <div class="preview-qc">
-                <div class="qc-modal">
-                  <div class="qc-title">Schnellverbinden</div>
-                  <div class="qc-sub">Sofort verbinden — ohne Gerät zu speichern.</div>
-                  <div class="qc-tabs">
-                    <div class="qc-tab active">RDP</div>
-                    <div class="qc-tab">VNC</div>
-                  </div>
-                  <div class="qc-row">
-                    <div class="qc-field" style="flex:2">
-                      <span class="qc-label">Host oder IP-Adresse</span>
-                      <div class="qc-input">&nbsp;</div>
-                    </div>
-                    <div class="qc-field">
-                      <span class="qc-label">Port</span>
-                      <div class="qc-input">3389</div>
-                    </div>
-                  </div>
-                  <div class="qc-row">
-                    <div class="qc-field">
-                      <span class="qc-label">Benutzername</span>
-                      <div class="qc-input">&nbsp;</div>
-                    </div>
-                    <div class="qc-field">
-                      <span class="qc-label">Domäne (optional)</span>
-                      <div class="qc-input">&nbsp;</div>
-                    </div>
-                  </div>
-                  <div class="qc-btns">
-                    <span class="qc-cancel">Abbrechen</span>
-                    <span class="qc-go">Verbinden</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
+<section class="shots">
+  <div class="shots-inner">
+    <div class="shots-header">
+      <div class="eyebrow rev" data-i18n="shots.eyebrow">Produkt</div>
+      <h2 class="sec-h rev" style="transition-delay:.08s" data-i18n="shots.h">Die Anwendung im Mittelpunkt.</h2>
+      <p class="sec-p rev" style="transition-delay:.16s" data-i18n="shots.p">ReMa ist eine echte Windows-Anwendung. Die Screenshots zeigen das Produkt, nicht Marketing-Illustrationen.</p>
     </div>
-  </section>
-
-
-  <!-- FEATURES -->
-  <section id="features" class="sec">
-    <div class="w">
-      <div class="eyebrow rev">Features</div>
-      <h2 class="sec-h rev" style="transition-delay:.08s">Alles, was zählt.</h2>
-      <p class="sec-p rev" style="transition-delay:.16s">
-        ReMa konzentriert sich auf das Wesentliche: stabile Verbindungen, klare Organisation und volle Kontrolle – ohne Ballast.
-      </p>
-      <div class="feat-grid stag">
-        <div class="feat">
-          <div class="feat-ico">
-            <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="6" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="6" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="9" width="6" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="6" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/></svg>
-          </div>
-          <h3>Multi-Monitor</h3>
-          <p>Jeden Monitor separat oder gemeinsam verwalten. Präzise Kontrolle für komplexe Setups.</p>
-        </div>
-        <div class="feat">
-          <div class="feat-ico">
-            <svg viewBox="0 0 16 16" fill="none"><rect x="3" y="6" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 6V4.5a3 3 0 0 1 6 0V6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="10" r="1.2" fill="currentColor"/></svg>
-          </div>
-          <h3>Verschlüsselter Vault</h3>
-          <p>AES-256-GCM. Lokale Speicherung. Keine Klartext-Passwörter, keine Cloud-Abhängigkeit.</p>
-        </div>
-        <div class="feat">
-          <div class="feat-ico">
-            <svg viewBox="0 0 16 16" fill="none"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h4L9 5h3.5A1.5 1.5 0 0 1 14 6.5v6A1.5 1.5 0 0 1 12.5 14h-9A1.5 1.5 0 0 1 2 12.5v-8z" stroke="currentColor" stroke-width="1.3"/></svg>
-          </div>
-          <h3>Ordner & Favoriten</h3>
-          <p>Geräte organisieren, Tags verwenden, Favoriten setzen. Schneller Zugriff auf das, was zählt.</p>
-        </div>
-        <div class="feat">
-          <div class="feat-ico">
-            <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="14" height="5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="9" width="14" height="5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="4" cy="4.5" r="1" fill="currentColor"/><circle cx="4" cy="11.5" r="1" fill="currentColor"/></svg>
-          </div>
-          <h3>Layout-Erkennung</h3>
-          <p>Monitor-Layouts automatisch erkennen, manuell anpassen. ReMa versteht deine Umgebung.</p>
-        </div>
-        <div class="feat">
-          <div class="feat-ico">
-            <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M8 2v6l3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-          </div>
-          <h3>Hell & Dunkel</h3>
-          <p>Systemintegration oder manuelle Auswahl. ReMa fügt sich nahtlos in dein Setup ein.</p>
-        </div>
-        <div class="feat">
-          <div class="feat-ico">
-            <svg viewBox="0 0 16 16" fill="none"><path d="M8 2L9.5 6h4.5L10.5 9l1.5 4.5L8 11l-4 2.5L5.5 9 2 6h4.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
-          </div>
-          <h3>Zero Telemetrie</h3>
-          <p>Keine Datensammlung, keine versteckten Requests. ReMa bleibt lokal – Punkt.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRODUCT SCREENSHOTS -->
-  <section class="shots">
-    <div class="shots-inner">
-      <div class="shots-header">
-        <div class="eyebrow rev">Produkt</div>
-        <h2 class="sec-h rev" style="transition-delay:.08s">Die Anwendung im Mittelpunkt.</h2>
-        <p class="sec-p rev" style="transition-delay:.16s">
-          ReMa ist eine echte Windows-Anwendung. Die Screenshots zeigen das Produkt, nicht Marketing-Illustrationen.
-        </p>
-      </div>
-      <div class="shots-frame rev-s" id="shots-frame">
-        <div class="shots-main">
-          <img src="screenshot-main.png" alt="ReMa Übersicht" id="shots-main-img">
-        </div>
+    <div class="shots-frame rev-s" id="shots-frame">
+      <div class="shots-main">
+        <div class="shots-slide active" data-idx="0"><img src="screenshot-main.png" alt="ReMa Übersicht"></div>
+        <div class="shots-slide gone" data-idx="1"><img src="screenshot-settings.png" alt="ReMa Einstellungen"></div>
+        <div class="shots-slide gone" data-idx="2"><img src="screenshot-unlock.png" alt="ReMa Entsperren"></div>
         <div class="shots-nav">
-          <button class="shots-arrow" id="shots-prev" aria-label="Vorheriges Bild">
-            <svg viewBox="0 0 16 16"><path fill="currentColor" d="M9.78 3.22a.75.75 0 0 1 0 1.06L6.06 8l3.72 3.72a.75.75 0 1 1-1.06 1.06L4.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0z"/></svg>
-          </button>
-          <button class="shots-arrow" id="shots-next" aria-label="Nächstes Bild">
-            <svg viewBox="0 0 16 16"><path fill="currentColor" d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06z"/></svg>
-          </button>
+          <button class="shots-arrow" id="shots-prev" aria-label="Vorheriges Bild"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M9.78 3.22a.75.75 0 0 1 0 1.06L6.06 8l3.72 3.72a.75.75 0 1 1-1.06 1.06L4.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0z"/></svg></button>
+          <button class="shots-arrow" id="shots-next" aria-label="Nächstes Bild"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06z"/></svg></button>
         </div>
-        <div class="shots-thumbs">
-          <div class="shots-thumb active" data-src="screenshot-main.png">
-            <img src="screenshot-main.png" alt="">
-          </div>
-          <div class="shots-thumb" data-src="screenshot-settings.png">
-            <img src="screenshot-settings.png" alt="">
-          </div>
-          <div class="shots-thumb" data-src="screenshot-unlock.png">
-            <img src="screenshot-unlock.png" alt="">
-          </div>
-        </div>
+      </div>
+      <div class="shots-thumbs">
+        <div class="shots-thumb active" data-idx="0"><img src="screenshot-main.png" alt="Übersicht"></div>
+        <div class="shots-thumb" data-idx="1"><img src="screenshot-settings.png" alt="Einstellungen"></div>
+        <div class="shots-thumb" data-idx="2"><img src="screenshot-unlock.png" alt="Entsperren"></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- SECURITY -->
-  <section id="security" class="sec">
-    <div class="w">
-      <div class="eyebrow rev">Sicherheit</div>
-      <h2 class="sec-h rev" style="transition-delay:.08s">Lokal. Verschlüsselt. Dein.</h2>
-      <p class="sec-p rev" style="transition-delay:.16s">
-        ReMa ist als Werkzeug für professionelle Nutzer gebaut. Die Sicherheitsarchitektur ist klar, nachvollziehbar und technisch.
-      </p>
-      <div class="sec-grid stag">
-        <div class="sec-item">
-          <span class="sec-tag">Kryptografie</span>
-          <h4>AES-256-GCM</h4>
-          <p>Authentifizierte Verschlüsselung mit AES-256-GCM. Keine Kompromisse bei Vertraulichkeit und Integrität.</p>
-        </div>
-        <div class="sec-item">
-          <span class="sec-tag">Key Derivation</span>
-          <h4>PBKDF2 – 210.000 Iterationen</h4>
-          <p>OWASP-konforme Schlüsselableitung mit PBKDF2. Harter Work-Factor, um Brute-Force-Angriffe zu erschweren.</p>
-        </div>
-        <div class="sec-item">
-          <span class="sec-tag">Speicherung</span>
-          <h4>Nur verschlüsselte Blobs</h4>
-          <p>Geräte-Credentials werden ausschließlich als verschlüsselte Blobs gespeichert. Kein Klartext, keine Ausnahmen.</p>
-        </div>
-        <div class="sec-item">
-          <span class="sec-tag">Verifizierung</span>
-          <h4>Zero-Knowledge-Passwortprüfung</h4>
-          <p>Passwortprüfung ohne Speicherung des Passworts. Zero-Knowledge-Ansatz für maximale Privatsphäre.</p>
-        </div>
-      </div>
+<section id="security" class="sec">
+  <div class="w">
+    <div class="eyebrow rev" data-i18n="sec.eyebrow">Sicherheit</div>
+    <h2 class="sec-h rev" style="transition-delay:.08s" data-i18n="sec.h">Lokal. Verschlüsselt. Dein.</h2>
+    <p class="sec-p rev" style="transition-delay:.16s" data-i18n="sec.p">ReMa ist als Werkzeug für professionelle Nutzer gebaut. Die Sicherheitsarchitektur ist klar, nachvollziehbar und technisch.</p>
+    <div class="sec-grid stag">
+      <div class="sec-item"><span class="sec-tag" data-i18n="sec.1.tag">Kryptografie</span><h4 data-i18n="sec.1.h">AES-256-GCM</h4><p data-i18n="sec.1.p">Authentifizierte Verschlüsselung mit AES-256-GCM. Keine Kompromisse bei Vertraulichkeit und Integrität.</p></div>
+      <div class="sec-item"><span class="sec-tag" data-i18n="sec.2.tag">Key Derivation</span><h4 data-i18n="sec.2.h">PBKDF2 – 210.000 Iterationen</h4><p data-i18n="sec.2.p">OWASP-konforme Schlüsselableitung. Harter Work-Factor, um Brute-Force-Angriffe zu erschweren.</p></div>
+      <div class="sec-item"><span class="sec-tag" data-i18n="sec.3.tag">Speicherung</span><h4 data-i18n="sec.3.h">Nur verschlüsselte Blobs</h4><p data-i18n="sec.3.p">Geräte-Credentials werden ausschließlich als verschlüsselte Blobs gespeichert. Kein Klartext, keine Ausnahmen.</p></div>
+      <div class="sec-item"><span class="sec-tag" data-i18n="sec.4.tag">Verifizierung</span><h4 data-i18n="sec.4.h">Zero-Knowledge-Passwortprüfung</h4><p data-i18n="sec.4.p">Passwortprüfung ohne Speicherung des Passworts. Zero-Knowledge-Ansatz für maximale Privatsphäre.</p></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- DOWNLOAD -->
-  <section id="download" class="cta-wrap">
-    <div class="cta-card rev-s">
-      <div class="cta-logo"><img src="logo.png" alt="ReMa Logo"></div>
-      <h2>Download für Windows</h2>
-      <p>
-        Installiere ReMa als lokale Windows-Anwendung. Kein Konto, keine Cloud, kein Tracking – nur Remote-Management auf Profi-Niveau.
-      </p>
-      <div class="cta-buttons">
-        <button class="btn-primary" id="download-primary">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M7.25 2.25a.75.75 0 0 1 1.5 0v6.19l2.22-2.22a.75.75 0 1 1 1.06 1.06l-3.5 3.5a.75.75 0 0 1-1.06 0l-3.5-3.5a.75.75 0 0 1 1.06-1.06L7.25 8.44V2.25z"/><path fill="currentColor" d="M3.5 12.25a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1-.75-.75z"/></svg>
-          <span>Download</span>
-        </button>
-        <a href="#releases" class="btn-secondary">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.25 2.75A.75.75 0 0 1 4 2h8a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-1.28.53L8 10.06l-3.47 3.72a.75.75 0 0 1-1.28-.53V2.75z"/></svg>
-          Releases
-        </a>
-      </div>
-      <div class="cta-meta">
-        Version <span id="dl-version">v1.0.0</span> · veröffentlicht am <span id="dl-date">–</span> · Dateigröße <span id="dl-size">–</span><br>
-        <a href="#releases">Changelog ansehen</a>
-      </div>
-      <div class="chips">
-        <div class="chip">Windows 10 &amp; 11</div>
-        <div class="chip">Lokale Datenbank</div>
-        <div class="chip">Zero Telemetrie</div>
-        <div class="chip">AES-256-GCM</div>
-        <div class="chip">Kostenlos</div>
-      </div>
+<section id="download" class="cta-wrap">
+  <div class="cta-card rev-s">
+    <div class="cta-logo"><img src="logo.png" alt="ReMa Logo"></div>
+    <h2 data-i18n="dl.h">Download für Windows</h2>
+    <p data-i18n="dl.p">Installiere ReMa als lokale Windows-Anwendung. Kein Konto, keine Cloud, kein Tracking – nur Remote-Management auf Profi-Niveau.</p>
+    <div class="cta-buttons">
+      <button class="btn-primary" id="download-primary">
+        <svg viewBox="0 0 16 16"><path fill="currentColor" d="M7.25 2.25a.75.75 0 0 1 1.5 0v6.19l2.22-2.22a.75.75 0 1 1 1.06 1.06l-3.5 3.5a.75.75 0 0 1-1.06 0l-3.5-3.5a.75.75 0 0 1 1.06-1.06L7.25 8.44V2.25z"/><path fill="currentColor" d="M3.5 12.25a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1-.75-.75z"/></svg>
+        <span data-i18n="dl.btn">Download</span>
+      </button>
+      <a href="#releases" class="btn-secondary"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M3.25 2.75A.75.75 0 0 1 4 2h8a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-1.28.53L8 10.06l-3.47 3.72a.75.75 0 0 1-1.28-.53V2.75z"/></svg><span data-i18n="nav.releases">Releases</span></a>
     </div>
-  </section>
-
-  <!-- RELEASES -->
-  <section id="releases" class="rel-wrap">
-    <div class="rel-card rev">
-      <div class="rel-header">
-        <h3>Releases</h3>
-        <span id="rel-latest-label">Aktuelle Version: v1.0.0</span>
-      </div>
-      <div class="rel-list" id="rel-list">
-        <div class="rel-row">
-          <span><strong>v1.0.0</strong></span>
-          <span>–</span>
-          <span>–</span>
-          <span><a href="https://github.com/ReMa-RemoteManager/rema/releases/tag/v1.0.0" target="_blank" rel="noreferrer">GitHub</a></span>
-        </div>
-      </div>
+    <div class="cta-meta"><span data-i18n="dl.version">Version</span> <strong id="dl-version">v1.0.0</strong> · <span id="dl-date">–</span> · <span id="dl-size">–</span><br><a href="#releases" data-i18n="dl.changelog">Changelog ansehen</a></div>
+    <div class="chips">
+      <div class="chip" data-i18n="chip.1">Windows 10 &amp; 11</div>
+      <div class="chip" data-i18n="chip.2">Lokale Datenbank</div>
+      <div class="chip" data-i18n="chip.3">Zero Telemetrie</div>
+      <div class="chip">AES-256-GCM</div>
+      <div class="chip" data-i18n="chip.5">Kostenlos</div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FOOTER -->
-  <footer>
-    <ul>
-      <li><a href="#download">Download</a></li>
-      <li><a href="#releases">Releases</a></li>
-      <li><a href="#features">Features</a></li>
-      <li><a href="#security">Sicherheit</a></li>
-    </ul>
-    <div>© <span id="year"></span> ReMa RemoteManager · Alle Rechte vorbehalten.</div>
-  </footer>
+<section id="releases" class="rel-wrap">
+  <div class="rel-card rev">
+    <div class="rel-header">
+      <h3 data-i18n="rel.h">Releases</h3>
+      <span id="rel-latest-label">Aktuelle Version: v1.0.0</span>
+    </div>
+    <div class="rel-list" id="rel-list">
+      <div class="rel-row"><span><strong>v1.0.0</strong></span><span>–</span><span>–</span><span><a href="https://github.com/ReMa-RemoteManager/rema/releases/tag/v1.0.0" target="_blank" rel="noreferrer">GitHub ↗</a></span></div>
+    </div>
+  </div>
+</section>
 
+<footer>
+  <ul>
+    <li><a href="#download" data-i18n="nav.download.short">Download</a></li>
+    <li><a href="#releases" data-i18n="nav.releases">Releases</a></li>
+    <li><a href="#features" data-i18n="nav.features">Features</a></li>
+    <li><a href="#security" data-i18n="nav.security">Sicherheit</a></li>
+  </ul>
+  <div>© <span id="year"></span> ReMa RemoteManager · <span data-i18n="footer.rights">Alle Rechte vorbehalten.</span></div>
+</footer>
 
-  <script>
-  'use strict';
+<script>
+'use strict';
 
-  /* ══════════════════════════════
-     NAV — scroll solid
-  ══════════════════════════════ */
-  const navEl = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    navEl.classList.toggle('solid', window.scrollY > 16);
-  }, {passive:true});
+const T = {
+  de:{'nav.features':'Features','nav.security':'Sicherheit','nav.releases':'Releases','nav.download':'Download für Windows','nav.download.short':'Download','hero.logoLabel':'Remote Manager für Windows','hero.h1.w1':'Alle','hero.h1.w2':'Geräte.','hero.h1.w3':'Unter','hero.h1.w4':'Kontrolle.','hero.sub':'Sicherer Remote-Zugriff für Windows. Multi-Monitor, verschlüsselt und lokal – ohne Cloud, ohne Telemetrie.','hero.cta.download':'Download für Windows','hero.meta':'lokal · kostenlos · Windows','hero.scroll':'Scroll','preview.allDevices':'Alle Geräte','preview.favorites':'Favoriten','preview.quickConnect':'Schnellverbinden','preview.folders':'Ordner','preview.overview':'Übersicht','preview.search':'Suchen','preview.device':'Gerät','detail.status':'Status','detail.online':'Online','detail.offline':'Offline','detail.address':'Adresse','detail.password':'Passwort','detail.show':'Anzeigen','detail.folder':'Ordner','detail.connect':'Verbinden','detail.edit':'Bearbeiten','detail.delete':'Löschen','qc.title':'Schnellverbinden','qc.sub':'Sofort verbinden — ohne Gerät zu speichern.','qc.host':'Host oder IP-Adresse','qc.port':'Port','qc.user':'Benutzername','qc.domain':'Domäne (optional)','qc.cancel':'Abbrechen','qc.connect':'Verbinden','feat.eyebrow':'Features','feat.h':'Alles, was zählt.','feat.p':'ReMa konzentriert sich auf das Wesentliche: stabile Verbindungen, klare Organisation und volle Kontrolle – ohne Ballast.','feat.1.h':'Multi-Monitor','feat.1.p':'Jeden Monitor separat oder gemeinsam verwalten. Präzise Kontrolle für komplexe Setups.','feat.2.h':'Verschlüsselter Vault','feat.2.p':'AES-256-GCM. Lokale Speicherung. Keine Klartext-Passwörter, keine Cloud-Abhängigkeit.','feat.3.h':'Ordner & Favoriten','feat.3.p':'Geräte organisieren, Tags verwenden, Favoriten setzen. Schneller Zugriff auf das, was zählt.','feat.4.h':'Layout-Erkennung','feat.4.p':'Monitor-Layouts automatisch erkennen, manuell anpassen. ReMa versteht deine Umgebung.','feat.5.h':'Hell & Dunkel','feat.5.p':'Systemintegration oder manuelle Auswahl. ReMa fügt sich nahtlos in dein Setup ein.','feat.6.h':'Zero Telemetrie','feat.6.p':'Keine Datensammlung, keine versteckten Requests. ReMa bleibt lokal – Punkt.','shots.eyebrow':'Produkt','shots.h':'Die Anwendung im Mittelpunkt.','shots.p':'ReMa ist eine echte Windows-Anwendung. Die Screenshots zeigen das Produkt, nicht Marketing-Illustrationen.','sec.eyebrow':'Sicherheit','sec.h':'Lokal. Verschlüsselt. Dein.','sec.p':'ReMa ist als Werkzeug für professionelle Nutzer gebaut. Die Sicherheitsarchitektur ist klar, nachvollziehbar und technisch.','sec.1.tag':'Kryptografie','sec.1.h':'AES-256-GCM','sec.1.p':'Authentifizierte Verschlüsselung mit AES-256-GCM. Keine Kompromisse bei Vertraulichkeit und Integrität.','sec.2.tag':'Key Derivation','sec.2.h':'PBKDF2 – 210.000 Iterationen','sec.2.p':'OWASP-konforme Schlüsselableitung. Harter Work-Factor, um Brute-Force-Angriffe zu erschweren.','sec.3.tag':'Speicherung','sec.3.h':'Nur verschlüsselte Blobs','sec.3.p':'Geräte-Credentials werden ausschließlich als verschlüsselte Blobs gespeichert. Kein Klartext, keine Ausnahmen.','sec.4.tag':'Verifizierung','sec.4.h':'Zero-Knowledge-Passwortprüfung','sec.4.p':'Passwortprüfung ohne Speicherung des Passworts. Zero-Knowledge-Ansatz für maximale Privatsphäre.','dl.h':'Download für Windows','dl.btn':'Download','dl.p':'Installiere ReMa als lokale Windows-Anwendung. Kein Konto, keine Cloud, kein Tracking – nur Remote-Management auf Profi-Niveau.','dl.version':'Version','dl.changelog':'Changelog ansehen','chip.1':'Windows 10 & 11','chip.2':'Lokale Datenbank','chip.3':'Zero Telemetrie','chip.5':'Kostenlos','rel.h':'Releases','footer.rights':'Alle Rechte vorbehalten.','_langLabel':'Deutsch','_titleAll':'Meine Geräte — ReMa','_titleFav':'Favoriten — ReMa','_titleQuick':'Schnellverbinden — ReMa','_relLatest':'Aktuelle Version:'},
+  en:{'nav.features':'Features','nav.security':'Security','nav.releases':'Releases','nav.download':'Download for Windows','nav.download.short':'Download','hero.logoLabel':'Remote Manager for Windows','hero.h1.w1':'All','hero.h1.w2':'Devices.','hero.h1.w3':'Under','hero.h1.w4':'Control.','hero.sub':'Secure remote access for Windows. Multi-monitor, encrypted and local – no cloud, no telemetry.','hero.cta.download':'Download for Windows','hero.meta':'local · free · Windows','hero.scroll':'Scroll','preview.allDevices':'All Devices','preview.favorites':'Favorites','preview.quickConnect':'Quick Connect','preview.folders':'Folders','preview.overview':'Overview','preview.search':'Search','preview.device':'Device','detail.status':'Status','detail.online':'Online','detail.offline':'Offline','detail.address':'Address','detail.password':'Password','detail.show':'Show','detail.folder':'Folder','detail.connect':'Connect','detail.edit':'Edit','detail.delete':'Delete','qc.title':'Quick Connect','qc.sub':'Connect immediately — without saving the device.','qc.host':'Host or IP address','qc.port':'Port','qc.user':'Username','qc.domain':'Domain (optional)','qc.cancel':'Cancel','qc.connect':'Connect','feat.eyebrow':'Features','feat.h':'Everything that matters.','feat.p':'ReMa focuses on the essentials: stable connections, clear organization and full control – without overhead.','feat.1.h':'Multi-Monitor','feat.1.p':'Manage each monitor separately or together. Precise control for complex setups.','feat.2.h':'Encrypted Vault','feat.2.p':'AES-256-GCM. Local storage. No plaintext passwords, no cloud dependency.','feat.3.h':'Folders & Favorites','feat.3.p':'Organize devices, use tags, set favorites. Fast access to what matters.','feat.4.h':'Layout Detection','feat.4.p':'Automatically detect monitor layouts, adjust manually. ReMa understands your environment.','feat.5.h':'Light & Dark','feat.5.p':'System integration or manual selection. ReMa fits seamlessly into your setup.','feat.6.h':'Zero Telemetry','feat.6.p':'No data collection, no hidden requests. ReMa stays local – period.','shots.eyebrow':'Product','shots.h':'The application front and center.','shots.p':'ReMa is a real Windows application. The screenshots show the actual product, not marketing illustrations.','sec.eyebrow':'Security','sec.h':'Local. Encrypted. Yours.','sec.p':'ReMa is built as a tool for professional users. The security architecture is clear, comprehensible and technical.','sec.1.tag':'Cryptography','sec.1.h':'AES-256-GCM','sec.1.p':'Authenticated encryption with AES-256-GCM. No compromises on confidentiality and integrity.','sec.2.tag':'Key Derivation','sec.2.h':'PBKDF2 – 210,000 Iterations','sec.2.p':'OWASP-compliant key derivation. Hard work factor to resist brute-force attacks.','sec.3.tag':'Storage','sec.3.h':'Encrypted Blobs Only','sec.3.p':'Device credentials are stored exclusively as encrypted blobs. No plaintext, no exceptions.','sec.4.tag':'Verification','sec.4.h':'Zero-Knowledge Password Check','sec.4.p':'Password verification without storing the password. Zero-knowledge approach for maximum privacy.','dl.h':'Download for Windows','dl.btn':'Download','dl.p':'Install ReMa as a local Windows application. No account, no cloud, no tracking – just remote management at a professional level.','dl.version':'Version','dl.changelog':'View changelog','chip.1':'Windows 10 & 11','chip.2':'Local Database','chip.3':'Zero Telemetry','chip.5':'Free','rel.h':'Releases','footer.rights':'All rights reserved.','_langLabel':'English','_titleAll':'My Devices — ReMa','_titleFav':'Favorites — ReMa','_titleQuick':'Quick Connect — ReMa','_relLatest':'Latest version:'},
+  fr:{'nav.features':'Fonctionnalités','nav.security':'Sécurité','nav.releases':'Versions','nav.download':'Télécharger pour Windows','nav.download.short':'Télécharger','hero.logoLabel':'Gestionnaire distant pour Windows','hero.h1.w1':'Tous','hero.h1.w2':'Appareils.','hero.h1.w3':'Sous','hero.h1.w4':'Contrôle.','hero.sub':'Accès distant sécurisé pour Windows. Multi-écran, chiffré et local – sans cloud, sans télémétrie.','hero.cta.download':'Télécharger pour Windows','hero.meta':'local · gratuit · Windows','hero.scroll':'Défiler','preview.allDevices':'Tous les appareils','preview.favorites':'Favoris','preview.quickConnect':'Connexion rapide','preview.folders':'Dossiers','preview.overview':'Aperçu','preview.search':'Rechercher','preview.device':'Appareil','detail.status':'Statut','detail.online':'En ligne','detail.offline':'Hors ligne','detail.address':'Adresse','detail.password':'Mot de passe','detail.show':'Afficher','detail.folder':'Dossier','detail.connect':'Connecter','detail.edit':'Modifier','detail.delete':'Supprimer','qc.title':'Connexion rapide','qc.sub':'Se connecter immédiatement — sans enregistrer l\'appareil.','qc.host':'Hôte ou adresse IP','qc.port':'Port','qc.user':'Nom d\'utilisateur','qc.domain':'Domaine (optionnel)','qc.cancel':'Annuler','qc.connect':'Connecter','feat.eyebrow':'Fonctionnalités','feat.h':'Tout ce qui compte.','feat.p':'ReMa se concentre sur l\'essentiel : connexions stables, organisation claire et contrôle total.','feat.1.h':'Multi-Écran','feat.1.p':'Gérer chaque écran séparément ou ensemble. Contrôle précis pour des configurations complexes.','feat.2.h':'Coffre chiffré','feat.2.p':'AES-256-GCM. Stockage local. Aucun mot de passe en clair.','feat.3.h':'Dossiers & Favoris','feat.3.p':'Organiser les appareils, utiliser des tags, définir des favoris.','feat.4.h':'Détection de disposition','feat.4.p':'Détecter automatiquement les dispositions d\'écran, ajuster manuellement.','feat.5.h':'Clair & Sombre','feat.5.p':'Intégration système ou sélection manuelle. ReMa s\'intègre à votre configuration.','feat.6.h':'Zéro télémétrie','feat.6.p':'Aucune collecte de données, aucune requête cachée. ReMa reste local.','shots.eyebrow':'Produit','shots.h':'L\'application au premier plan.','shots.p':'ReMa est une vraie application Windows. Les captures montrent le produit réel.','sec.eyebrow':'Sécurité','sec.h':'Local. Chiffré. Le vôtre.','sec.p':'ReMa est conçu comme un outil pour les utilisateurs professionnels.','sec.1.tag':'Cryptographie','sec.1.h':'AES-256-GCM','sec.1.p':'Chiffrement authentifié avec AES-256-GCM.','sec.2.tag':'Dérivation de clé','sec.2.h':'PBKDF2 – 210 000 itérations','sec.2.p':'Dérivation de clé conforme OWASP.','sec.3.tag':'Stockage','sec.3.h':'Blobs chiffrés uniquement','sec.3.p':'Les identifiants sont stockés exclusivement sous forme de blobs chiffrés.','sec.4.tag':'Vérification','sec.4.h':'Vérification à divulgation nulle','sec.4.p':'Vérification du mot de passe sans stockage du mot de passe.','dl.h':'Télécharger pour Windows','dl.btn':'Télécharger','dl.p':'Installez ReMa comme application Windows locale. Aucun compte, aucun cloud, aucun suivi.','dl.version':'Version','dl.changelog':'Voir le changelog','chip.1':'Windows 10 et 11','chip.2':'Base de données locale','chip.3':'Zéro télémétrie','chip.5':'Gratuit','rel.h':'Versions','footer.rights':'Tous droits réservés.','_langLabel':'Français','_titleAll':'Mes appareils — ReMa','_titleFav':'Favoris — ReMa','_titleQuick':'Connexion rapide — ReMa','_relLatest':'Version actuelle :'},
+  es:{'nav.features':'Características','nav.security':'Seguridad','nav.releases':'Versiones','nav.download':'Descargar para Windows','nav.download.short':'Descargar','hero.logoLabel':'Gestor remoto para Windows','hero.h1.w1':'Todos','hero.h1.w2':'Dispositivos.','hero.h1.w3':'Bajo','hero.h1.w4':'Control.','hero.sub':'Acceso remoto seguro para Windows. Multi-monitor, cifrado y local – sin nube, sin telemetría.','hero.cta.download':'Descargar para Windows','hero.meta':'local · gratis · Windows','hero.scroll':'Desplazar','preview.allDevices':'Todos los dispositivos','preview.favorites':'Favoritos','preview.quickConnect':'Conexión rápida','preview.folders':'Carpetas','preview.overview':'Resumen','preview.search':'Buscar','preview.device':'Dispositivo','detail.status':'Estado','detail.online':'En línea','detail.offline':'Sin conexión','detail.address':'Dirección','detail.password':'Contraseña','detail.show':'Mostrar','detail.folder':'Carpeta','detail.connect':'Conectar','detail.edit':'Editar','detail.delete':'Eliminar','qc.title':'Conexión rápida','qc.sub':'Conectar inmediatamente — sin guardar el dispositivo.','qc.host':'Host o dirección IP','qc.port':'Puerto','qc.user':'Nombre de usuario','qc.domain':'Dominio (opcional)','qc.cancel':'Cancelar','qc.connect':'Conectar','feat.eyebrow':'Características','feat.h':'Todo lo que importa.','feat.p':'ReMa se centra en lo esencial: conexiones estables, organización clara y control total.','feat.1.h':'Multi-Monitor','feat.1.p':'Gestionar cada monitor por separado o juntos.','feat.2.h':'Bóveda cifrada','feat.2.p':'AES-256-GCM. Almacenamiento local. Sin contraseñas en texto plano.','feat.3.h':'Carpetas y favoritos','feat.3.p':'Organizar dispositivos, usar etiquetas, establecer favoritos.','feat.4.h':'Detección de diseño','feat.4.p':'Detectar diseños de monitor automáticamente, ajustar manualmente.','feat.5.h':'Claro y oscuro','feat.5.p':'Integración del sistema o selección manual. ReMa se adapta a tu entorno.','feat.6.h':'Cero telemetría','feat.6.p':'Sin recopilación de datos, sin solicitudes ocultas. ReMa permanece local.','shots.eyebrow':'Producto','shots.h':'La aplicación en primer plano.','shots.p':'ReMa es una aplicación real de Windows. Las capturas muestran el producto real.','sec.eyebrow':'Seguridad','sec.h':'Local. Cifrado. Tuyo.','sec.p':'ReMa está diseñado como una herramienta para usuarios profesionales.','sec.1.tag':'Criptografía','sec.1.h':'AES-256-GCM','sec.1.p':'Cifrado autenticado con AES-256-GCM.','sec.2.tag':'Derivación de clave','sec.2.h':'PBKDF2 – 210.000 iteraciones','sec.2.p':'Derivación de clave conforme a OWASP.','sec.3.tag':'Almacenamiento','sec.3.h':'Solo blobs cifrados','sec.3.p':'Las credenciales se almacenan exclusivamente como blobs cifrados.','sec.4.tag':'Verificación','sec.4.h':'Verificación de contraseña de cero conocimiento','sec.4.p':'Verificación de contraseña sin almacenar la contraseña.','dl.h':'Descargar para Windows','dl.btn':'Descargar','dl.p':'Instala ReMa como aplicación local de Windows. Sin cuenta, sin nube, sin seguimiento.','dl.version':'Versión','dl.changelog':'Ver changelog','chip.1':'Windows 10 y 11','chip.2':'Base de datos local','chip.3':'Cero telemetría','chip.5':'Gratis','rel.h':'Versiones','footer.rights':'Todos los derechos reservados.','_langLabel':'Español','_titleAll':'Mis dispositivos — ReMa','_titleFav':'Favoritos — ReMa','_titleQuick':'Conexión rápida — ReMa','_relLatest':'Versión actual:'},
+  zh:{'nav.features':'功能','nav.security':'安全','nav.releases':'版本','nav.download':'下载 Windows 版','nav.download.short':'下载','hero.logoLabel':'Windows 远程管理器','hero.h1.w1':'所有','hero.h1.w2':'设备。','hero.h1.w3':'尽在','hero.h1.w4':'掌控。','hero.sub':'安全的 Windows 远程访问。多显示器、加密、本地化 — 无云端，无遥测。','hero.cta.download':'下载 Windows 版','hero.meta':'本地 · 免费 · Windows','hero.scroll':'滚动','preview.allDevices':'所有设备','preview.favorites':'收藏夹','preview.quickConnect':'快速连接','preview.folders':'文件夹','preview.overview':'概览','preview.search':'搜索','preview.device':'设备','detail.status':'状态','detail.online':'在线','detail.offline':'离线','detail.address':'地址','detail.password':'密码','detail.show':'显示','detail.folder':'文件夹','detail.connect':'连接','detail.edit':'编辑','detail.delete':'删除','qc.title':'快速连接','qc.sub':'立即连接 — 无需保存设备。','qc.host':'主机或 IP 地址','qc.port':'端口','qc.user':'用户名','qc.domain':'域（可选）','qc.cancel':'取消','qc.connect':'连接','feat.eyebrow':'功能','feat.h':'一切皆关键。','feat.p':'ReMa 专注于核心：稳定的连接、清晰的组织和完全的控制。','feat.1.h':'多显示器','feat.1.p':'单独或同时管理每个显示器。精确控制复杂配置。','feat.2.h':'加密保险库','feat.2.p':'AES-256-GCM。本地存储。无明文密码，无云依赖。','feat.3.h':'文件夹和收藏夹','feat.3.p':'组织设备，使用标签，设置收藏夹。快速访问重要内容。','feat.4.h':'布局检测','feat.4.p':'自动检测显示器布局，手动调整。ReMa 了解您的环境。','feat.5.h':'明暗主题','feat.5.p':'系统集成或手动选择。ReMa 无缝融入您的工作环境。','feat.6.h':'零遥测','feat.6.p':'无数据收集，无隐藏请求。ReMa 保持本地化。','shots.eyebrow':'产品','shots.h':'应用程序居于核心。','shots.p':'ReMa 是真正的 Windows 应用程序。截图展示真实产品。','sec.eyebrow':'安全','sec.h':'本地。加密。您的。','sec.p':'ReMa 作为专业用户工具构建。安全架构清晰、可理解且技术性强。','sec.1.tag':'密码学','sec.1.h':'AES-256-GCM','sec.1.p':'使用 AES-256-GCM 认证加密。','sec.2.tag':'密钥派生','sec.2.h':'PBKDF2 – 210,000 次迭代','sec.2.p':'符合 OWASP 的密钥派生。','sec.3.tag':'存储','sec.3.h':'仅加密 Blob','sec.3.p':'设备凭据仅以加密 Blob 形式存储。','sec.4.tag':'验证','sec.4.h':'零知识密码验证','sec.4.p':'验证密码而不存储密码。','dl.h':'下载 Windows 版','dl.btn':'下载','dl.p':'将 ReMa 安装为本地 Windows 应用程序。无账户、无云端、无追踪。','dl.version':'版本','dl.changelog':'查看更新日志','chip.1':'Windows 10 和 11','chip.2':'本地数据库','chip.3':'零遥测','chip.5':'免费','rel.h':'版本','footer.rights':'保留所有权利。','_langLabel':'中文','_titleAll':'我的设备 — ReMa','_titleFav':'收藏夹 — ReMa','_titleQuick':'快速连接 — ReMa','_relLatest':'当前版本：'}
+};
 
-  /* ══════════════════════════════
-     SCROLL CUE — hide on first scroll
-  ══════════════════════════════ */
-  const scrollCue = document.getElementById('scroll-cue');
-  let cueDone = false;
-  window.addEventListener('scroll', () => {
-    if (!cueDone && window.scrollY > 40) {
-      cueDone = true;
-      if (scrollCue) scrollCue.classList.add('hidden');
-    }
-  }, {passive:true});
+let currentLang = 'de';
+let latestVersion = 'v1.0.0';
+let latestDownloadUrl = 'https://github.com/ReMa-RemoteManager/rema/releases/latest';
 
-  /* ══════════════════════════════
-     PARALLAX — preview drifts up while scrolling hero
-  ══════════════════════════════ */
-  const heroPreview = document.getElementById('hero-preview');
-  const heroSection = document.getElementById('hero');
-  let previewReady = false;
-  // Enable parallax after entry animation completes (~1.9s)
-  setTimeout(() => { previewReady = true; }, 1900);
+function tr(key) { return (T[currentLang] && T[currentLang][key]) || T.de[key] || key; }
 
-  window.addEventListener('scroll', () => {
-    if (!previewReady || !heroPreview || !heroSection) return;
-    const heroH = heroSection.offsetHeight;
-    const scrollY = window.scrollY;
-    if (scrollY > heroH) return;
-    const p = scrollY / heroH;
-    heroPreview.style.transform = `translateY(${-p * 55}px) scale(${1 - p * 0.025})`;
-    heroPreview.style.opacity = `${Math.max(0, 1 - p * 2.2)}`;
-  }, {passive:true});
-
-  /* ══════════════════════════════
-     LANGUAGE PILL
-  ══════════════════════════════ */
-  const langLabel = document.getElementById('lang-label');
-  document.querySelectorAll('.lang-menu-inline button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.lang-menu-inline button').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const code = btn.dataset.lang;
-      langLabel.textContent =
-        code === 'de' ? 'Deutsch' :
-        code === 'en' ? 'English' :
-        code === 'fr' ? 'Français' :
-        code === 'es' ? 'Español' : '中文';
-      document.documentElement.setAttribute('data-lang', code);
-    });
+function applyLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dataset.lang = lang;
+  document.getElementById('lang-label').textContent = tr('_langLabel');
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = tr(el.dataset.i18n);
+    if (v) el.textContent = v;
   });
+  prevUpdateTitlebar();
+  const rl = document.getElementById('rel-latest-label');
+  if (rl) rl.textContent = tr('_relLatest') + ' ' + latestVersion;
+}
 
-  /* ══════════════════════════════
-     HERO PREVIEW — interactive mock UI
-  ══════════════════════════════ */
-  let prevView = 'all';
+document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => applyLang(btn.dataset.lang)));
 
-  const PREV_TITLES = {
-    all: 'Meine Geräte — ReMa',
-    fav: 'Favoriten — ReMa',
-    quick: 'Schnellverbinden — ReMa',
-  };
+/* NAV */
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', () => navEl.classList.toggle('solid', window.scrollY > 16), {passive:true});
 
-  function prevUpdateTitlebar() {
-    const tb = document.getElementById('prev-titlebar');
-    if (tb) tb.textContent = PREV_TITLES[prevView] || PREV_TITLES.all;
-  }
+/* SCROLL CUE */
+const scrollCue = document.getElementById('scroll-cue');
+let cueDone = false;
+window.addEventListener('scroll', () => { if (!cueDone && window.scrollY > 40) { cueDone = true; scrollCue?.classList.add('hidden'); } }, {passive:true});
 
-  function prevSetView(view) {
-    prevView = view;
-    ['all','fav','quick'].forEach(v => {
-      const navItem  = document.getElementById('nav-' + v);
-      const viewEl   = document.getElementById('view-' + v);
-      if (navItem)  navItem.classList.toggle('active', v === view);
-      if (viewEl)   viewEl.classList.toggle('active', v === view);
-    });
-    prevUpdateTitlebar();
-  }
+/* PARALLAX */
+const heroPreview = document.getElementById('hero-preview');
+const heroSection = document.getElementById('hero');
+let previewReady = false;
+setTimeout(() => { previewReady = true; }, 1900);
+window.addEventListener('scroll', () => {
+  if (!previewReady || !heroPreview || !heroSection) return;
+  const heroH = heroSection.offsetHeight, sy = window.scrollY;
+  if (sy > heroH) return;
+  const p = sy / heroH;
+  heroPreview.style.transform = `translateY(${-p * 55}px) scale(${1 - p * 0.025})`;
+  heroPreview.style.opacity = Math.max(0, 1 - p * 2.2);
+}, {passive:true});
 
-  function prevSelectDevice(card) {
-    document.querySelectorAll('#device-grid .pg-card').forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
+/* PREVIEW */
+let prevView = 'all';
 
-    const name   = card.dataset.name;
-    const host   = card.dataset.host;
-    const proto  = card.dataset.proto;
-    const online = card.dataset.online === '1';
+function prevUpdateTitlebar() {
+  const tb = document.getElementById('prev-titlebar');
+  if (tb) tb.textContent = tr({all:'_titleAll',fav:'_titleFav',quick:'_titleQuick'}[prevView]);
+}
 
-    const pdTitle  = document.getElementById('pd-title');
-    const pdHost   = document.getElementById('pd-host');
-    const pdProto  = document.getElementById('pd-proto');
-    const pdStatus = document.getElementById('pd-status');
-
-    if (pdTitle) pdTitle.textContent = name;
-    if (pdHost)  pdHost.textContent  = host;
-
-    if (pdProto) {
-      if (proto) {
-        pdProto.textContent = proto;
-        pdProto.style.display = '';
-        pdProto.style.background = proto === 'RDP' ? '#2563eb' : '#0a9e8f';
-      } else {
-        pdProto.style.display = 'none';
-      }
-    }
-
-    if (pdStatus) {
-      if (online) {
-        pdStatus.innerHTML = '<div class="pd-offline-dot" style="background:#30D158"></div><span>Online</span>';
-      } else {
-        pdStatus.innerHTML = '<div class="pd-offline-dot"></div><span>Offline</span>';
-      }
-    }
-  }
-
-  /* ══════════════════════════════
-     SCREENSHOT GALLERY
-  ══════════════════════════════ */
-  const shotsMainImg = document.getElementById('shots-main-img');
-  const shotsThumbs  = Array.from(document.querySelectorAll('.shots-thumb'));
-  let currentShotIdx = 0;
-
-  function setShot(index) {
-    currentShotIdx = (index + shotsThumbs.length) % shotsThumbs.length;
-    const thumb = shotsThumbs[currentShotIdx];
-    if (shotsMainImg) {
-      shotsMainImg.style.opacity = '0';
-      shotsMainImg.style.transform = 'scale(.99)';
-      setTimeout(() => {
-        shotsMainImg.src = thumb.dataset.src;
-        shotsMainImg.style.opacity = '1';
-        shotsMainImg.style.transform = 'scale(1)';
-      }, 140);
-    }
-    shotsThumbs.forEach(t => t.classList.remove('active'));
-    thumb.classList.add('active');
-  }
-
-  if (shotsMainImg) {
-    shotsMainImg.style.transition = 'opacity .18s,transform .18s';
-  }
-  document.getElementById('shots-prev')?.addEventListener('click', () => setShot(currentShotIdx - 1));
-  document.getElementById('shots-next')?.addEventListener('click', () => setShot(currentShotIdx + 1));
-  shotsThumbs.forEach((thumb, idx) => {
-    thumb.addEventListener('click', () => setShot(idx));
+function prevSetView(view) {
+  prevView = view;
+  ['all','fav','quick'].forEach(v => {
+    document.getElementById('nav-' + v)?.classList.toggle('active', v === view);
+    document.getElementById('view-' + v)?.classList.toggle('active', v === view);
   });
+  prevUpdateTitlebar();
+}
 
-  // Touch swipe
-  let startX = null;
-  const shotsFrame = document.getElementById('shots-frame');
-  shotsFrame?.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true});
-  shotsFrame?.addEventListener('touchend', e => {
-    if (startX === null) return;
-    const dx = e.changedTouches[0].clientX - startX;
-    if (Math.abs(dx) > 40) setShot(dx < 0 ? currentShotIdx + 1 : currentShotIdx - 1);
-    startX = null;
-  }, {passive:true});
+function prevSelectDevice(card) {
+  document.querySelectorAll('#device-grid .pg-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  const {name, host, proto, online} = card.dataset;
+  const isOnline = online === '1';
+  const pdTitle = document.getElementById('pd-title');
+  const pdHost  = document.getElementById('pd-host');
+  const pdProto = document.getElementById('pd-proto');
+  const pdStatus = document.getElementById('pd-status');
+  if (pdTitle) pdTitle.textContent = name;
+  if (pdHost)  pdHost.textContent  = host;
+  if (pdProto) { pdProto.textContent = proto; pdProto.style.background = proto === 'RDP' ? '#2563eb' : '#0a9e8f'; }
+  if (pdStatus) pdStatus.innerHTML = `<div class="pd-offline-dot" style="background:${isOnline ? '#30D158' : '#3F3F46'}"></div><span>${isOnline ? tr('detail.online') : tr('detail.offline')}</span>`;
+}
 
-  /* ══════════════════════════════
-     SCROLL REVEAL — IntersectionObserver
-  ══════════════════════════════ */
-  const revealIO = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('in');
-        revealIO.unobserve(e.target);
-      }
-    });
-  }, {threshold:.1, rootMargin:'0px 0px -36px 0px'});
+/* SCREENSHOTS */
+const slides   = Array.from(document.querySelectorAll('.shots-slide'));
+const thumbsEl = Array.from(document.querySelectorAll('.shots-thumb'));
+let shotIdx = 0;
 
-  document.querySelectorAll('.rev,.rev-s,.stag').forEach(el => revealIO.observe(el));
+function setShot(idx) {
+  shotIdx = (idx + slides.length) % slides.length;
+  slides.forEach((s, i) => { s.classList.toggle('active', i === shotIdx); s.classList.toggle('gone', i !== shotIdx); });
+  thumbsEl.forEach((t, i) => t.classList.toggle('active', i === shotIdx));
+}
 
-  /* ══════════════════════════════
-     GITHUB API — fetch latest release
-  ══════════════════════════════ */
-  const repoApi = 'https://api.github.com/repos/ReMa-RemoteManager/rema/releases';
-  let latestDownloadUrl = 'https://github.com/ReMa-RemoteManager/rema/releases/latest';
+document.getElementById('shots-prev')?.addEventListener('click', () => setShot(shotIdx - 1));
+document.getElementById('shots-next')?.addEventListener('click', () => setShot(shotIdx + 1));
+thumbsEl.forEach((th, i) => th.addEventListener('click', () => setShot(i)));
 
-  function formatDate(iso) {
-    if (!iso) return '–';
-    const d = new Date(iso);
-    return d.toLocaleDateString('de-DE', {year:'numeric',month:'2-digit',day:'2-digit'});
-  }
-  function formatSize(bytes) {
-    if (!bytes) return '–';
-    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-  }
+let startX = null;
+document.getElementById('shots-frame')?.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true});
+document.getElementById('shots-frame')?.addEventListener('touchend', e => {
+  if (startX === null) return;
+  const dx = e.changedTouches[0].clientX - startX;
+  if (Math.abs(dx) > 40) setShot(dx < 0 ? shotIdx + 1 : shotIdx - 1);
+  startX = null;
+}, {passive:true});
 
-  fetch(repoApi, {signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined})
-    .then(r => r.json())
-    .then(releases => {
-      if (!Array.isArray(releases) || !releases.length) return;
-      const latest = releases[0];
-      const tag    = latest.tag_name || latest.name || 'v1.0.0';
-      const date   = latest.published_at;
-      const asset  = latest.assets && latest.assets.find(a => a.name === 'rema.setup.exe');
-      const size   = asset ? asset.size : null;
-      const url    = asset ? asset.browser_download_url : latest.html_url;
+/* INTERSECTION OBSERVER */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold:.08, rootMargin:'0px 0px -32px 0px'});
+document.querySelectorAll('.rev,.rev-s,.stag').forEach(el => io.observe(el));
 
-      latestDownloadUrl = url;
+/* GITHUB API */
+function fmtDate(iso) { return iso ? new Date(iso).toLocaleDateString('de-DE',{year:'numeric',month:'2-digit',day:'2-digit'}) : '–'; }
+function fmtSize(bytes) { return bytes ? (bytes/1048576).toFixed(1)+' MB' : '–'; }
 
-      const mv = document.getElementById('meta-version');
-      const dv = document.getElementById('dl-version');
-      const dd = document.getElementById('dl-date');
-      const ds = document.getElementById('dl-size');
-      const rl = document.getElementById('rel-latest-label');
+fetch('https://api.github.com/repos/ReMa-RemoteManager/rema/releases', {signal:typeof AbortSignal.timeout==='function'?AbortSignal.timeout(8000):undefined})
+  .then(r => r.json())
+  .then(releases => {
+    if (!Array.isArray(releases) || !releases.length) return;
+    const latest = releases[0];
+    const tag   = latest.tag_name || latest.name || 'v1.0.0';
+    const asset = latest.assets?.find(a => a.name === 'rema.setup.exe');
+    const url   = asset?.browser_download_url || latest.html_url;
+    latestVersion = tag;
+    latestDownloadUrl = url;
+    const mv = document.getElementById('meta-version'), dv = document.getElementById('dl-version');
+    const dd = document.getElementById('dl-date'), ds = document.getElementById('dl-size');
+    const rl = document.getElementById('rel-latest-label');
+    if (mv) mv.textContent = tag;
+    if (dv) dv.textContent = tag;
+    if (dd) dd.textContent = fmtDate(latest.published_at);
+    if (ds) ds.textContent = fmtSize(asset?.size);
+    if (rl) rl.textContent = tr('_relLatest') + ' ' + tag;
+    const relList = document.getElementById('rel-list');
+    if (relList) {
+      relList.innerHTML = '';
+      releases.slice(0,8).forEach(rel => {
+        const ra = rel.assets?.find(a => a.name === 'rema.setup.exe');
+        const row = document.createElement('div');
+        row.className = 'rel-row';
+        row.innerHTML = `<span><strong>${rel.tag_name||rel.name}</strong></span><span>${fmtDate(rel.published_at)}</span><span>${fmtSize(ra?.size)}</span><span><a href="${rel.html_url}" target="_blank" rel="noreferrer">GitHub ↗</a></span>`;
+        relList.appendChild(row);
+      });
+    }
+  }).catch(()=>{});
 
-      if (mv) mv.textContent = tag;
-      if (dv) dv.textContent = tag;
-      if (dd) dd.textContent = formatDate(date);
-      if (ds) ds.textContent = formatSize(size);
-      if (rl) rl.textContent = 'Aktuelle Version: ' + tag;
+/* DOWNLOAD */
+function goDownload() { window.location.href = latestDownloadUrl; }
+document.getElementById('hero-download')?.addEventListener('click', goDownload);
+document.getElementById('download-primary')?.addEventListener('click', goDownload);
 
-      // Releases list
-      const relList = document.getElementById('rel-list');
-      if (relList) {
-        relList.innerHTML = '';
-        releases.slice(0, 8).forEach(rel => {
-          const rTag   = rel.tag_name || rel.name;
-          const rDate  = formatDate(rel.published_at);
-          const rAsset = rel.assets && rel.assets.find(a => a.name === 'rema.setup.exe');
-          const rSize  = formatSize(rAsset ? rAsset.size : null);
-          const rUrl   = rel.html_url;
-          const row    = document.createElement('div');
-          row.className = 'rel-row';
-          row.innerHTML =
-            '<span><strong>' + rTag + '</strong></span>' +
-            '<span>' + rDate + '</span>' +
-            '<span>' + rSize + '</span>' +
-            '<span><a href="' + rUrl + '" target="_blank" rel="noreferrer">GitHub</a></span>';
-          relList.appendChild(row);
-        });
-      }
-    })
-    .catch(() => {/* keep static fallback */});
-
-  /* ══════════════════════════════
-     DOWNLOAD BUTTONS
-  ══════════════════════════════ */
-  function goDownload() {
-    window.location.href = latestDownloadUrl;
-  }
-  document.getElementById('hero-download')?.addEventListener('click', goDownload);
-  document.getElementById('download-primary')?.addEventListener('click', goDownload);
-
-  /* ══════════════════════════════
-     YEAR
-  ══════════════════════════════ */
-  document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-
+/* YEAR */
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
