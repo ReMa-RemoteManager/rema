@@ -126,7 +126,7 @@ nav.solid{background:rgba(5,5,6,.88);backdrop-filter:blur(32px) saturate(180%);-
 .ptb-add{font-size:11px;font-weight:700;color:#fff;background:var(--red);padding:5px 10px;border-radius:7px;display:flex;align-items:center;gap:5px;cursor:default;white-space:nowrap;box-shadow:0 4px 14px rgba(255,59,48,.35)}
 .ptb-add svg{width:10px;height:10px}
 .preview-body{flex:1;display:flex;overflow:hidden}
-.preview-grid-wrap{flex:1;overflow:hidden;padding:14px;display:flex;flex-direction:column;gap:12px}
+.preview-grid-wrap{flex:1;overflow:hidden;padding:14px;display:flex;flex-direction:column;gap:12px;position:relative}
 .preview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .pg-card{background:rgba(10,10,16,.9);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:transform .25s cubic-bezier(.22,1,.36,1),border-color .18s,background .18s,box-shadow .25s}
 .pg-card:hover{border-color:rgba(255,255,255,.14);background:rgba(18,18,24,.9);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
@@ -181,11 +181,16 @@ nav.solid{background:rgba(5,5,6,.88);backdrop-filter:blur(32px) saturate(180%);-
 
 @media(max-width:700px){
   .preview-sidebar,.preview-detail{display:none}
-  .preview-ui{height:clamp(220px,55vw,360px)}
+  .preview-ui{height:clamp(230px,58vw,360px)}
   .preview-grid{grid-template-columns:repeat(2,1fr)}
   .pbar-appsub,.preview-title{display:none}
   .pwb{width:30px}
   .ptb-search{display:none}
+  .preview-grid-wrap::after{content:'';position:absolute;left:0;right:0;bottom:0;height:46px;background:linear-gradient(to bottom,transparent,rgba(8,8,11,.96));pointer-events:none}
+  .shots-arrow{width:30px;height:30px}
+  .shots-arrow svg{width:12px;height:12px}
+  .shots-nav{padding:0 10px}
+  .shots-thumb{flex:0 0 64px;height:40px}
 }
 
 /* SECTIONS */
@@ -212,7 +217,7 @@ nav.solid{background:rgba(5,5,6,.88);backdrop-filter:blur(32px) saturate(180%);-
 .shots-header .sec-h{font-size:clamp(28px,3.8vw,44px);margin-bottom:8px}
 .shots-header .sec-p{margin:0 auto;max-width:460px}
 .shots-frame{border-radius:20px;border:1px solid var(--b);background:var(--s2);box-shadow:0 36px 100px rgba(0,0,0,.75);overflow:hidden;position:relative;touch-action:pan-y}
-.shots-main{width:100%;height:min(500px,62vh);display:flex;align-items:center;justify-content:center;background:#050506;position:relative;overflow:hidden}
+.shots-main{width:100%;aspect-ratio:16/9;max-height:520px;display:flex;align-items:center;justify-content:center;background:#050506;position:relative;overflow:hidden}
 .shots-slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity .25s,transform .3s cubic-bezier(.22,1,.36,1)}
 .shots-slide img{width:100%;height:100%;object-fit:contain;display:block}
 .shots-slide.active{opacity:1;transform:scale(1);z-index:1}
@@ -382,9 +387,9 @@ footer a:hover{color:var(--w)}
         </div>
         <span class="preview-title" id="prev-titlebar">Meine Geräte — ReMa</span>
         <div class="preview-winbtns" aria-hidden="true">
-          <div class="pwb"><svg width="10" height="1" viewBox="0 0 10 1"><line x1="0" y1=".5" x2="10" y2=".5" stroke="currentColor" stroke-width="1"/></svg></div>
-          <div class="pwb"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x=".5" y=".5" width="8" height="8" stroke="currentColor"/></svg></div>
-          <div class="pwb pwb-close"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="1" y1="1" x2="9" y2="9" stroke="currentColor" stroke-width="1.2"/><line x1="9" y1="1" x2="1" y2="9" stroke="currentColor" stroke-width="1.2"/></svg></div>
+          <div class="pwb" onclick="goToDownloadSection()"><svg width="10" height="1" viewBox="0 0 10 1"><line x1="0" y1=".5" x2="10" y2=".5" stroke="currentColor" stroke-width="1"/></svg></div>
+          <div class="pwb" onclick="goToDownloadSection()"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x=".5" y=".5" width="8" height="8" stroke="currentColor"/></svg></div>
+          <div class="pwb pwb-close" onclick="goToDownloadSection()"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="1" y1="1" x2="9" y2="9" stroke="currentColor" stroke-width="1.2"/><line x1="9" y1="1" x2="1" y2="9" stroke="currentColor" stroke-width="1.2"/></svg></div>
         </div>
       </div>
       <div class="preview-ui">
@@ -409,9 +414,9 @@ footer a:hover{color:var(--w)}
           </div>
           <div class="ps-section" data-i18n="preview.folders">Ordner</div>
           <div class="ps-nav">
-            <div class="ps-folder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>devices</span></div>
-            <div class="ps-folder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>rasp</span></div>
-            <div class="ps-folder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg><span>Management PC</span><div class="ps-folder-dot on"></div></div>
+            <div class="ps-folder" onclick="goToDownloadSection()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>devices</span></div>
+            <div class="ps-folder" onclick="goToDownloadSection()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>rasp</span></div>
+            <div class="ps-folder" onclick="goToDownloadSection()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg><span>Management PC</span><div class="ps-folder-dot on"></div></div>
           </div>
         </div>
 
