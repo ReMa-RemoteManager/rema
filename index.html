@@ -35,16 +35,17 @@ nav.solid{background:rgba(5,5,6,.88);backdrop-filter:blur(32px) saturate(180%);-
 .nav-l:hover .nav-logo img{filter:drop-shadow(0 0 15px rgba(255,59,48,.8));transform:scale(1.07)}
 .nav-name{font-size:15px;font-weight:800;color:var(--w);letter-spacing:-.04em}
 .nav-r{display:flex;align-items:center;gap:5px}
-.nav-r a{font-size:13px;font-weight:500;color:var(--g1);text-decoration:none;padding:6px 12px;border-radius:999px;transition:color .15s,background .15s}
+.nav-r a{font-size:13px;font-weight:500;color:var(--g1);text-decoration:none;padding:6px 12px;border-radius:999px;transition:color .15s,background .15s;white-space:nowrap}
 .nav-r a:hover{color:var(--w);background:rgba(255,255,255,.06)}
-.nav-dl-btn{background:var(--red)!important;color:#fff!important;font-weight:700!important;border-radius:999px!important;padding:7px 16px!important;box-shadow:0 6px 22px rgba(255,59,48,.45)!important;display:flex;align-items:center;gap:7px;transition:opacity .15s,transform .2s,box-shadow .2s!important}
+.nav-dl-btn{background:var(--red)!important;color:#fff!important;font-weight:700!important;border-radius:999px!important;padding:7px 16px!important;box-shadow:0 6px 22px rgba(255,59,48,.45)!important;display:flex;align-items:center;gap:7px;transition:opacity .15s,transform .2s,box-shadow .2s!important;white-space:nowrap;flex-shrink:0}
 .nav-dl-btn:hover{opacity:.9!important;transform:translateY(-1px)!important;box-shadow:0 8px 28px rgba(255,59,48,.6)!important}
-.nav-dl-btn svg{width:13px;height:13px}
-.lang-pill{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid var(--b);background:rgba(255,255,255,.03);cursor:pointer;font-size:12px;font-weight:500;color:var(--g1);transition:background .15s,border-color .15s,color .15s}
+.nav-dl-btn svg{width:13px;height:13px;flex-shrink:0}
+.dl-text-short{display:none}
+.lang-pill{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid var(--b);background:rgba(255,255,255,.03);cursor:pointer;font-size:12px;font-weight:500;color:var(--g1);transition:background .15s,border-color .15s,color .15s;position:relative;flex-shrink:0}
 .lang-pill:hover{background:rgba(255,255,255,.07);border-color:var(--bh);color:var(--w)}
-.lang-pill svg{width:13px;height:13px}
+.lang-pill svg{width:13px;height:13px;flex-shrink:0}
 .lang-btns{display:flex;align-items:center;gap:3px;margin-left:4px}
-.lang-btn{border:none;background:none;color:var(--g2);font-size:10.5px;padding:2px 6px;border-radius:999px;cursor:pointer;transition:background .15s,color .15s;font-family:inherit}
+.lang-btn{border:none;background:none;color:var(--g2);font-size:10.5px;padding:2px 6px;border-radius:999px;cursor:pointer;transition:background .15s,color .15s;font-family:inherit;white-space:nowrap}
 .lang-btn.active{color:var(--red);background:var(--red-a)}
 .lang-btn:hover:not(.active){color:var(--w);background:rgba(255,255,255,.08)}
 /* HERO */
@@ -275,8 +276,18 @@ footer a:hover{color:var(--w)}
   .rel-row{grid-template-columns:1.4fr .9fr .7fr .7fr}
 }
 @media(max-width:720px){
-  nav{padding:0 18px}
+  nav{padding:0 16px}
+  .nav-r{gap:6px}
   .nav-r a.nav-hide{display:none}
+  .nav-releases{display:none}
+  .dl-text-full{display:none}
+  .dl-text-short{display:inline}
+  .nav-dl-btn{padding:7px 12px!important;font-size:12.5px;gap:5px}
+  .lang-pill{padding:7px;gap:0}
+  .lang-pill #lang-label{display:none}
+  .lang-pill .lang-btns{display:none;position:absolute;top:calc(100% + 10px);right:0;flex-direction:column;align-items:stretch;background:#14141a;border:1px solid var(--bh);border-radius:12px;padding:6px;gap:2px;box-shadow:0 18px 40px rgba(0,0,0,.6);z-index:300;margin-left:0;min-width:90px}
+  .lang-pill.open .lang-btns{display:flex}
+  .lang-pill .lang-btn{font-size:12.5px;padding:8px 10px;text-align:left;border-radius:8px}
   .hero-content{padding-top:68px}
   .hero-logo-stack img{width:88px;height:88px}
   .hero-logo-stack::before{width:170px;height:170px}
@@ -312,12 +323,13 @@ footer a:hover{color:var(--w)}
   <div class="nav-r">
     <a href="#features" class="nav-hide" data-i18n="nav.features">Features</a>
     <a href="#security" class="nav-hide" data-i18n="nav.security">Sicherheit</a>
-    <a href="#releases" data-i18n="nav.releases">Releases</a>
+    <a href="#releases" class="nav-releases" data-i18n="nav.releases">Releases</a>
     <a href="#download" class="nav-dl-btn" id="nav-dl-link">
       <svg viewBox="0 0 16 16"><path fill="currentColor" d="M7.25 2.25a.75.75 0 0 1 1.5 0v6.19l2.22-2.22a.75.75 0 1 1 1.06 1.06l-3.5 3.5a.75.75 0 0 1-1.06 0l-3.5-3.5a.75.75 0 0 1 1.06-1.06L7.25 8.44V2.25z"/><path fill="currentColor" d="M3.5 12.25a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1-.75-.75z"/></svg>
-      <span data-i18n="nav.download">Download für Windows</span>
+      <span class="dl-text-full" data-i18n="nav.download">Download für Windows</span>
+      <span class="dl-text-short" data-i18n="nav.download.short">Download</span>
     </a>
-    <div class="lang-pill">
+    <div class="lang-pill" id="lang-pill">
       <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.75c0 0-2 2-2 6.25s2 6.25 2 6.25" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.75c0 0 2 2 2 6.25S8 14.25 8 14.25" stroke="currentColor" stroke-width="1.3"/><line x1="1.75" y1="8" x2="14.25" y2="8" stroke="currentColor" stroke-width="1.3"/><line x1="2.25" y1="5.5" x2="13.75" y2="5.5" stroke="currentColor" stroke-width="1.3"/><line x1="2.25" y1="10.5" x2="13.75" y2="10.5" stroke="currentColor" stroke-width="1.3"/></svg>
       <span id="lang-label">Deutsch</span>
       <div class="lang-btns">
@@ -603,6 +615,17 @@ function applyLang(lang) {
 }
 
 document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => applyLang(btn.dataset.lang)));
+
+/* Mobile language dropdown */
+const langPillEl = document.getElementById('lang-pill');
+langPillEl.addEventListener('click', (e) => {
+  if (window.innerWidth > 720) return;
+  if (e.target.closest('.lang-btn')) { langPillEl.classList.remove('open'); return; }
+  langPillEl.classList.toggle('open');
+});
+document.addEventListener('click', (e) => {
+  if (!langPillEl.contains(e.target)) langPillEl.classList.remove('open');
+});
 
 /* NAV */
 const navEl = document.getElementById('nav');
