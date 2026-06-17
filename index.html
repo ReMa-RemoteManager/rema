@@ -10,12 +10,10 @@
   <meta property="og:description" content="Sicherer Remote-Zugriff für Windows. Multi-Monitor, AES-256-GCM, lokal.">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#08080A">
-
   <link rel="icon" type="image/png" href="logo.png">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
 
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -25,26 +23,25 @@
       --s2:#121217;
       --s3:#1A1A20;
       --b:rgba(255,255,255,0.06);
-      --bh:rgba(255,255,255,0.12);
+      --bh:rgba(255,255,255,0.11);
       --red:#FF3B30;
-      --red-a:rgba(255,59,48,0.16);
-      --red-b:rgba(255,59,48,0.26);
+      --red-a:rgba(255,59,48,0.14);
+      --red-b:rgba(255,59,48,0.24);
       --w:#F5F5F7;
       --g1:#A1A1AA;
       --g2:#62626B;
       --g3:#3F3F46;
-      --r:14px;
     }
     html{scroll-behavior:smooth;height:100%}
     body{
-      background:radial-gradient(circle at top, #14141A 0, #050506 55%);
+      background:var(--bg);
       color:var(--w);
       font-family:'Inter',system-ui,-apple-system,sans-serif;
       -webkit-font-smoothing:antialiased;
       overflow-x:hidden;
       line-height:1.5;
     }
-    @media (prefers-reduced-motion: reduce){
+    @media(prefers-reduced-motion:reduce){
       *,*::before,*::after{
         animation-duration:.001ms!important;
         animation-iteration-count:1!important;
@@ -53,12 +50,12 @@
       }
     }
 
-    /* NAVIGATION */
+    /* ═══════════════════════ NAV ═══════════════════════ */
     nav{
       position:fixed;top:0;left:0;right:0;z-index:200;
       height:56px;display:flex;align-items:center;
       justify-content:space-between;padding:0 32px;
-      transition:background .35s ease,border-color .35s ease,box-shadow .35s ease;
+      transition:background .3s,border-color .3s,box-shadow .3s;
       border-bottom:1px solid transparent;
     }
     nav.solid{
@@ -66,14 +63,14 @@
       backdrop-filter:blur(28px) saturate(180%);
       -webkit-backdrop-filter:blur(28px) saturate(180%);
       border-bottom-color:var(--b);
-      box-shadow:0 18px 40px rgba(0,0,0,.65);
+      box-shadow:0 18px 40px rgba(0,0,0,.5);
     }
     .nav-l{display:flex;align-items:center;gap:10px;text-decoration:none}
     .nav-logo{
       width:26px;height:26px;border-radius:7px;
       overflow:hidden;flex-shrink:0;
       box-shadow:0 0 0 1px rgba(255,255,255,.06),
-                 0 0 18px rgba(255,59,48,.45);
+                 0 0 16px rgba(255,59,48,.4);
     }
     .nav-logo img{width:100%;height:100%;object-fit:cover;display:block}
     .nav-name{font-size:15px;font-weight:700;color:var(--w);letter-spacing:-.03em}
@@ -85,17 +82,18 @@
     }
     .nav-r a:hover{color:var(--w);background:rgba(255,255,255,.06)}
     .nav-dl-btn{
-      background:var(--red);color:#fff;
-      font-weight:600;border-radius:999px;
-      padding:7px 14px;
-      box-shadow:0 8px 26px rgba(255,59,48,.55);
+      background:var(--red)!important;color:#fff!important;
+      font-weight:600!important;border-radius:999px!important;
+      padding:7px 15px!important;
+      box-shadow:0 6px 22px rgba(255,59,48,.5)!important;
       display:flex;align-items:center;gap:7px;
+      transition:opacity .15s,transform .18s!important;
     }
+    .nav-dl-btn:hover{opacity:.88!important;transform:translateY(-1px)!important}
     .nav-dl-btn span{font-size:13px}
     .nav-dl-btn svg{width:13px;height:13px}
-    .nav-dl-btn:hover{opacity:.9}
 
-    /* LANGUAGE PICKER – pill, no dropdown flicker */
+    /* Language pill */
     .lang-pill{
       display:flex;align-items:center;gap:6px;
       padding:6px 10px;border-radius:999px;
@@ -105,47 +103,70 @@
       font-size:12px;font-weight:500;color:var(--g1);
       transition:background .15s,border-color .15s,color .15s;
     }
-    .lang-pill:hover{background:rgba(255,255,255,.08);border-color:var(--bh);color:var(--w)}
+    .lang-pill:hover{background:rgba(255,255,255,.07);border-color:var(--bh);color:var(--w)}
     .lang-pill svg{width:13px;height:13px}
-    .lang-flags{display:flex;align-items:center;gap:4px}
-    .lang-flag{
-      width:14px;height:14px;border-radius:3px;
-      overflow:hidden;opacity:.55;transition:opacity .15s,transform .15s;
-    }
-    .lang-flag img{width:100%;height:100%;object-fit:cover;display:block}
-    .lang-flag.active{opacity:1;transform:translateY(-1px)}
-    .lang-menu-inline{
-      display:flex;align-items:center;gap:4px;margin-left:4px;
-    }
+    .lang-menu-inline{display:flex;align-items:center;gap:4px;margin-left:4px}
     .lang-menu-inline button{
       border:none;background:none;color:var(--g2);
       font-size:11px;padding:2px 6px;border-radius:999px;
-      cursor:pointer;transition:background .15s,color .15s;
+      cursor:pointer;transition:background .15s,color .15s;font-family:inherit;
     }
-    .lang-menu-inline button.active{
-      color:var(--red);background:var(--red-a);
-    }
+    .lang-menu-inline button.active{color:var(--red);background:var(--red-a)}
     .lang-menu-inline button:hover{color:var(--w);background:rgba(255,255,255,.08)}
 
-    /* HERO */
+    /* ═══════════════════════ HERO ═══════════════════════ */
     @keyframes riseIn{
       to{opacity:1;transform:translateY(0) scale(1)}
     }
+    @keyframes cueBob{
+      0%,100%{transform:rotate(45deg) translate(0,0)}
+      50%{transform:rotate(45deg) translate(3px,3px)}
+    }
+    @keyframes glowPulse{
+      0%,100%{opacity:.5}
+      50%{opacity:.9}
+    }
+
     .hero{
       min-height:100svh;
       display:grid;
       grid-template-rows:1fr auto;
       padding-top:56px;
       overflow:hidden;
+      position:relative;
+      /* Subtle radial gradient for hero atmosphere */
+      background:radial-gradient(ellipse 80% 55% at 50% 0%,#1A1826 0%,#050506 60%);
     }
+    /* Dot grid texture */
+    .hero::before{
+      content:'';
+      position:absolute;inset:0;
+      background-image:radial-gradient(rgba(255,255,255,.028) 1px,transparent 1px);
+      background-size:28px 28px;
+      mask-image:radial-gradient(ellipse 65% 50% at 50% 10%,black 0%,transparent 100%);
+      -webkit-mask-image:radial-gradient(ellipse 65% 50% at 50% 10%,black 0%,transparent 100%);
+      z-index:0;pointer-events:none;
+    }
+    /* Red ambient top glow */
+    .hero::after{
+      content:'';
+      position:absolute;
+      top:-80px;left:50%;
+      transform:translateX(-50%);
+      width:700px;height:300px;
+      background:radial-gradient(ellipse at center,rgba(255,59,48,.055) 0%,transparent 70%);
+      filter:blur(30px);
+      pointer-events:none;z-index:0;
+    }
+
     .hero-content{
       display:flex;flex-direction:column;
       align-items:center;justify-content:center;
       text-align:center;
-      padding:70px 24px 40px;
-      position:relative;
-      z-index:2;
+      padding:70px 24px 44px;
+      position:relative;z-index:2;
     }
+
     .hero-logo-stack{
       display:flex;flex-direction:column;align-items:center;
       margin-bottom:40px;position:relative;
@@ -154,43 +175,62 @@
     }
     .hero-logo-stack::before{
       content:'';
-      position:absolute;
-      width:120px;height:120px;border-radius:50%;
-      background:radial-gradient(circle,#FF3B30 0,transparent 60%);
-      filter:blur(26px);opacity:.45;
-      z-index:-1;
+      position:absolute;width:130px;height:130px;border-radius:50%;
+      background:radial-gradient(circle,rgba(255,59,48,.22) 0%,transparent 60%);
+      filter:blur(22px);opacity:.7;z-index:-1;
+      animation:glowPulse 3s 1.5s ease-in-out infinite;
     }
     .hero-logo-stack img{
       width:80px;height:80px;border-radius:22px;
       object-fit:cover;
       box-shadow:
-        0 0 0 1px rgba(255,255,255,.08),
-        0 0 26px rgba(255,59,48,.55);
+        0 0 0 1px rgba(255,255,255,.09),
+        0 0 28px rgba(255,59,48,.5),
+        0 12px 40px rgba(0,0,0,.5);
+      transition:transform .3s cubic-bezier(.34,1.56,.64,1),
+                 box-shadow .3s;
+    }
+    .hero-logo-stack img:hover{
+      transform:scale(1.04);
+      box-shadow:0 0 0 1px rgba(255,255,255,.12),
+                 0 0 36px rgba(255,59,48,.65),
+                 0 16px 50px rgba(0,0,0,.55);
     }
     .hero-logo-label{
-      font-size:12px;font-weight:600;color:var(--g1);
-      letter-spacing:.12em;text-transform:uppercase;margin-top:12px;
+      font-size:12px;font-weight:600;color:var(--g2);
+      letter-spacing:.1em;text-transform:uppercase;margin-top:13px;
     }
+
     .hero-h1{
       font-size:clamp(46px,7.8vw,96px);
       font-weight:900;line-height:.96;
       letter-spacing:-.045em;color:var(--w);
       max-width:880px;margin-bottom:22px;
-      opacity:0;transform:translateY(20px);
-      animation:riseIn .8s .15s cubic-bezier(.22,1,.36,1) forwards;
     }
+    /* Word-by-word animation spans (injected by JS) */
+    .hero-h1 .word{
+      display:inline-block;
+      opacity:0;transform:translateY(22px);
+      animation:riseIn .75s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .hero-h1 .w1{animation-delay:.16s}
+    .hero-h1 .w2{animation-delay:.24s}
+    .hero-h1 .w3{animation-delay:.33s}
+    .hero-h1 .w4{animation-delay:.42s}
+    .hero-h1 .br{display:block;height:.08em}
+
     .hero-sub{
       font-size:clamp(15px,1.8vw,18px);
       color:var(--g1);font-weight:400;line-height:1.7;
       max-width:420px;margin-bottom:34px;
       opacity:0;transform:translateY(16px);
-      animation:riseIn .8s .26s cubic-bezier(.22,1,.36,1) forwards;
+      animation:riseIn .8s .52s cubic-bezier(.22,1,.36,1) forwards;
     }
     .hero-ctas{
       display:flex;flex-wrap:wrap;justify-content:center;
       gap:12px;margin-bottom:18px;
       opacity:0;transform:translateY(16px);
-      animation:riseIn .8s .36s cubic-bezier(.22,1,.36,1) forwards;
+      animation:riseIn .8s .64s cubic-bezier(.22,1,.36,1) forwards;
     }
     .btn-primary{
       display:inline-flex;align-items:center;gap:9px;
@@ -199,32 +239,38 @@
       padding:14px 26px;border-radius:999px;
       letter-spacing:-.01em;border:none;cursor:pointer;
       transition:transform .22s cubic-bezier(.34,1.56,.64,1),opacity .15s;
-      box-shadow:0 10px 30px rgba(255,59,48,.55);
+      box-shadow:0 10px 30px rgba(255,59,48,.5);
     }
     .btn-primary svg{width:15px;height:15px}
-    .btn-primary:hover{transform:translateY(-2px) scale(1.02);opacity:.93}
+    .btn-primary:hover{transform:translateY(-2px) scale(1.025);opacity:.92}
+    .btn-primary:active{transform:scale(.97)}
     .btn-secondary{
       display:inline-flex;align-items:center;gap:7px;
       background:rgba(255,255,255,.04);color:var(--w);
       text-decoration:none;font-size:14px;font-weight:500;
-      padding:11px 20px;border-radius:999px;
+      padding:14px 20px;border-radius:999px;
       border:1px solid var(--b);cursor:pointer;
-      transition:background .15s,border-color .15s,color .15s,transform .18s;
+      transition:background .15s,border-color .15s,transform .18s;
     }
     .btn-secondary svg{width:13px;height:13px}
     .btn-secondary:hover{background:rgba(255,255,255,.08);border-color:var(--bh);transform:translateY(-1px)}
+
     .hero-meta{
       font-size:12px;color:var(--g2);margin-top:6px;
       opacity:0;transform:translateY(12px);
-      animation:riseIn .8s .44s cubic-bezier(.22,1,.36,1) forwards;
+      animation:riseIn .8s .76s cubic-bezier(.22,1,.36,1) forwards;
+      transition:opacity .4s,transform .4s;
     }
     .hero-meta span{color:var(--w);font-weight:500}
+
     .scroll-cue{
       display:flex;flex-direction:column;align-items:center;gap:7px;
       margin-top:34px;
       opacity:0;
-      animation:riseIn 1s 1.1s ease forwards;
+      animation:riseIn 1s 1.2s ease forwards;
+      transition:opacity .4s,transform .4s;
     }
+    .scroll-cue.hidden{opacity:0!important;transform:translateY(-8px)!important}
     .scroll-cue span{
       font-size:10px;color:var(--g3);font-weight:600;
       letter-spacing:.1em;text-transform:uppercase;
@@ -234,37 +280,52 @@
       border-right:1.5px solid var(--g3);
       border-bottom:1.5px solid var(--g3);
       transform:rotate(45deg);
-      animation:cueBob 2.2s 1.4s ease-in-out infinite;
-    }
-    @keyframes cueBob{
-      0%,100%{transform:rotate(45deg) translate(0,0)}
-      50%{transform:rotate(45deg) translate(3px,3px)}
+      animation:cueBob 2.2s 1.5s ease-in-out infinite;
     }
 
-    /* HERO PREVIEW – REAL APP WINDOW */
+    /* ═══════════════════════ HERO PREVIEW — FIXED ═══════════════════════ */
     .hero-preview{
-      width:100%;max-width:1100px;margin:0 auto;
-      padding:0 24px 40px;
-      opacity:0;transform:translateY(34px) scale(.98);
-      animation:riseIn .95s .55s cubic-bezier(.22,1,.36,1) forwards;
-      position:relative;
+      width:100%;max-width:1060px;margin:0 auto;
+      /* KEY FIX: no bottom padding — window bleeds to edge */
+      padding:0 20px;
+      opacity:0;transform:translateY(40px) scale(.98);
+      animation:riseIn 1s .82s cubic-bezier(.22,1,.36,1) forwards;
+      position:relative;z-index:1;
     }
+    /* Red ambient glow behind the preview window */
+    .hero-preview::before{
+      content:'';
+      position:absolute;
+      top:-10px;left:50%;
+      transform:translateX(-50%);
+      width:72%;height:90px;
+      background:radial-gradient(ellipse at center,rgba(255,59,48,.16) 0%,transparent 68%);
+      filter:blur(28px);
+      z-index:-1;pointer-events:none;
+    }
+
+    /* KEY FIX: window frame rises from bottom – no bottom radius, no bottom border */
     .preview-frame{
       width:100%;
-      border-radius:20px;
+      border-radius:16px 16px 0 0;
       border:1px solid var(--bh);
+      border-bottom:none;
       overflow:hidden;
-      background:radial-gradient(circle at top,#181820 0,#0B0B0E 55%);
+      background:linear-gradient(to bottom,#181820 0%,#0F0F16 50%,#0A0A0F 100%);
       box-shadow:
-        0 1px 0 0 rgba(255,255,255,.07) inset,
-        0 40px 120px rgba(0,0,0,.75),
-        0 0 0 1px rgba(0,0,0,.5);
+        0 -1px 0 0 rgba(255,255,255,.09) inset,
+        0 0 0 1px rgba(255,255,255,.03) inset,
+        0 40px 130px rgba(0,0,0,.85),
+        0 0 80px rgba(255,59,48,.04);
       position:relative;
     }
+
+    /* Title bar */
     .preview-bar{
-      height:38px;background:linear-gradient(to right,#0D0D11,#15151B);
+      height:38px;
+      background:linear-gradient(to right,#0E0E14,#16161E);
       display:flex;align-items:center;padding:0 0 0 14px;gap:8px;
-      border-bottom:1px solid var(--b);
+      border-bottom:1px solid rgba(255,255,255,.06);
       flex-shrink:0;user-select:none;
     }
     .preview-bar-l{display:flex;align-items:center;gap:8px;flex-shrink:0}
@@ -276,77 +337,141 @@
       flex:1;text-align:center;letter-spacing:.01em;pointer-events:none;
     }
     .preview-winbtns{display:flex;align-items:stretch;align-self:stretch;flex-shrink:0;margin-left:auto}
-    .pwb{display:flex;align-items:center;justify-content:center;width:42px;height:100%;color:var(--g2);transition:background .12s,color .12s}
+    .pwb{
+      display:flex;align-items:center;justify-content:center;
+      width:42px;height:100%;color:var(--g2);
+      transition:background .12s,color .12s;
+    }
     .pwb:hover{background:rgba(255,255,255,.07);color:var(--w)}
     .pwb-close:hover{background:#C42B1C!important;color:#fff!important}
 
-    .preview-ui{display:flex;height:clamp(260px,32vw,440px);overflow:hidden}
+    /* App UI layout */
+    .preview-ui{display:flex;height:clamp(260px,32vw,445px);overflow:hidden}
 
-    /* sidebar */
+    /* LEFT SIDEBAR */
     .preview-sidebar{
       width:190px;flex-shrink:0;
-      border-right:1px solid var(--b);
+      border-right:1px solid rgba(255,255,255,.06);
       display:flex;flex-direction:column;
-      background:linear-gradient(to bottom,#101017,#0B0B0E);
+      background:linear-gradient(to bottom,#101017,#0A0A0F);
     }
-    .ps-logo{display:flex;align-items:center;gap:8px;padding:13px 14px 11px;border-bottom:1px solid var(--b)}
+    .ps-logo{display:flex;align-items:center;gap:8px;padding:13px 14px 11px;border-bottom:1px solid rgba(255,255,255,.06)}
     .ps-logo-ico{width:20px;height:20px;border-radius:6px;object-fit:cover;flex-shrink:0;box-shadow:0 0 0 1px rgba(255,255,255,.08)}
     .ps-logo-txt{font-size:12px;font-weight:700;color:var(--w);letter-spacing:-.01em}
     .ps-logo-sub{font-size:9.5px;color:var(--g2);font-weight:400}
     .ps-nav{padding:10px 6px;display:flex;flex-direction:column;gap:2px}
-    .ps-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;font-size:11.5px;color:var(--g1);cursor:pointer;transition:background .12s,color .12s;user-select:none}
+    .ps-item{
+      display:flex;align-items:center;gap:8px;
+      padding:7px 10px;border-radius:8px;
+      font-size:11.5px;color:var(--g1);cursor:pointer;
+      transition:background .14s,color .14s;user-select:none;
+    }
     .ps-item:hover{background:rgba(255,255,255,.06);color:var(--w)}
     .ps-item.active{background:var(--red-a);color:var(--red)}
     .ps-item svg{width:13px;height:13px;flex-shrink:0;opacity:.85}
     .ps-item.active svg{opacity:1}
-    .ps-section{font-size:9.5px;color:var(--g3);font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:12px 10px 4px}
-    .ps-folder{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:7px;font-size:11px;color:var(--g2);cursor:pointer;transition:background .12s}
+    .ps-section{
+      font-size:9.5px;color:var(--g3);font-weight:600;
+      letter-spacing:.08em;text-transform:uppercase;
+      padding:12px 10px 4px;
+    }
+    .ps-folder{
+      display:flex;align-items:center;gap:6px;
+      padding:5px 10px;border-radius:7px;
+      font-size:11px;color:var(--g2);cursor:pointer;
+      transition:background .12s,color .12s;
+    }
     .ps-folder:hover{background:rgba(255,255,255,.05);color:var(--g1)}
     .ps-folder svg{width:12px;height:12px;flex-shrink:0}
     .ps-folder-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-left:auto;background:var(--g3)}
     .ps-folder-dot.on{background:#30D158}
 
-    /* main */
-    .preview-main{flex:1;overflow:hidden;display:flex;flex-direction:column;background:radial-gradient(circle at top,#181822 0,#101017 55%)}
-    .preview-topbar{height:42px;border-bottom:1px solid var(--b);display:flex;align-items:center;padding:0 16px;gap:8px;flex-shrink:0}
-    .ptb-tab{font-size:12px;font-weight:500;color:var(--g2);padding:5px 12px;border-radius:7px 7px 0 0;border-bottom:2px solid transparent;cursor:default}
+    /* MAIN CONTENT AREA */
+    .preview-main{
+      flex:1;overflow:hidden;display:flex;flex-direction:column;
+      background:radial-gradient(circle at 50% 0%,#16161E 0%,#0D0D13 55%,#0A0A0F 100%);
+    }
+    .preview-topbar{
+      height:42px;border-bottom:1px solid rgba(255,255,255,.06);
+      display:flex;align-items:center;padding:0 16px;gap:8px;flex-shrink:0;
+    }
+    .ptb-tab{
+      font-size:12px;font-weight:500;color:var(--g2);
+      padding:5px 12px;border-radius:7px 7px 0 0;
+      border-bottom:2px solid transparent;cursor:default;
+    }
     .ptb-tab.active{color:var(--w);border-bottom-color:var(--red)}
     .ptb-spacer{flex:1}
-    .ptb-search{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);border:1px solid var(--b);border-radius:8px;padding:4px 10px;font-size:11px;color:var(--g2);width:128px}
+    .ptb-search{
+      display:flex;align-items:center;gap:6px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:8px;padding:4px 10px;
+      font-size:11px;color:var(--g2);width:128px;
+    }
     .ptb-search svg{width:11px;height:11px;flex-shrink:0}
-    .ptb-add{font-size:11px;font-weight:600;color:#fff;background:var(--red);padding:5px 10px;border-radius:7px;display:flex;align-items:center;gap:5px;cursor:default;white-space:nowrap;box-shadow:0 4px 14px rgba(255,59,48,.4)}
+    .ptb-add{
+      font-size:11px;font-weight:600;color:#fff;
+      background:var(--red);padding:5px 10px;border-radius:7px;
+      display:flex;align-items:center;gap:5px;cursor:default;white-space:nowrap;
+      box-shadow:0 4px 14px rgba(255,59,48,.35);
+    }
     .ptb-add svg{width:10px;height:10px}
 
-    /* device grid */
+    /* DEVICE GRID */
     .preview-body{flex:1;display:flex;overflow:hidden}
     .preview-grid-wrap{flex:1;overflow:hidden;padding:14px;display:flex;flex-direction:column;gap:12px}
     .pgw-section-label{font-size:10px;font-weight:600;color:var(--g3);letter-spacing:.07em;text-transform:uppercase}
     .preview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
     .pg-card{
-      background:rgba(10,10,14,.9);
+      background:rgba(10,10,16,.9);
       border:1px solid rgba(255,255,255,.06);
       border-radius:10px;padding:12px;
       display:flex;flex-direction:column;gap:6px;
       cursor:pointer;position:relative;
-      transition:transform .25s cubic-bezier(.22,1,.36,1),border-color .18s,background .18s,box-shadow .25s;
+      transition:transform .24s cubic-bezier(.22,1,.36,1),
+                 border-color .18s,background .18s,box-shadow .24s;
     }
-    .pg-card:hover{border-color:rgba(255,255,255,.14);background:rgba(20,20,26,.9);transform:translateY(-2px)}
-    .pg-card.selected{border-color:var(--red);background:var(--red-a);box-shadow:0 10px 26px rgba(255,59,48,.18)}
+    .pg-card:hover{
+      border-color:rgba(255,255,255,.14);
+      background:rgba(18,18,24,.9);
+      transform:translateY(-2px);
+      box-shadow:0 8px 24px rgba(0,0,0,.4);
+    }
+    .pg-card.selected{
+      border-color:var(--red);
+      background:var(--red-a);
+      box-shadow:0 8px 24px rgba(255,59,48,.15);
+    }
     .pgc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
-    .pgc-badge{font-size:8.5px;font-weight:700;background:#0a9e8f;color:#fff;padding:2px 5px;border-radius:4px;letter-spacing:.04em}
+    .pgc-badge{
+      font-size:8.5px;font-weight:700;
+      background:#0a9e8f;color:#fff;
+      padding:2px 5px;border-radius:4px;letter-spacing:.04em;
+    }
     .pgc-badge.rdp{background:#2563eb}
     .pgc-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
     .pgc-dot.on{background:#30D158}
     .pgc-dot.off{background:var(--g3)}
     .pgc-name{font-size:11.5px;font-weight:600;color:var(--w);margin-top:2px}
-    .pgc-host{font-size:10px;color:var(--g2);margin-top:0}
+    .pgc-host{font-size:10px;color:var(--g2)}
 
-    /* right detail panel */
-    .preview-detail{width:208px;flex-shrink:0;border-left:1px solid var(--b);background:linear-gradient(to bottom,#101017,#0B0B0E);display:flex;flex-direction:column}
-    .pd-top{padding:12px 14px 10px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between}
+    /* RIGHT DETAIL PANEL */
+    .preview-detail{
+      width:208px;flex-shrink:0;
+      border-left:1px solid rgba(255,255,255,.06);
+      background:linear-gradient(to bottom,#0F0F17,#0A0A0F);
+      display:flex;flex-direction:column;
+    }
+    .pd-top{
+      padding:12px 14px 10px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      display:flex;align-items:center;justify-content:space-between;
+    }
     .pd-badge{font-size:8.5px;font-weight:700;background:#0a9e8f;color:#fff;padding:3px 7px;border-radius:5px;letter-spacing:.04em}
     .pd-star{color:var(--g3);font-size:14px}
-    .pd-title{font-size:15px;font-weight:700;color:var(--w);padding:10px 14px 0}
+    .pd-title{font-size:15px;font-weight:700;color:var(--w);padding:10px 14px 0;
+      transition:color .2s;}
     .pd-fields{padding:10px 14px;display:flex;flex-direction:column;gap:10px;flex:1}
     .pd-field-label{font-size:9px;font-weight:600;color:var(--g3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
     .pd-field-val{font-size:11px;color:var(--g1)}
@@ -355,40 +480,63 @@
     .pd-pw{display:flex;align-items:center;gap:6px}
     .pd-pw-dots{font-size:13px;color:var(--g1);letter-spacing:1px}
     .pd-pw-show{font-size:9.5px;color:var(--red);cursor:pointer}
-    .pd-connect{margin:12px 14px;background:var(--red);color:#fff;font-size:12px;font-weight:700;border-radius:8px;padding:9px;text-align:center;cursor:pointer;box-shadow:0 6px 18px rgba(255,59,48,.4);transition:transform .18s,opacity .15s}
-    .pd-connect:hover{transform:translateY(-1px);opacity:.92}
+    .pd-connect{
+      margin:12px 14px;
+      background:var(--red);color:#fff;font-size:12px;font-weight:700;
+      border-radius:8px;padding:9px;text-align:center;cursor:pointer;
+      box-shadow:0 6px 18px rgba(255,59,48,.35);
+      transition:transform .18s cubic-bezier(.34,1.56,.64,1),opacity .15s;
+    }
+    .pd-connect:hover{transform:translateY(-1px) scale(1.02);opacity:.92}
     .pd-actions{display:flex;align-items:center;justify-content:space-between;padding:0 14px 14px}
     .pd-action-btn{font-size:11px;color:var(--g1);cursor:pointer;transition:color .12s}
     .pd-action-btn:hover{color:var(--w)}
 
-    /* favorites view */
+    /* FAVORITES VIEW */
     .preview-fav-grid{padding:20px;display:flex;gap:10px;flex-wrap:wrap;align-content:flex-start}
-    .fav-card{width:160px;background:rgba(10,10,14,.9);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:6px}
+    .fav-card{
+      width:160px;background:rgba(10,10,14,.9);
+      border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px;
+      display:flex;flex-direction:column;gap:6px;
+    }
     .fav-card-top{display:flex;align-items:center;justify-content:space-between}
     .fav-star{color:#f5a623;font-size:13px}
 
-    /* quick connect view */
+    /* QUICK CONNECT VIEW */
     .preview-qc{flex:1;display:flex;align-items:center;justify-content:center}
-    .qc-modal{background:#1A1A20;border:1px solid var(--bh);border-radius:14px;padding:26px 26px 22px;width:320px;box-shadow:0 24px 60px rgba(0,0,0,.6)}
+    .qc-modal{
+      background:#181820;border:1px solid var(--bh);
+      border-radius:14px;padding:26px 26px 22px;width:320px;
+      box-shadow:0 24px 60px rgba(0,0,0,.6);
+    }
     .qc-title{font-size:16px;font-weight:700;color:var(--w);margin-bottom:4px}
     .qc-sub{font-size:11.5px;color:var(--g2);margin-bottom:18px}
     .qc-tabs{display:flex;gap:2px;background:rgba(255,255,255,.05);border-radius:8px;padding:3px;margin-bottom:16px}
     .qc-tab{flex:1;text-align:center;padding:5px 0;border-radius:6px;font-size:11.5px;font-weight:600;color:var(--g2);cursor:pointer}
-    .qc-tab.active{background:#0B0B0E;color:var(--w)}
+    .qc-tab.active{background:#0D0D13;color:var(--w)}
     .qc-row{display:flex;gap:10px;margin-bottom:10px}
     .qc-field{flex:1;display:flex;flex-direction:column;gap:4px}
     .qc-label{font-size:10.5px;color:var(--g2)}
-    .qc-input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:7px;padding:7px 10px;font-size:11.5px;color:var(--g1)}
-    .qc-input.half{width:76px}
+    .qc-input{
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.09);
+      border-radius:7px;padding:7px 10px;
+      font-size:11.5px;color:var(--g1);
+    }
     .qc-btns{display:flex;gap:10px;margin-top:18px;justify-content:flex-end}
     .qc-cancel{font-size:12px;color:var(--g1);padding:8px 16px;cursor:pointer;transition:color .12s}
     .qc-cancel:hover{color:var(--w)}
-    .qc-go{background:var(--red);color:#fff;font-size:12px;font-weight:700;padding:8px 18px;border-radius:8px;cursor:pointer;transition:transform .18s,opacity .15s}
-    .qc-go:hover{transform:translateY(-1px);opacity:.92}
+    .qc-go{
+      background:var(--red);color:#fff;font-size:12px;font-weight:700;
+      padding:8px 18px;border-radius:8px;cursor:pointer;
+      transition:transform .18s cubic-bezier(.34,1.56,.64,1),opacity .15s;
+    }
+    .qc-go:hover{transform:translateY(-1px) scale(1.03);opacity:.9}
 
     .preview-view{display:none}
     .preview-view.active{display:flex;flex:1;overflow:hidden}
 
+    /* Preview mobile responsive */
     @media(max-width:700px){
       .preview-sidebar{display:none}
       .preview-detail{display:none}
@@ -400,7 +548,7 @@
       .ptb-search{display:none}
     }
 
-    /* SECTIONS */
+    /* ═══════════════════════ SECTIONS ═══════════════════════ */
     .w{max-width:980px;margin:0 auto;padding:0 24px}
     .sec{padding:110px 0}
     .eyebrow{
@@ -417,33 +565,34 @@
       max-width:420px;margin-bottom:50px;
     }
 
-    /* FEATURES */
+    /* ═══════════════════════ FEATURES ═══════════════════════ */
     .feat-grid{
       display:grid;grid-template-columns:repeat(3,1fr);
       gap:1px;background:var(--b);
       border-radius:16px;overflow:hidden;border:1px solid var(--b);
     }
     .feat{
-      background:var(--s2);padding:26px 22px;
-      cursor:default;transition:background .18s,transform .18s;
+      background:var(--s2);padding:28px 24px;
+      cursor:default;
+      transition:background .2s;
     }
-    .feat:hover{background:var(--s3);transform:translateY(-2px)}
+    .feat:hover{background:var(--s3)}
     .feat-ico{
-      width:34px;height:34px;border-radius:10px;
+      width:36px;height:36px;border-radius:10px;
       background:var(--red-a);
       display:flex;align-items:center;justify-content:center;
       margin-bottom:14px;color:var(--red);
+      transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .2s;
     }
+    .feat:hover .feat-ico{transform:scale(1.12);background:var(--red-b)}
     .feat-ico svg{width:16px;height:16px}
     .feat h3{font-size:14px;font-weight:700;color:var(--w);margin-bottom:6px;letter-spacing:-.01em}
     .feat p{font-size:13px;color:var(--g1);line-height:1.65}
 
-    /* SCREENSHOTS – simple, big, swipeable */
-    .shots{
-      padding:90px 0 80px;
-    }
+    /* ═══════════════════════ SCREENSHOTS ═══════════════════════ */
+    .shots{padding:90px 0 80px}
     .shots-inner{max-width:980px;margin:0 auto;padding:0 24px}
-    .shots-header{text-align:center;margin-bottom:26px}
+    .shots-header{text-align:center;margin-bottom:28px}
     .shots-header .sec-h{font-size:32px;margin-bottom:8px}
     .shots-header .sec-p{margin:0 auto;max-width:460px}
     .shots-frame{
@@ -451,8 +600,7 @@
       border:1px solid var(--b);
       background:var(--s2);
       box-shadow:0 32px 90px rgba(0,0,0,.7);
-      overflow:hidden;
-      position:relative;
+      overflow:hidden;position:relative;
       touch-action:pan-y;
     }
     .shots-main{
@@ -460,9 +608,7 @@
       display:flex;align-items:center;justify-content:center;
       background:#050506;
     }
-    .shots-main img{
-      width:100%;height:100%;object-fit:contain;display:block;
-    }
+    .shots-main img{width:100%;height:100%;object-fit:contain;display:block}
     .shots-nav{
       position:absolute;top:50%;left:0;right:0;
       display:flex;justify-content:space-between;
@@ -474,40 +620,33 @@
       background:rgba(10,10,14,.8);
       border:1px solid var(--b);
       display:flex;align-items:center;justify-content:center;
-      color:var(--g1);cursor:pointer;
-      pointer-events:auto;
+      color:var(--g1);cursor:pointer;pointer-events:auto;
       backdrop-filter:blur(10px);
       transition:background .15s,color .15s,transform .18s;
     }
-    .shots-arrow:hover{background:rgba(255,255,255,.12);color:var(--w);transform:scale(1.08)}
+    .shots-arrow:hover{background:rgba(255,255,255,.12);color:var(--w);transform:scale(1.1)}
     .shots-arrow svg{width:14px;height:14px}
     .shots-thumbs{
       display:flex;gap:8px;padding:10px 12px;
       background:linear-gradient(to right,#0D0D11,#15151B);
-      border-top:1px solid var(--b);
-      overflow-x:auto;
+      border-top:1px solid var(--b);overflow-x:auto;
     }
     .shots-thumb{
       flex:0 0 80px;height:50px;border-radius:9px;
-      border:1px solid var(--b);
-      overflow:hidden;cursor:pointer;
-      opacity:.6;transition:opacity .15s,border-color .15s,transform .18s;
+      border:1px solid var(--b);overflow:hidden;
+      cursor:pointer;opacity:.6;
+      transition:opacity .15s,border-color .15s,transform .18s;
     }
     .shots-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .shots-thumb.active{
-      opacity:1;border-color:var(--red);transform:translateY(-1px);
-    }
+    .shots-thumb.active{opacity:1;border-color:var(--red);transform:translateY(-1px)}
 
-    /* SECURITY */
+    /* ═══════════════════════ SECURITY ═══════════════════════ */
     .sec-grid{
       display:grid;grid-template-columns:repeat(2,1fr);
       gap:1px;background:var(--b);
       border-radius:16px;overflow:hidden;border:1px solid var(--b);
     }
-    .sec-item{
-      background:var(--s2);padding:26px 24px;
-      transition:background .18s;
-    }
+    .sec-item{background:var(--s2);padding:28px 26px;transition:background .18s}
     .sec-item:hover{background:var(--s3)}
     .sec-tag{
       font-size:10px;font-weight:700;text-transform:uppercase;
@@ -516,48 +655,36 @@
     .sec-item h4{font-size:14px;font-weight:700;color:var(--w);margin-bottom:5px;letter-spacing:-.01em}
     .sec-item p{font-size:13px;color:var(--g1);line-height:1.6}
 
-    /* DOWNLOAD CARD */
+    /* ═══════════════════════ DOWNLOAD ═══════════════════════ */
     .cta-wrap{padding:70px 24px 90px}
     .cta-card{
       max-width:520px;margin:0 auto;
       background:var(--s2);
-      border-radius:22px;
-      border:1px solid var(--b);
+      border-radius:22px;border:1px solid var(--b);
       padding:46px 40px 40px;
-      text-align:center;
-      position:relative;
-      box-shadow:0 26px 80px rgba(0,0,0,.7);
+      text-align:center;position:relative;
+      box-shadow:0 30px 90px rgba(0,0,0,.7);
     }
     .cta-card::before{
       content:'';
       position:absolute;top:-1px;left:20%;right:20%;height:1px;
-      background:linear-gradient(90deg,transparent,rgba(255,59,48,.6),transparent);
+      background:linear-gradient(90deg,transparent,rgba(255,59,48,.55),transparent);
     }
     .cta-logo{
       width:54px;height:54px;border-radius:16px;
       overflow:hidden;margin:0 auto 20px;
       box-shadow:0 0 0 1px rgba(255,255,255,.08),
-                 0 0 26px rgba(255,59,48,.55);
+                 0 0 26px rgba(255,59,48,.5);
     }
     .cta-logo img{width:100%;height:100%;object-fit:cover;display:block}
-    .cta-card h2{
-      font-size:28px;font-weight:800;letter-spacing:-.035em;margin-bottom:8px;
-    }
-    .cta-card>p{
-      font-size:14px;color:var(--g1);line-height:1.7;margin-bottom:26px;
-    }
-    .cta-buttons{
-      display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:16px;
-    }
-    .cta-meta{
-      font-size:12px;color:var(--g2);margin-top:6px;
-    }
+    .cta-card h2{font-size:28px;font-weight:800;letter-spacing:-.035em;margin-bottom:8px}
+    .cta-card>p{font-size:14px;color:var(--g1);line-height:1.7;margin-bottom:26px}
+    .cta-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:16px}
+    .cta-meta{font-size:12px;color:var(--g2);margin-top:6px}
     .cta-meta span{color:var(--w);font-weight:500}
     .cta-meta a{color:var(--g1);text-decoration:none}
     .cta-meta a:hover{color:var(--w)}
-    .chips{
-      display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:18px;
-    }
+    .chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:18px}
     .chip{
       font-size:11px;font-weight:500;color:var(--g2);
       background:rgba(255,255,255,.04);
@@ -565,28 +692,20 @@
       padding:4px 11px;
     }
 
-    /* RELEASES */
+    /* ═══════════════════════ RELEASES ═══════════════════════ */
     .rel-wrap{padding:40px 24px 80px}
     .rel-card{
       max-width:980px;margin:0 auto;
       border-radius:18px;border:1px solid var(--b);
-      background:var(--s2);
-      padding:26px 24px;
+      background:var(--s2);padding:26px 24px;
     }
-    .rel-header{
-      display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;
-    }
+    .rel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
     .rel-header h3{font-size:18px;font-weight:700;letter-spacing:-.02em}
     .rel-header span{font-size:12px;color:var(--g2)}
-    .rel-list{
-      border-radius:12px;border:1px solid rgba(255,255,255,.05);
-      overflow:hidden;
-    }
+    .rel-list{border-radius:12px;border:1px solid rgba(255,255,255,.05);overflow:hidden}
     .rel-row{
-      display:grid;
-      grid-template-columns:1.2fr .8fr .6fr .6fr;
-      padding:10px 12px;
-      font-size:12px;color:var(--g1);
+      display:grid;grid-template-columns:1.2fr .8fr .6fr .6fr;
+      padding:10px 12px;font-size:12px;color:var(--g1);
       background:rgba(10,10,14,.9);
     }
     .rel-row:nth-child(odd){background:rgba(14,14,18,.9)}
@@ -594,7 +713,7 @@
     .rel-row a{color:var(--red);text-decoration:none;font-weight:500}
     .rel-row a:hover{text-decoration:underline}
 
-    /* FOOTER */
+    /* ═══════════════════════ FOOTER ═══════════════════════ */
     footer{
       border-top:1px solid var(--b);
       max-width:980px;margin:0 auto;
@@ -606,7 +725,7 @@
     footer a{color:var(--g2);text-decoration:none}
     footer a:hover{color:var(--w)}
 
-    /* RESPONSIVE */
+    /* ═══════════════════════ RESPONSIVE ═══════════════════════ */
     @media(max-width:960px){
       .feat-grid{grid-template-columns:repeat(2,1fr)}
       .sec-grid{grid-template-columns:1fr}
@@ -619,8 +738,10 @@
       .feat-grid{grid-template-columns:1fr}
       .rel-row{grid-template-columns:1.6fr 1fr}
       .rel-row span:nth-child(3),.rel-row span:nth-child(4){display:none}
+      .cta-card{padding:36px 24px 32px}
     }
-    /* SCROLL REVEAL */
+
+    /* ═══════════════════════ SCROLL REVEAL ═══════════════════════ */
     .rev{
       opacity:0;transform:translateY(28px);
       transition:opacity .7s cubic-bezier(.22,1,.36,1),
@@ -634,7 +755,7 @@
     }
     .rev-s.in{opacity:1;transform:none}
     .stag>*{
-      opacity:0;transform:translateY(22px);
+      opacity:0;transform:translateY(24px);
       transition:opacity .6s cubic-bezier(.22,1,.36,1),
                  transform .6s cubic-bezier(.22,1,.36,1);
     }
@@ -644,9 +765,12 @@
     .stag.in>*:nth-child(4){opacity:1;transform:none;transition-delay:.18s}
     .stag.in>*:nth-child(5){opacity:1;transform:none;transition-delay:.24s}
     .stag.in>*:nth-child(6){opacity:1;transform:none;transition-delay:.30s}
+    .stag.in>*:nth-child(7){opacity:1;transform:none;transition-delay:.36s}
+    .stag.in>*:nth-child(8){opacity:1;transform:none;transition-delay:.42s}
   </style>
 </head>
 <body>
+
   <!-- NAV -->
   <nav id="nav">
     <a href="#hero" class="nav-l">
@@ -682,7 +806,13 @@
         <img src="logo.png" alt="ReMa Logo">
         <div class="hero-logo-label">Remote Manager für Windows</div>
       </div>
-      <h1 class="hero-h1">Alle Geräte.<br>Unter Kontrolle.</h1>
+
+      <h1 class="hero-h1">
+        <span class="word w1">Alle</span>&thinsp;<span class="word w2">Geräte.</span>
+        <span class="br"></span>
+        <span class="word w3">Unter</span>&thinsp;<span class="word w4">Kontrolle.</span>
+      </h1>
+
       <p class="hero-sub">
         Sicherer Remote-Zugriff für Windows. Multi-Monitor, verschlüsselt und lokal – ohne Cloud, ohne Telemetrie.
       </p>
@@ -699,265 +829,272 @@
       <div class="hero-meta">
         <span id="meta-version">v1.0.0</span> · lokal · kostenlos · Windows
       </div>
-      <div class="scroll-cue" aria-hidden="true">
+      <div class="scroll-cue" id="scroll-cue" aria-hidden="true">
         <span>Scroll</span>
         <div class="scroll-cue-chev"></div>
       </div>
     </div>
-	
-<div class="hero-preview">
-  <div class="preview-frame">
-    <div class="preview-bar">
-      <div class="preview-bar-l">
-        <img src="logo.png" class="pbar-logo" alt="ReMa" aria-hidden="true">
-        <span class="pbar-appname">ReMa</span>
-        <span class="pbar-appsub">RemoteManager</span>
-      </div>
-      <span class="preview-title" id="prev-titlebar">Meine Geräte — ReMa</span>
-      <div class="preview-winbtns" aria-hidden="true">
-        <div class="pwb pwb-min"><svg width="10" height="1" viewBox="0 0 10 1"><line x1="0" y1=".5" x2="10" y2=".5" stroke="currentColor" stroke-width="1"/></svg></div>
-        <div class="pwb pwb-max"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x=".5" y=".5" width="8" height="8" stroke="currentColor"/></svg></div>
-        <div class="pwb pwb-close"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="1" y1="1" x2="9" y2="9" stroke="currentColor" stroke-width="1.2"/><line x1="9" y1="1" x2="1" y2="9" stroke="currentColor" stroke-width="1.2"/></svg></div>
+
+    <!-- APP PREVIEW — real window frame, rising from bottom -->
+    <div class="hero-preview" id="hero-preview">
+      <div class="preview-frame">
+        <div class="preview-bar">
+          <div class="preview-bar-l">
+            <img src="logo.png" class="pbar-logo" alt="" aria-hidden="true">
+            <span class="pbar-appname">ReMa</span>
+            <span class="pbar-appsub">RemoteManager</span>
+          </div>
+          <span class="preview-title" id="prev-titlebar">Meine Geräte — ReMa</span>
+          <div class="preview-winbtns" aria-hidden="true">
+            <div class="pwb pwb-min"><svg width="10" height="1" viewBox="0 0 10 1"><line x1="0" y1=".5" x2="10" y2=".5" stroke="currentColor" stroke-width="1"/></svg></div>
+            <div class="pwb pwb-max"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x=".5" y=".5" width="8" height="8" stroke="currentColor"/></svg></div>
+            <div class="pwb pwb-close"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="1" y1="1" x2="9" y2="9" stroke="currentColor" stroke-width="1.2"/><line x1="9" y1="1" x2="1" y2="9" stroke="currentColor" stroke-width="1.2"/></svg></div>
+          </div>
+        </div>
+
+        <div class="preview-ui">
+
+          <!-- LEFT SIDEBAR — clickable navigation -->
+          <div class="preview-sidebar">
+            <div class="ps-logo">
+              <img src="logo.png" class="ps-logo-ico" alt="" aria-hidden="true">
+              <div><div class="ps-logo-txt">ReMa</div><div class="ps-logo-sub">RemoteManager</div></div>
+            </div>
+            <div class="ps-nav">
+              <div class="ps-item active" id="nav-all" onclick="prevSetView('all')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+                <span>Alle Geräte</span>
+              </div>
+              <div class="ps-item" id="nav-fav" onclick="prevSetView('fav')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>Favoriten</span>
+              </div>
+              <div class="ps-item" id="nav-quick" onclick="prevSetView('quick')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+                <span>Schnellverbinden</span>
+              </div>
+            </div>
+            <div class="ps-section">Ordner</div>
+            <div class="ps-nav">
+              <div class="ps-folder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                <span>devices</span>
+              </div>
+              <div class="ps-folder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                <span>rasp</span>
+              </div>
+              <div class="ps-folder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg>
+                <span>Management PC</span>
+                <div class="ps-folder-dot on"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW: All devices -->
+          <div class="preview-view active" id="view-all">
+            <div class="preview-main">
+              <div class="preview-topbar">
+                <span class="ptb-tab active">Übersicht</span>
+                <div class="ptb-spacer"></div>
+                <div class="ptb-search">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <span>Suchen</span>
+                </div>
+                <div class="ptb-add">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  <span>Gerät</span>
+                </div>
+              </div>
+              <div class="preview-body">
+                <div class="preview-grid-wrap">
+                  <div class="preview-grid" id="device-grid">
+                    <div class="pg-card selected" data-name="SV-CTRX" data-host="192.168.1.10" data-proto="VNC" data-online="1" onclick="prevSelectDevice(this)">
+                      <div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot on"></div></div>
+                      <div class="pgc-name">SV-CTRX</div><div class="pgc-host">192.168.1.10</div>
+                    </div>
+                    <div class="pg-card" data-name="Raspberry" data-host="192.168.1.21" data-proto="VNC" data-online="0" onclick="prevSelectDevice(this)">
+                      <div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot off"></div></div>
+                      <div class="pgc-name">Raspberry</div><div class="pgc-host">192.168.1.21</div>
+                    </div>
+                    <div class="pg-card" data-name="PC-User01" data-host="10.0.0.5" data-proto="VNC" data-online="0" onclick="prevSelectDevice(this)">
+                      <div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot off"></div></div>
+                      <div class="pgc-name">PC-User01</div><div class="pgc-host">10.0.0.5</div>
+                    </div>
+                    <div class="pg-card" data-name="PC-IT01" data-host="10.0.0.44" data-proto="VNC" data-online="1" onclick="prevSelectDevice(this)">
+                      <div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot on"></div></div>
+                      <div class="pgc-name">PC-IT01</div><div class="pgc-host">10.0.0.44</div>
+                    </div>
+                    <div class="pg-card" data-name="SV-DomCTRL01" data-host="192.168.1.33" data-proto="RDP" data-online="1" onclick="prevSelectDevice(this)">
+                      <div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div>
+                      <div class="pgc-name">SV-DomCTRL01</div><div class="pgc-host">192.168.1.33</div>
+                    </div>
+                    <div class="pg-card" data-name="SV-DomCTRL02" data-host="10.0.0.12" data-proto="RDP" data-online="1" onclick="prevSelectDevice(this)">
+                      <div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div>
+                      <div class="pgc-name">SV-DomCTRL02</div><div class="pgc-host">10.0.0.12</div>
+                    </div>
+                    <div class="pg-card" data-name="SERVER" data-host="10.0.0.1" data-proto="RDP" data-online="1" onclick="prevSelectDevice(this)">
+                      <div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div>
+                      <div class="pgc-name">SERVER</div><div class="pgc-host">10.0.0.1</div>
+                    </div>
+                    <div class="pg-card" data-name="Management PC" data-host="10.0.1.250" data-proto="RDP" data-online="1" onclick="prevSelectDevice(this)">
+                      <div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div>
+                      <div class="pgc-name">Management PC</div><div class="pgc-host">10.0.1.250</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- RIGHT DETAIL PANEL -->
+                <div class="preview-detail">
+                  <div class="pd-top">
+                    <span class="pd-badge" id="pd-proto">VNC</span>
+                    <span class="pd-star">★</span>
+                  </div>
+                  <div class="pd-title" id="pd-title">SV-CTRX</div>
+                  <div class="pd-fields">
+                    <div>
+                      <div class="pd-field-label">Status</div>
+                      <div class="pd-field-val offline" id="pd-status">
+                        <div class="pd-offline-dot" style="background:#30D158"></div>
+                        <span>Online</span>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="pd-field-label">Adresse</div>
+                      <div class="pd-field-val" id="pd-host">192.168.1.10</div>
+                    </div>
+                    <div>
+                      <div class="pd-field-label">Passwort</div>
+                      <div class="pd-pw">
+                        <span class="pd-pw-dots">••••••••</span>
+                        <span class="pd-pw-show">Anzeigen</span>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="pd-field-label">Ordner</div>
+                      <div class="pd-field-val">devices</div>
+                    </div>
+                  </div>
+                  <div class="pd-connect">Verbinden</div>
+                  <div class="pd-actions">
+                    <span class="pd-action-btn">Bearbeiten</span>
+                    <span class="pd-action-btn" style="color:#ff6b61">Löschen</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW: Favorites -->
+          <div class="preview-view" id="view-fav">
+            <div class="preview-main">
+              <div class="preview-topbar">
+                <span class="ptb-tab active">Favoriten</span>
+              </div>
+              <div class="preview-fav-grid">
+                <div class="fav-card">
+                  <div class="fav-card-top"><span class="pgc-badge rdp">RDP</span><span class="fav-star">★</span></div>
+                  <div class="pgc-name">Management PC</div>
+                  <div class="pgc-host">10.0.1.250</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW: Quick connect -->
+          <div class="preview-view" id="view-quick">
+            <div class="preview-main">
+              <div class="preview-qc">
+                <div class="qc-modal">
+                  <div class="qc-title">Schnellverbinden</div>
+                  <div class="qc-sub">Sofort verbinden — ohne Gerät zu speichern.</div>
+                  <div class="qc-tabs">
+                    <div class="qc-tab active">RDP</div>
+                    <div class="qc-tab">VNC</div>
+                  </div>
+                  <div class="qc-row">
+                    <div class="qc-field" style="flex:2">
+                      <span class="qc-label">Host oder IP-Adresse</span>
+                      <div class="qc-input">&nbsp;</div>
+                    </div>
+                    <div class="qc-field">
+                      <span class="qc-label">Port</span>
+                      <div class="qc-input">3389</div>
+                    </div>
+                  </div>
+                  <div class="qc-row">
+                    <div class="qc-field">
+                      <span class="qc-label">Benutzername</span>
+                      <div class="qc-input">&nbsp;</div>
+                    </div>
+                    <div class="qc-field">
+                      <span class="qc-label">Domäne (optional)</span>
+                      <div class="qc-input">&nbsp;</div>
+                    </div>
+                  </div>
+                  <div class="qc-btns">
+                    <span class="qc-cancel">Abbrechen</span>
+                    <span class="qc-go">Verbinden</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
-
-    <div class="preview-ui">
-
-      <!-- LEFT SIDEBAR — clickable -->
-      <div class="preview-sidebar">
-        <div class="ps-logo">
-          <img src="logo.png" class="ps-logo-ico" alt="ReMa" aria-hidden="true">
-          <div><div class="ps-logo-txt">ReMa</div><div class="ps-logo-sub">RemoteManager</div></div>
-        </div>
-        <div class="ps-nav">
-          <div class="ps-item active" id="nav-all" onclick="prevSetView('all')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
-            <span>Alle Geräte</span>
-          </div>
-          <div class="ps-item" id="nav-fav" onclick="prevSetView('fav')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            <span>Favoriten</span>
-          </div>
-          <div class="ps-item" id="nav-quick" onclick="prevSetView('quick')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
-            <span>Schnellverbinden</span>
-          </div>
-        </div>
-        <div class="ps-section">Ordner</div>
-        <div class="ps-nav">
-          <div class="ps-folder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
-            <span>devices</span>
-          </div>
-          <div class="ps-folder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
-            <span>rasp</span>
-          </div>
-          <div class="ps-folder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg>
-            <span>Management PC</span>
-            <div class="ps-folder-dot on"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- VIEW: All devices -->
-      <div class="preview-view active" id="view-all">
-        <div class="preview-main">
-          <div class="preview-topbar">
-            <span class="ptb-tab active">Übersicht</span>
-            <div class="ptb-spacer"></div>
-            <div class="ptb-search">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <span>Suchen</span>
-            </div>
-            <div class="ptb-add">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              <span>Gerät</span>
-            </div>
-          </div>
-          <div class="preview-body">
-            <div class="preview-grid-wrap">
-              <div class="preview-grid" id="device-grid">
-                <div class="pg-card selected" data-name="BAA01" data-host="192.168.1.10" data-proto="VNC" data-online="1" onclick="prevSelectDevice(this)">
-                  <div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot on"></div></div>
-                  <div class="pgc-name">SV-CTRX</div><div class="pgc-host">192.168.1.10</div>
-                </div>
-                <div class="pg-card" data-name="rasp" data-host="192.168.1.21" data-proto="VNC" data-online="1" onclick="prevSelectDevice(this)">
-                  <div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot off"></div></div>
-                  <div class="pgc-name">Raspberry</div><div class="pgc-host">192.168.1.21</div>
-                </div>
-                <div class="pg-card" data-name="BAA03" data-host="10.0.0.5" data-proto="" data-online="0" onclick="prevSelectDevice(this)">
-                  <div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot off"></div></div>
-                  <div class="pgc-name">PC-User01</div><div class="pgc-host">10.0.0.5</div>
-                </div>
-				<div class="pg-card" data-name="WERK-04" data-host="10.0.0.44" data-proto="VNC" data-online="1" onclick="prevSelectDevice(this)">
-                  <div class="pgc-top"><span class="pgc-badge">VNC</span><div class="pgc-dot on"></div></div>
-                  <div class="pgc-name">PC-IT01</div><div class="pgc-host">10.0.0.44</div>
-                </div>
-                <div class="pg-card" data-name="nes" data-host="192.168.1.33" data-proto="VNC" data-online="1" onclick="prevSelectDevice(this)">
-                  <div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div>
-                  <div class="pgc-name">SV-DomainCTRL01</div><div class="pgc-host">192.168.1.33</div>
-                </div>
-                <div class="pg-card" data-name="WKS-02" data-host="10.0.0.12" data-proto="" data-online="0" onclick="prevSelectDevice(this)">
-                  <div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div>
-                  <div class="pgc-name">SV-DomainCTRL02</div><div class="pgc-host">10.0.0.12</div>
-                </div>
-                <div class="pg-card" data-name="SERVER" data-host="10.0.0.1" data-proto="VNC" data-online="1" onclick="prevSelectDevice(this)">
-                  <div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div>
-                  <div class="pgc-name">SERVER</div><div class="pgc-host">10.0.0.1</div>
-                </div>
-                <div class="pg-card" data-name="Management PC" data-host="10.0.1.250" data-proto="RDP" data-online="1" onclick="prevSelectDevice(this)">
-                  <div class="pgc-top"><span class="pgc-badge rdp">RDP</span><div class="pgc-dot on"></div></div>
-                  <div class="pgc-name">Management PC</div><div class="pgc-host">10.0.1.250</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- RIGHT DETAIL PANEL — updates on click -->
-            <div class="preview-detail" id="detail-panel">
-              <div class="pd-top">
-                <span class="pd-badge" id="pd-proto">VNC</span>
-                <span class="pd-star">★</span>
-              </div>
-              <div class="pd-title" id="pd-title">BAA01</div>
-              <div class="pd-fields">
-                <div>
-                  <div class="pd-field-label">Status</div>
-                  <div class="pd-field-val offline" id="pd-status"><div class="pd-offline-dot" style="background:#30D158"></div><span>Online</span></div>
-                </div>
-                <div>
-                  <div class="pd-field-label">Adresse</div>
-                  <div class="pd-field-val" id="pd-host">192.168.1.10</div>
-                </div>
-                <div>
-                  <div class="pd-field-label">Passwort</div>
-                  <div class="pd-pw"><span class="pd-pw-dots">••••••••</span><span class="pd-pw-show">Anzeigen</span></div>
-                </div>
-                <div>
-                  <div class="pd-field-label">Ordner</div>
-                  <div class="pd-field-val">devices</div>
-                </div>
-              </div>
-              <div class="pd-connect">Verbinden</div>
-              <div class="pd-actions">
-                <span class="pd-action-btn">Bearbeiten</span>
-                <span class="pd-action-btn" style="color:#ff6b61">Löschen</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- VIEW: Favorites -->
-      <div class="preview-view" id="view-fav">
-        <div class="preview-main">
-          <div class="preview-topbar">
-            <span class="ptb-tab active">Favoriten</span>
-          </div>
-          <div class="preview-fav-grid">
-            <div class="fav-card">
-              <div class="fav-card-top"><span class="pgc-badge rdp">RDP</span><span class="fav-star">★</span></div>
-              <div class="pgc-name">Management PC</div><div class="pgc-host">10.0.1.250</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- VIEW: Quick connect -->
-      <div class="preview-view" id="view-quick">
-        <div class="preview-main">
-          <div class="preview-qc">
-            <div class="qc-modal">
-              <div class="qc-title">Schnellverbinden</div>
-              <div class="qc-sub">Sofort verbinden — ohne Gerät zu speichern.</div>
-              <div class="qc-tabs">
-                <div class="qc-tab active">RDP</div>
-                <div class="qc-tab">VNC</div>
-              </div>
-              <div class="qc-row">
-                <div class="qc-field" style="flex:2">
-                  <span class="qc-label">Host oder IP-Adresse</span>
-                  <div class="qc-input">&nbsp;</div>
-                </div>
-                <div class="qc-field">
-                  <span class="qc-label">Port</span>
-                  <div class="qc-input">3389</div>
-                </div>
-              </div>
-              <div class="qc-row">
-                <div class="qc-field">
-                  <span class="qc-label">Benutzername</span>
-                  <div class="qc-input">&nbsp;</div>
-                </div>
-                <div class="qc-field">
-                  <span class="qc-label">Domäne (optional)</span>
-                  <div class="qc-input">&nbsp;</div>
-                </div>
-              </div>
-              <div class="qc-btns">
-                <span class="qc-cancel">Abbrechen</span>
-                <span class="qc-go">Verbinden</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
   </section>
 
 
   <!-- FEATURES -->
   <section id="features" class="sec">
     <div class="w">
-      <div class="eyebrow">Features</div>
-      <h2 class="sec-h">Alles, was zählt.</h2>
-      <p class="sec-p">
+      <div class="eyebrow rev">Features</div>
+      <h2 class="sec-h rev" style="transition-delay:.08s">Alles, was zählt.</h2>
+      <p class="sec-p rev" style="transition-delay:.16s">
         ReMa konzentriert sich auf das Wesentliche: stabile Verbindungen, klare Organisation und volle Kontrolle – ohne Ballast.
       </p>
-      <div class="feat-grid">
+      <div class="feat-grid stag">
         <div class="feat">
           <div class="feat-ico">
-            <svg viewBox="0 0 16 16"><path fill="currentColor" d="M2.75 3A.75.75 0 0 1 3.5 2.25h9a.75.75 0 0 1 .75.75v9a.75.75 0 0 1-.75.75h-9A.75.75 0 0 1 2.75 12V3zM5 4v7h7V4H5z"/></svg>
+            <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="6" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="6" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="9" width="6" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="6" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/></svg>
           </div>
           <h3>Multi-Monitor</h3>
           <p>Jeden Monitor separat oder gemeinsam verwalten. Präzise Kontrolle für komplexe Setups.</p>
         </div>
         <div class="feat">
           <div class="feat-ico">
-            <svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 2.25a5.75 5.75 0 1 0 0 11.5 5.75 5.75 0 0 0 0-11.5zm0 2a3.75 3.75 0 1 1 0 7.5 3.75 3.75 0 0 1 0-7.5z"/></svg>
+            <svg viewBox="0 0 16 16" fill="none"><rect x="3" y="6" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 6V4.5a3 3 0 0 1 6 0V6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="10" r="1.2" fill="currentColor"/></svg>
           </div>
           <h3>Verschlüsselter Vault</h3>
           <p>AES-256-GCM. Lokale Speicherung. Keine Klartext-Passwörter, keine Cloud-Abhängigkeit.</p>
         </div>
         <div class="feat">
           <div class="feat-ico">
-            <svg viewBox="0 0 16 16"><path fill="currentColor" d="M3 3.25A.75.75 0 0 1 3.75 2.5h8.5a.75.75 0 0 1 .75.75v8.5a.75.75 0 0 1-.75.75H3.75A.75.75 0 0 1 3 11.75V3.25zm2 2v6h7v-6H5z"/></svg>
+            <svg viewBox="0 0 16 16" fill="none"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h4L9 5h3.5A1.5 1.5 0 0 1 14 6.5v6A1.5 1.5 0 0 1 12.5 14h-9A1.5 1.5 0 0 1 2 12.5v-8z" stroke="currentColor" stroke-width="1.3"/></svg>
           </div>
           <h3>Ordner & Favoriten</h3>
           <p>Geräte organisieren, Tags verwenden, Favoriten setzen. Schneller Zugriff auf das, was zählt.</p>
         </div>
         <div class="feat">
           <div class="feat-ico">
-            <svg viewBox="0 0 16 16"><path fill="currentColor" d="M2.75 3.5A.75.75 0 0 1 3.5 2.75h9a.75.75 0 0 1 .75.75v2.5a.75.75 0 0 1-.75.75H3.5a.75.75 0 0 1-.75-.75V3.5zm0 6A.75.75 0 0 1 3.5 8.75h9a.75.75 0 0 1 .75.75v2.5a.75.75 0 0 1-.75.75H3.5a.75.75 0 0 1-.75-.75v-2.5z"/></svg>
+            <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="14" height="5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="9" width="14" height="5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="4" cy="4.5" r="1" fill="currentColor"/><circle cx="4" cy="11.5" r="1" fill="currentColor"/></svg>
           </div>
           <h3>Layout-Erkennung</h3>
           <p>Monitor-Layouts automatisch erkennen, manuell anpassen. ReMa versteht deine Umgebung.</p>
         </div>
         <div class="feat">
           <div class="feat-ico">
-            <svg viewBox="0 0 16 16"><path fill="currentColor" d="M4 3.25A.75.75 0 0 1 4.75 2.5h6.5a.75.75 0 0 1 .75.75v9a.75.75 0 0 1-.75.75h-6.5A.75.75 0 0 1 4 12.75v-9zM6 4v8h5V4H6z"/></svg>
+            <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M8 2v6l3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
           </div>
           <h3>Hell & Dunkel</h3>
           <p>Systemintegration oder manuelle Auswahl. ReMa fügt sich nahtlos in dein Setup ein.</p>
         </div>
         <div class="feat">
           <div class="feat-ico">
-            <svg viewBox="0 0 16 16"><path fill="currentColor" d="M3 3.25A.75.75 0 0 1 3.75 2.5h8.5a.75.75 0 0 1 .75.75v8.5a.75.75 0 0 1-.75.75H3.75A.75.75 0 0 1 3 11.75V3.25zm2 2v6h7v-6H5z"/></svg>
+            <svg viewBox="0 0 16 16" fill="none"><path d="M8 2L9.5 6h4.5L10.5 9l1.5 4.5L8 11l-4 2.5L5.5 9 2 6h4.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
           </div>
           <h3>Zero Telemetrie</h3>
           <p>Keine Datensammlung, keine versteckten Requests. ReMa bleibt lokal – Punkt.</p>
@@ -970,21 +1107,21 @@
   <section class="shots">
     <div class="shots-inner">
       <div class="shots-header">
-        <div class="eyebrow">Produkt</div>
-        <h2 class="sec-h">Die Anwendung im Mittelpunkt.</h2>
-        <p class="sec-p">
+        <div class="eyebrow rev">Produkt</div>
+        <h2 class="sec-h rev" style="transition-delay:.08s">Die Anwendung im Mittelpunkt.</h2>
+        <p class="sec-p rev" style="transition-delay:.16s">
           ReMa ist eine echte Windows-Anwendung. Die Screenshots zeigen das Produkt, nicht Marketing-Illustrationen.
         </p>
       </div>
-      <div class="shots-frame" id="shots-frame">
+      <div class="shots-frame rev-s" id="shots-frame">
         <div class="shots-main">
           <img src="screenshot-main.png" alt="ReMa Übersicht" id="shots-main-img">
         </div>
         <div class="shots-nav">
-          <button class="shots-arrow" id="shots-prev">
+          <button class="shots-arrow" id="shots-prev" aria-label="Vorheriges Bild">
             <svg viewBox="0 0 16 16"><path fill="currentColor" d="M9.78 3.22a.75.75 0 0 1 0 1.06L6.06 8l3.72 3.72a.75.75 0 1 1-1.06 1.06L4.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0z"/></svg>
           </button>
-          <button class="shots-arrow" id="shots-next">
+          <button class="shots-arrow" id="shots-next" aria-label="Nächstes Bild">
             <svg viewBox="0 0 16 16"><path fill="currentColor" d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06z"/></svg>
           </button>
         </div>
@@ -1006,12 +1143,12 @@
   <!-- SECURITY -->
   <section id="security" class="sec">
     <div class="w">
-      <div class="eyebrow">Sicherheit</div>
-      <h2 class="sec-h">Lokal. Verschlüsselt. Dein.</h2>
-      <p class="sec-p">
+      <div class="eyebrow rev">Sicherheit</div>
+      <h2 class="sec-h rev" style="transition-delay:.08s">Lokal. Verschlüsselt. Dein.</h2>
+      <p class="sec-p rev" style="transition-delay:.16s">
         ReMa ist als Werkzeug für professionelle Nutzer gebaut. Die Sicherheitsarchitektur ist klar, nachvollziehbar und technisch.
       </p>
-      <div class="sec-grid">
+      <div class="sec-grid stag">
         <div class="sec-item">
           <span class="sec-tag">Kryptografie</span>
           <h4>AES-256-GCM</h4>
@@ -1020,7 +1157,7 @@
         <div class="sec-item">
           <span class="sec-tag">Key Derivation</span>
           <h4>PBKDF2 – 210.000 Iterationen</h4>
-          <p>OWASP-konforme Schlüsselableitung mit PBKDF2. Harte Work-Factor, um Brute-Force-Angriffe zu erschweren.</p>
+          <p>OWASP-konforme Schlüsselableitung mit PBKDF2. Harter Work-Factor, um Brute-Force-Angriffe zu erschweren.</p>
         </div>
         <div class="sec-item">
           <span class="sec-tag">Speicherung</span>
@@ -1038,7 +1175,7 @@
 
   <!-- DOWNLOAD -->
   <section id="download" class="cta-wrap">
-    <div class="cta-card">
+    <div class="cta-card rev-s">
       <div class="cta-logo"><img src="logo.png" alt="ReMa Logo"></div>
       <h2>Download für Windows</h2>
       <p>
@@ -1063,19 +1200,19 @@
         <div class="chip">Lokale Datenbank</div>
         <div class="chip">Zero Telemetrie</div>
         <div class="chip">AES-256-GCM</div>
+        <div class="chip">Kostenlos</div>
       </div>
     </div>
   </section>
 
   <!-- RELEASES -->
   <section id="releases" class="rel-wrap">
-    <div class="rel-card">
+    <div class="rel-card rev">
       <div class="rel-header">
         <h3>Releases</h3>
         <span id="rel-latest-label">Aktuelle Version: v1.0.0</span>
       </div>
       <div class="rel-list" id="rel-list">
-        <!-- Filled via GitHub API -->
         <div class="rel-row">
           <span><strong>v1.0.0</strong></span>
           <span>–</span>
@@ -1097,177 +1234,265 @@
     <div>© <span id="year"></span> ReMa RemoteManager · Alle Rechte vorbehalten.</div>
   </footer>
 
+
   <script>
-    // Sticky nav
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('solid', window.scrollY > 24);
-    });
+  'use strict';
 
-    // Language pill (just updates label / data-lang)
-    const langLabel = document.getElementById('lang-label');
-    document.querySelectorAll('.lang-menu-inline button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.lang-menu-inline button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const code = btn.dataset.lang;
-        langLabel.textContent =
-          code === 'de' ? 'Deutsch' :
-          code === 'en' ? 'English' :
-          code === 'fr' ? 'Français' :
-          code === 'es' ? 'Español' : '中文';
-        document.documentElement.setAttribute('data-lang', code);
-      });
-    });
+  /* ══════════════════════════════
+     NAV — scroll solid
+  ══════════════════════════════ */
+  const navEl = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    navEl.classList.toggle('solid', window.scrollY > 16);
+  }, {passive:true});
 
-    // Preview navigation
-    const navItems = document.querySelectorAll('.preview-nav-item');
-    const previewMainTitle = document.getElementById('preview-main-title');
-    const previewMainSub = document.getElementById('preview-main-sub');
-    const previewGrid = document.getElementById('preview-grid');
-    const previewRight = document.getElementById('preview-right');
-
-    navItems.forEach(item => {
-      item.addEventListener('click', () => {
-        navItems.forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-        const view = item.dataset.view;
-        if (view === 'overview') {
-          previewMainTitle.textContent = 'Übersicht';
-          previewMainSub.textContent = '6 Geräte · 2 Ordner';
-          previewGrid.style.opacity = '1';
-          previewRight.style.opacity = '1';
-        } else if (view === 'favorites') {
-          previewMainTitle.textContent = 'Favoriten';
-          previewMainSub.textContent = '1 Gerät · Management PC';
-        } else if (view === 'quick') {
-          previewMainTitle.textContent = 'Schnellverbinden';
-          previewMainSub.textContent = 'RDP · VNC · Ad-hoc';
-        }
-      });
-    });
-
-    // Preview card selection -> detail
-    const detailTitle = document.getElementById('detail-title');
-    const detailSub = document.getElementById('detail-sub');
-    const detailBox = document.getElementById('detail-box');
-
-    document.querySelectorAll('.preview-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const name = card.querySelector('.preview-card-name').textContent;
-        const host = card.querySelector('.preview-card-host').textContent;
-        const tag = card.querySelector('.preview-card-tag').textContent;
-        detailTitle.textContent = name;
-        detailSub.textContent = tag + ' · ' + host;
-        detailBox.querySelectorAll('.preview-detail-row span:last-child')[0].textContent =
-          card.querySelector('.preview-card-dot').classList.contains('on') ? 'Online' : 'Offline';
-        detailBox.querySelectorAll('.preview-detail-row span:last-child')[1].textContent = name;
-      });
-    });
-
-    // Screenshot gallery
-    const shotsMainImg = document.getElementById('shots-main-img');
-    const shotsThumbs = Array.from(document.querySelectorAll('.shots-thumb'));
-    let currentShotIndex = 0;
-
-    function setShot(index) {
-      currentShotIndex = (index + shotsThumbs.length) % shotsThumbs.length;
-      const thumb = shotsThumbs[currentShotIndex];
-      shotsMainImg.src = thumb.dataset.src;
-      shotsThumbs.forEach(t => t.classList.remove('active'));
-      thumb.classList.add('active');
+  /* ══════════════════════════════
+     SCROLL CUE — hide on first scroll
+  ══════════════════════════════ */
+  const scrollCue = document.getElementById('scroll-cue');
+  let cueDone = false;
+  window.addEventListener('scroll', () => {
+    if (!cueDone && window.scrollY > 40) {
+      cueDone = true;
+      if (scrollCue) scrollCue.classList.add('hidden');
     }
+  }, {passive:true});
 
-    document.getElementById('shots-prev').addEventListener('click', () => setShot(currentShotIndex - 1));
-    document.getElementById('shots-next').addEventListener('click', () => setShot(currentShotIndex + 1));
-    shotsThumbs.forEach((thumb, idx) => {
-      thumb.addEventListener('click', () => setShot(idx));
-    });
+  /* ══════════════════════════════
+     PARALLAX — preview drifts up while scrolling hero
+  ══════════════════════════════ */
+  const heroPreview = document.getElementById('hero-preview');
+  const heroSection = document.getElementById('hero');
+  let previewReady = false;
+  // Enable parallax after entry animation completes (~1.9s)
+  setTimeout(() => { previewReady = true; }, 1900);
 
-    // Simple swipe
-    let startX = null;
-    document.getElementById('shots-frame').addEventListener('touchstart', e => {
-      startX = e.touches[0].clientX;
+  window.addEventListener('scroll', () => {
+    if (!previewReady || !heroPreview || !heroSection) return;
+    const heroH = heroSection.offsetHeight;
+    const scrollY = window.scrollY;
+    if (scrollY > heroH) return;
+    const p = scrollY / heroH;
+    heroPreview.style.transform = `translateY(${-p * 55}px) scale(${1 - p * 0.025})`;
+    heroPreview.style.opacity = `${Math.max(0, 1 - p * 2.2)}`;
+  }, {passive:true});
+
+  /* ══════════════════════════════
+     LANGUAGE PILL
+  ══════════════════════════════ */
+  const langLabel = document.getElementById('lang-label');
+  document.querySelectorAll('.lang-menu-inline button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.lang-menu-inline button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const code = btn.dataset.lang;
+      langLabel.textContent =
+        code === 'de' ? 'Deutsch' :
+        code === 'en' ? 'English' :
+        code === 'fr' ? 'Français' :
+        code === 'es' ? 'Español' : '中文';
+      document.documentElement.setAttribute('data-lang', code);
     });
-    document.getElementById('shots-frame').addEventListener('touchend', e => {
-      if (startX === null) return;
-      const dx = e.changedTouches[0].clientX - startX;
-      if (Math.abs(dx) > 40) {
-        if (dx < 0) setShot(currentShotIndex + 1);
-        else setShot(currentShotIndex - 1);
+  });
+
+  /* ══════════════════════════════
+     HERO PREVIEW — interactive mock UI
+  ══════════════════════════════ */
+  let prevView = 'all';
+
+  const PREV_TITLES = {
+    all: 'Meine Geräte — ReMa',
+    fav: 'Favoriten — ReMa',
+    quick: 'Schnellverbinden — ReMa',
+  };
+
+  function prevUpdateTitlebar() {
+    const tb = document.getElementById('prev-titlebar');
+    if (tb) tb.textContent = PREV_TITLES[prevView] || PREV_TITLES.all;
+  }
+
+  function prevSetView(view) {
+    prevView = view;
+    ['all','fav','quick'].forEach(v => {
+      const navItem  = document.getElementById('nav-' + v);
+      const viewEl   = document.getElementById('view-' + v);
+      if (navItem)  navItem.classList.toggle('active', v === view);
+      if (viewEl)   viewEl.classList.toggle('active', v === view);
+    });
+    prevUpdateTitlebar();
+  }
+
+  function prevSelectDevice(card) {
+    document.querySelectorAll('#device-grid .pg-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+
+    const name   = card.dataset.name;
+    const host   = card.dataset.host;
+    const proto  = card.dataset.proto;
+    const online = card.dataset.online === '1';
+
+    const pdTitle  = document.getElementById('pd-title');
+    const pdHost   = document.getElementById('pd-host');
+    const pdProto  = document.getElementById('pd-proto');
+    const pdStatus = document.getElementById('pd-status');
+
+    if (pdTitle) pdTitle.textContent = name;
+    if (pdHost)  pdHost.textContent  = host;
+
+    if (pdProto) {
+      if (proto) {
+        pdProto.textContent = proto;
+        pdProto.style.display = '';
+        pdProto.style.background = proto === 'RDP' ? '#2563eb' : '#0a9e8f';
+      } else {
+        pdProto.style.display = 'none';
       }
-      startX = null;
+    }
+
+    if (pdStatus) {
+      if (online) {
+        pdStatus.innerHTML = '<div class="pd-offline-dot" style="background:#30D158"></div><span>Online</span>';
+      } else {
+        pdStatus.innerHTML = '<div class="pd-offline-dot"></div><span>Offline</span>';
+      }
+    }
+  }
+
+  /* ══════════════════════════════
+     SCREENSHOT GALLERY
+  ══════════════════════════════ */
+  const shotsMainImg = document.getElementById('shots-main-img');
+  const shotsThumbs  = Array.from(document.querySelectorAll('.shots-thumb'));
+  let currentShotIdx = 0;
+
+  function setShot(index) {
+    currentShotIdx = (index + shotsThumbs.length) % shotsThumbs.length;
+    const thumb = shotsThumbs[currentShotIdx];
+    if (shotsMainImg) {
+      shotsMainImg.style.opacity = '0';
+      shotsMainImg.style.transform = 'scale(.99)';
+      setTimeout(() => {
+        shotsMainImg.src = thumb.dataset.src;
+        shotsMainImg.style.opacity = '1';
+        shotsMainImg.style.transform = 'scale(1)';
+      }, 140);
+    }
+    shotsThumbs.forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+  }
+
+  if (shotsMainImg) {
+    shotsMainImg.style.transition = 'opacity .18s,transform .18s';
+  }
+  document.getElementById('shots-prev')?.addEventListener('click', () => setShot(currentShotIdx - 1));
+  document.getElementById('shots-next')?.addEventListener('click', () => setShot(currentShotIdx + 1));
+  shotsThumbs.forEach((thumb, idx) => {
+    thumb.addEventListener('click', () => setShot(idx));
+  });
+
+  // Touch swipe
+  let startX = null;
+  const shotsFrame = document.getElementById('shots-frame');
+  shotsFrame?.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true});
+  shotsFrame?.addEventListener('touchend', e => {
+    if (startX === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) setShot(dx < 0 ? currentShotIdx + 1 : currentShotIdx - 1);
+    startX = null;
+  }, {passive:true});
+
+  /* ══════════════════════════════
+     SCROLL REVEAL — IntersectionObserver
+  ══════════════════════════════ */
+  const revealIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        revealIO.unobserve(e.target);
+      }
     });
+  }, {threshold:.1, rootMargin:'0px 0px -36px 0px'});
 
-    // GitHub releases – latest version, date, size, download URL
-    const repoApi = 'https://api.github.com/repos/ReMa-RemoteManager/rema/releases';
-    const metaVersion = document.getElementById('meta-version');
-    const dlVersion = document.getElementById('dl-version');
-    const dlDate = document.getElementById('dl-date');
-    const dlSize = document.getElementById('dl-size');
-    const relLatestLabel = document.getElementById('rel-latest-label');
-    const relList = document.getElementById('rel-list');
-    let latestDownloadUrl = 'https://github.com/ReMa-RemoteManager/rema/releases/tag/v1.0.0';
+  document.querySelectorAll('.rev,.rev-s,.stag').forEach(el => revealIO.observe(el));
 
-    function formatDate(iso) {
-      if (!iso) return '–';
-      const d = new Date(iso);
-      return d.toLocaleDateString('de-DE', {year:'numeric',month:'2-digit',day:'2-digit'});
-    }
-    function formatSize(bytes) {
-      if (!bytes) return '–';
-      const mb = bytes / (1024*1024);
-      return mb.toFixed(1) + ' MB';
-    }
+  /* ══════════════════════════════
+     GITHUB API — fetch latest release
+  ══════════════════════════════ */
+  const repoApi = 'https://api.github.com/repos/ReMa-RemoteManager/rema/releases';
+  let latestDownloadUrl = 'https://github.com/ReMa-RemoteManager/rema/releases/latest';
 
-    fetch(repoApi)
-      .then(r => r.json())
-      .then(releases => {
-        if (!Array.isArray(releases) || !releases.length) return;
-        const latest = releases[0];
-        const tag = latest.tag_name || latest.name || 'v1.0.0';
-        const date = latest.published_at;
-        const asset = (latest.assets && latest.assets[0]) || null;
-        const size = asset ? asset.size : null;
-        const url = asset ? asset.browser_download_url : latest.html_url;
+  function formatDate(iso) {
+    if (!iso) return '–';
+    const d = new Date(iso);
+    return d.toLocaleDateString('de-DE', {year:'numeric',month:'2-digit',day:'2-digit'});
+  }
+  function formatSize(bytes) {
+    if (!bytes) return '–';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
 
-        latestDownloadUrl = url;
-        metaVersion.textContent = tag;
-        dlVersion.textContent = tag;
-        dlDate.textContent = formatDate(date);
-        dlSize.textContent = formatSize(size);
-        relLatestLabel.textContent = 'Aktuelle Version: ' + tag;
+  fetch(repoApi, {signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined})
+    .then(r => r.json())
+    .then(releases => {
+      if (!Array.isArray(releases) || !releases.length) return;
+      const latest = releases[0];
+      const tag    = latest.tag_name || latest.name || 'v1.0.0';
+      const date   = latest.published_at;
+      const asset  = latest.assets && latest.assets.find(a => a.name === 'rema.setup.exe');
+      const size   = asset ? asset.size : null;
+      const url    = asset ? asset.browser_download_url : latest.html_url;
 
+      latestDownloadUrl = url;
+
+      const mv = document.getElementById('meta-version');
+      const dv = document.getElementById('dl-version');
+      const dd = document.getElementById('dl-date');
+      const ds = document.getElementById('dl-size');
+      const rl = document.getElementById('rel-latest-label');
+
+      if (mv) mv.textContent = tag;
+      if (dv) dv.textContent = tag;
+      if (dd) dd.textContent = formatDate(date);
+      if (ds) ds.textContent = formatSize(size);
+      if (rl) rl.textContent = 'Aktuelle Version: ' + tag;
+
+      // Releases list
+      const relList = document.getElementById('rel-list');
+      if (relList) {
         relList.innerHTML = '';
-        releases.slice(0,6).forEach(rel => {
-          const rTag = rel.tag_name || rel.name;
-          const rDate = formatDate(rel.published_at);
-          const rAsset = (rel.assets && rel.assets[0]) || null;
-          const rSize = formatSize(rAsset ? rAsset.size : null);
-          const rUrl = rel.html_url;
-          const row = document.createElement('div');
+        releases.slice(0, 8).forEach(rel => {
+          const rTag   = rel.tag_name || rel.name;
+          const rDate  = formatDate(rel.published_at);
+          const rAsset = rel.assets && rel.assets.find(a => a.name === 'rema.setup.exe');
+          const rSize  = formatSize(rAsset ? rAsset.size : null);
+          const rUrl   = rel.html_url;
+          const row    = document.createElement('div');
           row.className = 'rel-row';
           row.innerHTML =
-            '<span><strong>'+rTag+'</strong></span>'+
-            '<span>'+rDate+'</span>'+
-            '<span>'+rSize+'</span>'+
-            '<span><a href="'+rUrl+'" target="_blank" rel="noreferrer">GitHub</a></span>';
+            '<span><strong>' + rTag + '</strong></span>' +
+            '<span>' + rDate + '</span>' +
+            '<span>' + rSize + '</span>' +
+            '<span><a href="' + rUrl + '" target="_blank" rel="noreferrer">GitHub</a></span>';
           relList.appendChild(row);
         });
-      })
-      .catch(() => {
-        // Fallback: keep static v1.0.0
-      });
+      }
+    })
+    .catch(() => {/* keep static fallback */});
 
-    // Download buttons
-    function goDownload() {
-      window.location.href = latestDownloadUrl;
-    }
-    document.getElementById('hero-download').addEventListener('click', goDownload);
-    document.getElementById('download-primary').addEventListener('click', goDownload);
+  /* ══════════════════════════════
+     DOWNLOAD BUTTONS
+  ══════════════════════════════ */
+  function goDownload() {
+    window.location.href = latestDownloadUrl;
+  }
+  document.getElementById('hero-download')?.addEventListener('click', goDownload);
+  document.getElementById('download-primary')?.addEventListener('click', goDownload);
 
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
+  /* ══════════════════════════════
+     YEAR
+  ══════════════════════════════ */
+  document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+
 </body>
 </html>
