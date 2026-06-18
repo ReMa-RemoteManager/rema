@@ -3,15 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ReMa — Impressum</title>
+  <title>Datenschutzerklärung - ReMa</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap');
-
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
 
     :root {
       --bg: #050506;
@@ -30,17 +24,24 @@
       --text-dark: #62626B;
     }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       background-color: var(--bg);
       color: var(--text-main);
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-font-smoothing: antialiased;
       line-height: 1.6;
-      overflow-x: hidden;
+      min-height: 100vh;
+      padding-top: 140px;
     }
 
     /* NAVIGATION */
-    nav {
+    nav.navbar {
       position: fixed;
       top: 0;
       left: 0;
@@ -102,9 +103,9 @@
     }
 
     /* HEADER */
-    header {
-      max-width: 1000px;
-      margin: 140px auto 40px;
+    header.main-header {
+      max-width: 1100px;
+      margin: 0 auto 40px;
       padding: 0 24px;
     }
 
@@ -117,7 +118,7 @@
       margin-bottom: 8px;
     }
 
-    header h1 {
+    header.main-header h1 {
       font-size: 48px;
       font-weight: 900;
       letter-spacing: -0.04em;
@@ -127,53 +128,70 @@
       margin-bottom: 12px;
     }
 
-    header p {
+    header.main-header p {
       font-size: 15px;
       color: var(--text-dark);
     }
 
-    /* LAYOUT CONTAINER */
-    .container {
-      max-width: 1000px;
+    /* LAYOUT SPLIT */
+    .content-grid {
+      max-width: 1100px;
       margin: 0 auto 100px;
       padding: 0 24px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 40px;
+      align-items: start;
     }
 
-    main {
+    /* SIDEBAR TOC */
+    .toc-nav {
+      position: sticky;
+      top: 104px;
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .toc-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dark);
+      margin-bottom: 16px;
+    }
+
+    .toc-nav ol {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .toc-nav a {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s ease;
+      display: block;
+      line-height: 1.4;
+    }
+
+    .toc-nav a:hover {
+      color: var(--text-main);
+    }
+
+    /* MAIN CONTENT & SECTIONS */
+    main.content-area {
       display: flex;
       flex-direction: column;
       gap: 32px;
     }
 
-    /* STATUS BANNER */
-    .status-banner {
-      display: flex;
-      gap: 20px;
-      background: rgba(251, 146, 60, 0.03);
-      border: 1px solid rgba(251, 146, 60, 0.2);
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    }
-
-    .status-banner svg { flex-shrink: 0; margin-top: 4px; }
-
-    .status-content h3 {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--orange);
-      margin-bottom: 8px;
-    }
-
-    .status-content p {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-    }
-    .status-content p:last-child { margin-bottom: 0; }
-
-    /* SECTIONS */
-    section {
+    section.info-section {
+      display: block;
       background: var(--surface-1);
       border: 1px solid var(--border);
       border-radius: 16px;
@@ -182,9 +200,11 @@
       transition: border-color 0.3s ease;
     }
 
-    section:hover { border-color: var(--border-hover); }
+    section.info-section:hover { 
+      border-color: var(--border-hover); 
+    }
 
-    section h2 {
+    section.info-section h2 {
       font-size: 22px;
       font-weight: 800;
       letter-spacing: -0.02em;
@@ -193,13 +213,23 @@
       padding-bottom: 12px;
     }
 
+    section.info-section h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 24px 0 8px 0;
+    }
+
     p {
       font-size: 15px;
       color: var(--text-muted);
       margin-bottom: 16px;
     }
 
-    ul { list-style: none; margin-bottom: 20px; }
+    ul { 
+      list-style: none; 
+      margin-bottom: 20px; 
+    }
 
     ul li {
       position: relative;
@@ -229,38 +259,52 @@
       transition: all 0.15s ease;
     }
 
-    a.external-link:hover { border-bottom-color: var(--red); }
-
-    /* DATA MANAGEMENT */
-    .data-group {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
+    a.external-link:hover { 
+      border-bottom-color: var(--red); 
     }
 
-    .data-row {
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 20px;
-      align-items: start;
+    /* CUSTOM HELPERS */
+    .info-box {
+      display: block;
+      background: rgba(251, 146, 60, 0.03);
+      border: 1px solid rgba(251, 146, 60, 0.15);
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 20px;
     }
 
-    .data-label {
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-dark);
-      padding-top: 6px;
+    .info-box strong {
+      color: var(--orange);
     }
 
-    .data-content {
-      font-size: 15px;
+    .highlight-box {
+      display: block;
+      background: rgba(255, 59, 48, 0.03);
+      border-left: 3px solid var(--red);
+      padding: 16px 20px;
+      border-radius: 4px 12px 12px 4px;
       color: var(--text-main);
+      font-size: 14.5px;
+      margin-bottom: 24px;
+    }
+
+    .code-block {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13.5px;
+      color: var(--text-main);
+      background: var(--surface-2);
+      padding: 14px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+      overflow-x: auto;
     }
 
     /* FOOTER */
-    footer {
+    footer.main-footer {
       border-top: 1px solid var(--border);
       background: var(--surface-1);
       padding: 40px 0;
@@ -268,7 +312,7 @@
     }
 
     .footer-inner {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 0 24px;
       display: flex;
@@ -300,10 +344,11 @@
     }
     .back-to-top:hover { transform: translateY(-4px); color: var(--text-main); }
 
-    @media (max-width: 768px) {
-      header { margin-top: 100px; }
-      header h1 { font-size: 36px; }
-      .data-row { grid-template-columns: 1fr; gap: 6px; }
+    @media (max-width: 900px) {
+      body { padding-top: 100px; }
+      header.main-header h1 { font-size: 36px; }
+      .content-grid { grid-template-columns: 1fr; gap: 32px; }
+      .toc-nav { position: static; }
       .footer-inner { flex-direction: column; gap: 20px; }
     }
   </style>
@@ -311,127 +356,203 @@
 <body>
 
   <!-- NAVIGATION -->
-  <nav>
+  <nav class="navbar">
     <a href="/" class="nav-brand">
       <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <rect x="1" y="1" width="20" height="20" rx="5" stroke="#FF3B30" stroke-width="1.5"></rect>
-        <path d="M7 11h8M11 7v8" stroke="#FF3B30" stroke-width="1.5" stroke-linecap="round"></path>
+        <rect x="1" y="1" width="20" height="20" rx="5" stroke="#FF3B30" strokeWidth="1.5"></rect>
+        <path d="M7 11h8M11 7v8" stroke="#FF3B30" strokeWidth="1.5" strokeLinecap="round"></path>
       </svg>
       <span>ReMa</span>
     </a>
     <div class="nav-links">
-      <a href="/datenschutz">Datenschutz</a>
-      <a href="/" class="back-btn">← Zurück zur Website</a>
+      <a href="/impressum">Impressum</a>
+      <a href="/rema" class="back-btn">← Zurück zur Website</a>
     </div>
   </nav>
 
   <!-- HEADER -->
-  <header>
-    <div class="header-tag">Rechtliches</div>
-    <h1>Impressum</h1>
-    <p>Pflichtangaben gemäß § 5 DDG / § 18 MStV</p>
+  <header class="main-header">
+    <div>
+      <div class="header-tag">Rechtliches</div>
+      <h1>Datenschutzerklärung</h1>
+      <p>Stand: Juni 2026</p>
+    </div>
   </header>
 
-  <div class="container">
-    <main>
-      
-      <!-- STATUS BANNER -->
-      <div class="status-banner">
-        <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="7" stroke="#FB923C" stroke-width="1.3"></circle>
-          <path d="M8 5v3.5M8 10.5v.5" stroke="#FB923C" stroke-width="1.3" stroke-linecap="round"></path>
-        </svg>
-        <div class="status-content">
-          <h3>Kontext: Privates Hobby-Projekt (mit Software-Download)</h3>
-          <p>Diese Website wird rein privat betrieben. Da über diese Plattform jedoch eine Software zum öffentlichen Download bereitgestellt wird, greift im deutschen Recht potenziell die „Geschäftsmäßigkeit“. Zur absoluten Vermeidung von Abmahnrisiken wird dieses Impressum vollständig bereitgestellt.</p>
-          <p><strong>Status:</strong> Alle gesetzlichen Pflichtangaben sind vollständig hinterlegt.</p>
-        </div>
-      </div>
+  <div class="content-grid">
+    <!-- INHALTSVERZEICHNIS -->
+    <nav aria-label="Inhaltsverzeichnis" class="toc-nav">
+      <div class="toc-title">Inhaltsverzeichnis</div>
+      <ol>
+        <li><a href="#verantwortlicher">1. Verantwortlicher</a></li>
+        <li><a href="#grundsaetze">2. Grundsätze</a></li>
+        <li><a href="#hosting">3. Hosting über GitHub</a></li>
+        <li><a href="#github-api">4. GitHub API-Abruf</a></li>
+        <li><a href="#cookies">5. Cookies</a></li>
+        <li><a href="#keine-weiteren">6. Nicht genutzte Dienste</a></li>
+        <li><a href="#rechte">7. Ihre Rechte</a></li>
+        <li><a href="#widerspruch">8. Widerspruchsrecht</a></li>
+        <li><a href="#aktualitaet">9. Aktualität</a></li>
+      </ol>
+    </nav>
 
-      <!-- REQUIRED DATA FIELDS -->
-      <section id="angaben">
-        <h2>Angaben gemäß § 5 DDG</h2>
-        <div class="data-group">
-          
-          <div class="data-row">
-            <div class="data-label">Verantwortlich</div>
-            <div class="data-content">
-              Luca Söder
-            </div>
-          </div>
-
-          <div class="data-row">
-            <div class="data-label">Anschrift</div>
-            <div class="data-content">
-              Premicher Straße 23<br>
-              97657 Sandberg
-            </div>
-          </div>
-
-          <div class="data-row">
-            <div class="data-label">Kontakt</div>
-            <div class="data-content">
-              <a href="mailto:lucasoeder1@gmail.com" class="external-link">lucasoeder1@gmail.com</a>
-            </div>
-          </div>
-
+    <!-- INHALT -->
+    <main class="content-area">
+      <section id="verantwortlicher" class="info-section">
+        <h2>1. Verantwortlicher</h2>
+        <p>Verantwortlich für die Datenverarbeitung auf dieser Website ist:</p>
+        <p style="color: var(--text-main); font-weight: 600; margin-bottom: 4px;">Luca Söder</p>
+        <p style="color: var(--text-muted); margin-bottom: 16px;">
+          Premicher Straße 23<br>
+          97657 Sandberg
+        </p>
+        <p>E-Mail: <a href="mailto:lucasoeder1@gmail.com" class="external-link">lucasoeder1@gmail.com</a></p>
+        <div class="info-box">
+          <strong>Hinweis:</strong> Alle Angaben des Betreibers sind vollständig eingepflegt.
         </div>
       </section>
 
-      <!-- LIABILITY FOR CONTENT -->
-      <section id="haftung-inhalte">
-        <h2>Haftung für Inhalte</h2>
-        <p>Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
-        <p>Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.</p>
+      <section id="grundsaetze" class="info-section">
+        <h2>2. Grundsätze der Datenverarbeitung</h2>
+        <p>Der Betrieb dieser Website erfolgt mit dem Ziel, so wenige personenbezogene Daten wie möglich zu verarbeiten. Es werden bewusst keine Tracking-Dienste, keine Analyse-Tools, keine Werbenetzwerke und keine sozialen Plugins eingesetzt.</p>
+        <p>Folgende Maßnahmen wurden gezielt ergriffen, um die Privatsphäre der Besucher zu schützen:</p>
+        <ul>
+          <li>Keine Einbindung von Google Fonts über externe Server (Schriftart wird lokal ausgeliefert)</li>
+          <li>Keine Analyse-Cookies, kein Tracking, kein Remarketing</li>
+          <li>Keine Social-Media-Plugins oder Einbettungen</li>
+          <li>Kein Newsletter, kein Kontaktformular</li>
+          <li>Keine Zahlungsanbieter</li>
+          <li>Strikte Content Security Policy (CSP), die externe Verbindungen auf das technisch notwendige Minimum beschränkt</li>
+        </ul>
       </section>
 
-      <!-- HOSTING DETAILS -->
-      <section id="hosting">
-        <h2>Hosting &amp; Infrastruktur</h2>
-        <p>Diese Website wird über den Dienst <strong>GitHub Pages</strong> bereitgestellt. GitHub Pages ist ein Produkt der:</p>
-        <p style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-main); background: var(--surface-2); padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--border);">
-          GitHub, Inc.<br>
+      <section id="hosting" class="info-section">
+        <h2>3. Hosting über GitHub Pages</h2>
+        <p>Diese Website wird über <strong>GitHub Pages</strong> gehostet, einem Dienst der GitHub, Inc. GitHub Pages liefert die Website-Dateien direkt aus dem öffentlichen GitHub-Repository aus.</p>
+        <p>Der Hosting-Anbieter ist:</p>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-main); background: var(--surface-2); padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--border);">
+          <strong>GitHub, Inc.</strong><br>
           88 Colin P Kelly Jr St<br>
           San Francisco, CA 94107<br>
-          USA
-        </p>
-        <p>Beim Abruf dieser Webseite werden durch den Hoster GitHub technisch zwingend notwendige Verbindungsdaten (insb. die IP-Adresse deines Endgeräts) verarbeitet, um die Auslieferung der statischen Dateien zu gewährleisten. Weitere Details findest du in der Datenschutzerklärung der Website sowie direkt bei GitHub:</p>
-        <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer" class="external-link">GitHub General Privacy Statement</a>
+          USA<br>
+          (Tochterunternehmen der Microsoft Corporation)
+        </div>
+        <p>Beim Abruf dieser Website über GitHub Pages werden durch GitHub technisch notwendige Verbindungsdaten verarbeitet, darunter:</p>
+        <ul>
+          <li>IP-Adresse des anfragenden Geräts</li>
+          <li>Datum und Uhrzeit der Anfrage</li>
+          <li>Aufgerufene URL / Seite</li>
+          <li>HTTP-Statuscode</li>
+          <li>Übertragene Datenmenge</li>
+          <li>Referrer-URL (vorherige Seite, sofern übermittelt)</li>
+          <li>Browser und Betriebssystem (User-Agent)</li>
+        </ul>
+        <p>GitHub Pages nutzt außerdem das CDN (Content Delivery Network) des Anbieters <strong>Fastly, Inc.</strong> zur Auslieferung der Website-Inhalte. Dabei kann die IP-Adresse des Besuchers auch an Fastly-Server weitergeleitet werden.</p>
+        <h4>Übermittlung in ein Drittland (USA)</h4>
+        <p>GitHub und Fastly haben ihren Sitz in den USA. Die Datenübermittlung erfolgt auf Grundlage der von der EU-Kommission erlassenen Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO) sowie des EU-U.S. Data Privacy Framework.</p>
+        <h4>Rechtsgrundlage</h4>
+        <p>Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am sicheren und erreichbaren Betrieb der Website).</p>
+        <h4>Speicherdauer</h4>
+        <p>Informationen zur Speicherdauer von Server-Logfiles durch GitHub entnehmen Sie bitte der Datenschutzerklärung von GitHub:</p>
+        <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer" class="external-link">
+          https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement
+        </a>
+        <p style="margin-top: 12px;">Spezifische Informationen zu GitHub Pages und Datenerhebung finden Sie unter:</p>
+        <a href="https://docs.github.com/de/pages/getting-started-with-github-pages/about-github-pages#data-collection" target="_blank" rel="noopener noreferrer" class="external-link">
+          https://docs.github.com/de/pages/getting-started-with-github-pages/about-github-pages#data-collection
+        </a>
       </section>
 
-      <!-- LIABILITY FOR LINKS -->
-      <section id="haftung-links">
-        <h2>Haftung für Links</h2>
-        <p>Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.</p>
-        <p>Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.</p>
+      <section id="github-api" class="info-section">
+        <h2>4. GitHub API – Automatischer Abruf beim Seitenbesuch</h2>
+        <div class="highlight-box">
+          Diese Website ruft beim Laden der Seite automatisch Daten von der GitHub-API ab. Dabei wird die IP-Adresse des Besuchers erneut an GitHub übertragen – zusätzlich zur bereits unter Ziffer 3 beschriebenen Verarbeitung durch GitHub Pages.
+        </div>
+        <p>Beim Aufruf dieser Website sendet der Browser des Besuchers automatisch und ohne gesonderte Handlung einen weiteren Netzwerkrequest an:</p>
+        <div class="code-block">
+          https://api.github.com/repos/ReMa-RemoteManager/rema/releases
+        </div>
+        <p>Dieser Request dient dazu, die aktuellen Release-Informationen (Version, Datum, Dateigröße, Release Notes) der Software ReMa direkt von der GitHub-API zu laden und auf der Website anzuzeigen.</p>
+        <h4>Welche Daten werden übermittelt?</h4>
+        <p>Bei jedem Abruf der GitHub-API wird mindestens die IP-Adresse des Besuchers an GitHub übermittelt. GitHub kann außerdem weitere technische Informationen wie den User-Agent des Browsers verarbeiten. Da Hosting (GitHub Pages, Ziffer 3) und API (api.github.com) vom selben Anbieter betrieben werden, liegt eine konsolidierte Datenverarbeitung durch GitHub, Inc. vor.</p>
+        <h4>Anbieter</h4>
+        <p>Verantwortlich ist GitHub, Inc. (siehe Anbieterangaben unter Ziffer 3). Die Datenschutzerklärung von GitHub gilt auch für die API-Nutzung.</p>
+        <h4>Übermittlung in ein Drittland (USA)</h4>
+        <p>Wie unter Ziffer 3 beschrieben erfolgt die Datenübermittlung auf Grundlage der Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO) sowie des EU-U.S. Data Privacy Framework.</p>
+        <h4>Rechtsgrundlage</h4>
+        <p>Die Rechtsgrundlage für diese Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse). Das berechtigte Interesse besteht darin, Besuchern stets aktuelle Versionsinformationen und Download-Links zur Software anzuzeigen, ohne diese Daten manuell pflegen zu müssen.</p>
       </section>
 
-      <!-- COPYRIGHT -->
-      <section id="urheberrecht">
-        <h2>Urheberrecht</h2>
-        <p>Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.</p>
-        <p>Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.</p>
+      <section id="cookies" class="info-section">
+        <h2>5. Cookies</h2>
+        <p>Diese Website setzt <strong>keine eigenen Cookies</strong>. Es werden keine Analyse-Cookies, Tracking-Cookies, Marketing-Cookies oder ähnliche Technologien eingesetzt.</p>
+        <p>Der Hosting-Anbieter kann technisch notwendige Session-Cookies oder ähnliche Technologien einsetzen. Informationen dazu finden Sie in der Datenschutzerklärung des Hosting-Anbieters GitHub:</p>
+        <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer" class="external-link">
+          GitHub General Privacy Statement — Datenschutzerklärung
+        </a>
       </section>
 
+      <section id="keine-weiteren" class="info-section">
+        <h2>6. Nicht vorhandene Dienste</h2>
+        <p>Folgende Dienste und Technologien werden auf dieser Website ausdrücklich <strong>nicht</strong> eingesetzt und sind daher nicht Gegenstand dieser Datenschutzerklärung:</p>
+        <ul>
+          <li>Google Analytics, Matomo oder andere Web-Analyse-Tools</li>
+          <li>Google Fonts über externe Server (Schriftart ist lokal eingebunden)</li>
+          <li>Facebook Pixel, LinkedIn Insight Tag oder vergleichbare Tracking-Pixel</li>
+          <li>Social-Media-Plugins (Facebook, X/Twitter, Instagram, LinkedIn etc.)</li>
+          <li>Kontaktformulare</li>
+          <li>Newsletter-Dienste</li>
+          <li>Zahlungsanbieter</li>
+          <li>Content Delivery Networks (CDNs) für eigene Ressourcen</li>
+          <li>Werbedienste oder Werbenetzwerke</li>
+          <li>Eingebettete Videos (YouTube, Vimeo etc.)</li>
+          <li>Live-Chat oder Support-Widgets</li>
+        </ul>
+      </section>
+
+      <section id="rechte" class="info-section">
+        <h2>7. Ihre Rechte als betroffene Person</h2>
+        <p>Nach der DSGVO stehen Ihnen folgende Rechte zu:</p>
+        <ul>
+          <li>Recht auf Auskunft nach Art. 15 DSGVO</li>
+          <li>Recht auf Berichtigung nach Art. 16 DSGVO</li>
+          <li>Recht auf Löschung nach Art. 17 DSGVO</li>
+          <li>Recht auf Einschränkung der Verarbeitung nach Art. 18 DSGVO</li>
+          <li>Recht auf Datenübertragbarkeit nach Art. 20 DSGVO</li>
+        </ul>
+        <p>Zur Ausübung Ihrer Rechte wenden Sie sich bitte an den unter Ziffer 1 genannten Verantwortlichen.</p>
+        <p>Sie haben außerdem das Recht, sich bei der zuständigen Datenschutzbehörde zu beschweren. Die zuständige Aufsichtsbehörde richtet sich nach dem Wohnsitz des Verantwortlichen.</p>
+      </section>
+
+      <section id="widerspruch" class="info-section">
+        <h2>8. Widerspruchsrecht</h2>
+        <p>Soweit Daten auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse) verarbeitet werden, haben Sie gemäß Art. 21 DSGVO das Recht, jederzeit Widerspruch einzulegen. Im Fall des Widerspruchs verarbeiten wir Ihre personenbezogenen Daten nicht mehr, es sei denn, wir können zwingende schutzwürdige Gründe für die Verarbeitung nachweisen, die Ihre Interessen, Rechte und Freiheiten überwiegen.</p>
+      </section>
+
+      <section id="aktualitaet" class="info-section">
+        <h2>9. Aktualität dieser Datenschutzerklärung</h2>
+        <p>Diese Datenschutzerklärung ist aktuell gültig und hat den Stand: Juni 2026.</p>
+        <p>Durch die Weiterentwicklung dieser Website oder aufgrund geänderter gesetzlicher bzw. behördlicher Vorgaben kann es notwendig werden, diese Datenschutzerklärung zu ändern. Die jeweils aktuelle Datenschutzerklärung ist jederzeit auf dieser Seite abrufbar.</p>
+      </section>
     </main>
   </div>
 
   <!-- FOOTER -->
-  <footer>
+  <footer class="main-footer">
     <div class="footer-inner">
       <div class="footer-copy">© ReMa RemoteManager. Privates Hobby-Projekt.</div>
       <div class="footer-links">
         <a href="/impressum">Impressum</a>
         <a href="/datenschutz">Datenschutz</a>
-        <a href="/">Website</a>
+        <a href="/">← Website</a>
       </div>
     </div>
   </footer>
 
-  <!-- FLOATING BACK TO TOP -->
-  <a href="#" class="back-to-top" aria-label="Zurück zum Seitenanfang">
-    <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
-      <path d="M8 12V4M4 8l4-4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+  <!-- ZURÜCK NACH OBEN -->
+  <a href="#" class="back-to-top" aria-label="Zurück nach oben">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M8 12V4M4 8l4-4 4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
     </svg>
   </a>
 
