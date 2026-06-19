@@ -62,6 +62,36 @@ nav.solid{background:rgba(5,5,6,.88);backdrop-filter:blur(32px) saturate(180%);-
 .lang-btn{border:none;background:none;color:var(--g2);font-size:10.5px;padding:2px 6px;border-radius:999px;cursor:pointer;transition:background .15s,color .15s;font-family:inherit;white-space:nowrap}
 .lang-btn.active{color:var(--red);background:var(--red-a)}
 .lang-btn:hover:not(.active){color:var(--w);background:rgba(255,255,255,.08)}
+
+/* MOBILE MENU (hamburger) — ensures Features/Sicherheit/Releases stay reachable on phones,
+   instead of being hidden with no fallback. */
+.nav-burger{display:none;align-items:center;justify-content:center;width:38px;height:38px;flex-shrink:0;background:rgba(255,255,255,.04);border:1px solid var(--b);border-radius:10px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.nav-burger:hover{background:rgba(255,255,255,.08);border-color:var(--bh)}
+.nav-burger-bars{position:relative;width:16px;height:11px}
+.nav-burger-bars span{position:absolute;left:0;right:0;height:1.5px;background:var(--w);border-radius:2px;transition:transform .25s cubic-bezier(.22,1,.36,1),opacity .2s}
+.nav-burger-bars span:nth-child(1){top:0}
+.nav-burger-bars span:nth-child(2){top:5px}
+.nav-burger-bars span:nth-child(3){top:10px}
+.nav-burger.open .nav-burger-bars span:nth-child(1){transform:translateY(5px) rotate(45deg)}
+.nav-burger.open .nav-burger-bars span:nth-child(2){opacity:0}
+.nav-burger.open .nav-burger-bars span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;z-index:199;background:rgba(7,7,9,.97);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border-bottom:1px solid var(--b);max-height:0;opacity:0;overflow:hidden;transition:max-height .38s cubic-bezier(.22,1,.36,1),opacity .25s ease}
+.mobile-menu.open{max-height:calc(100vh - 56px);opacity:1;overflow-y:auto}
+.mm-inner{padding:6px 20px 22px;display:flex;flex-direction:column}
+.mobile-menu a{display:flex;align-items:center;padding:15px 4px;font-size:16px;font-weight:600;color:var(--w);text-decoration:none;border-bottom:1px solid var(--b);min-height:44px}
+.mobile-menu a:active{opacity:.6}
+.mm-dl{margin-top:14px!important;border:none!important;justify-content:center;background:var(--red);color:#fff!important;border-radius:999px;font-weight:700!important;box-shadow:0 8px 24px rgba(255,59,48,.4)}
+.mm-legal{display:flex;gap:10px;margin-top:14px}
+.mm-legal a{flex:1;border:1px solid var(--b);border-radius:12px;justify-content:center;font-size:13px;font-weight:500;color:var(--g1);padding:12px 4px;min-height:auto}
+.mm-langs{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.mm-langs button{flex:1;min-width:54px;border:1px solid var(--b);background:rgba(255,255,255,.03);color:var(--g1);font-size:12.5px;font-weight:600;padding:10px 6px;border-radius:10px;cursor:pointer;font-family:inherit;transition:background .15s,color .15s,border-color .15s}
+.mm-langs button.active{color:var(--red);border-color:var(--red-b);background:var(--red-a)}
+body.menu-open{overflow:hidden}
+@media(max-width:720px){
+  .nav-burger{display:flex}
+  .mobile-menu{display:block}
+}
 /* HERO */
 @keyframes riseIn{to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes cueBob{0%,100%{transform:rotate(45deg) translate(0,0)}50%{transform:rotate(45deg) translate(3px,3px)}}
@@ -201,8 +231,8 @@ nav.solid{background:rgba(5,5,6,.88);backdrop-filter:blur(32px) saturate(180%);-
   .pwb{width:30px}
   .ptb-search{display:none}
   .preview-grid-wrap::after{content:'';position:absolute;left:0;right:0;bottom:0;height:46px;background:linear-gradient(to bottom,transparent,rgba(8,8,11,.96));pointer-events:none}
-  .shots-arrow{width:30px;height:30px}
-  .shots-arrow svg{width:12px;height:12px}
+  .shots-arrow{width:38px;height:38px}
+  .shots-arrow svg{width:13px;height:13px}
   .shots-nav{padding:0 10px}
   .shots-thumb{flex:0 0 64px;height:40px}
 }
@@ -296,9 +326,9 @@ nav.solid{background:rgba(5,5,6,.88);backdrop-filter:blur(32px) saturate(180%);-
 
 /* FOOTER */
 footer{border-top:1px solid var(--b);max-width:980px;margin:0 auto;padding:26px 24px;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--g3)}
-footer ul{display:flex;gap:18px;list-style:none}
-footer a{color:var(--g2);text-decoration:none}
-footer a:hover{color:var(--w)}
+footer ul{display:flex;gap:6px;list-style:none}
+footer a{color:var(--g2);text-decoration:none;padding:8px 8px;border-radius:8px;transition:color .15s,background .15s}
+footer a:hover{color:var(--w);background:rgba(255,255,255,.05)}
 
 /* RESPONSIVE */
 @media(max-width:960px){
@@ -371,8 +401,31 @@ footer a:hover{color:var(--w)}
         <button class="lang-btn" data-lang="zh">中文</button>
       </div>
     </div>
+    <button class="nav-burger" id="nav-burger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="nav-burger-bars"><span></span><span></span><span></span></span>
+    </button>
   </div>
 </nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mm-inner">
+    <a href="#features" data-i18n="nav.features">Features</a>
+    <a href="#security" data-i18n="nav.security">Sicherheit</a>
+    <a href="#releases" data-i18n="nav.releases">Releases</a>
+    <a href="#download" class="mm-dl" data-i18n="nav.download">Download für Windows</a>
+    <div class="mm-langs" id="mm-langs">
+      <button class="lang-btn active" data-lang="de">DE</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="es">ES</button>
+      <button class="lang-btn" data-lang="zh">中文</button>
+    </div>
+    <div class="mm-legal">
+      <a href="impressum.html" data-i18n="footer.imprint">Impressum</a>
+      <a href="datenschutz.html" data-i18n="footer.privacy">Datenschutz</a>
+    </div>
+  </div>
+</div>
 
 <section id="hero" class="hero">
   <div class="hero-content">
@@ -663,6 +716,28 @@ langPillEl.addEventListener('click', (e) => {
 document.addEventListener('click', (e) => {
   if (!langPillEl.contains(e.target)) langPillEl.classList.remove('open');
 });
+
+/* MOBILE MENU (hamburger) — keeps Features/Sicherheit/Releases reachable on phones */
+const burgerEl = document.getElementById('nav-burger');
+const mobileMenuEl = document.getElementById('mobile-menu');
+function openMobileMenu() {
+  mobileMenuEl.classList.add('open');
+  burgerEl.classList.add('open');
+  burgerEl.setAttribute('aria-expanded', 'true');
+  document.body.classList.add('menu-open');
+}
+function closeMobileMenu() {
+  mobileMenuEl.classList.remove('open');
+  burgerEl.classList.remove('open');
+  burgerEl.setAttribute('aria-expanded', 'false');
+  document.body.classList.remove('menu-open');
+}
+burgerEl?.addEventListener('click', () => {
+  mobileMenuEl.classList.contains('open') ? closeMobileMenu() : openMobileMenu();
+});
+mobileMenuEl?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileMenu));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMobileMenu(); });
+window.addEventListener('resize', () => { if (window.innerWidth > 720) closeMobileMenu(); });
 
 /* NAV */
 const navEl = document.getElementById('nav');
