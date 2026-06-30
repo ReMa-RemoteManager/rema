@@ -683,7 +683,26 @@ const T = {
   zh:{'nav.features':'功能','nav.security':'安全','nav.releases':'版本','nav.download':'下载 Windows 版','nav.download.short':'下载','hero.logoLabel':'Windows 远程管理器','hero.h1.w1':'所有','hero.h1.w2':'设备。','hero.h1.w3':'尽在','hero.h1.w4':'掌控。','hero.sub':'Windows 远程访问，本该如此：多显示器、加密、完全本地。云端和遥测，都不需要。','hero.cta.download':'下载 Windows 版','hero.meta':'本地 · 免费 · Windows','hero.scroll':'滚动','preview.allDevices':'所有设备','preview.favorites':'收藏夹','preview.quickConnect':'快速连接','preview.folders':'文件夹','preview.overview':'概览','preview.search':'搜索','preview.device':'设备','detail.status':'状态','detail.online':'在线','detail.offline':'离线','detail.address':'地址','detail.password':'密码','detail.show':'显示','detail.folder':'文件夹','detail.connect':'连接','detail.edit':'编辑','detail.delete':'删除','qc.title':'快速连接','qc.sub':'立即连接 — 无需保存设备。','qc.host':'主机或 IP 地址','qc.port':'端口','qc.user':'用户名','qc.domain':'域（可选）','qc.cancel':'取消','qc.connect':'连接','feat.eyebrow':'功能','feat.h':'一切皆关键。','feat.p':'连接稳定，组织清晰，完全掌控。剩下的，ReMa 故意没做。','feat.1.h':'多显示器','feat.1.p':'单独或同时控制每个显示器。哪怕接了三块屏幕，也照样清清楚楚。','feat.2.h':'加密保险库','feat.2.p':'AES-256-GCM，本地存储。明文密码？在 ReMa 里没有这种东西。','feat.3.h':'文件夹和收藏夹','feat.3.p':'整理设备、打标签、设为收藏。几秒钟就能找到你要的那台。','feat.4.h':'布局检测','feat.4.p':'ReMa 会自动识别显示器布局，万一不对，几秒钟就能自己调好。','feat.5.h':'明暗主题','feat.5.p':'跟随系统主题，或者自己选。无论哪种，看起来都恰到好处。','feat.6.h':'零遥测','feat.6.p':'无数据收集，无隐藏请求。ReMa 只待在本地——就这么简单。','shots.eyebrow':'产品','shots.h':'应用程序居于核心。','shots.p':'没有效果图，没有精修渲染。你看到的，就是它在你 Windows 电脑上的真实样子。','sec.eyebrow':'安全','sec.h':'本地。加密。您的。','sec.p':'ReMa 是为懂行的人做的。没有黑箱，没有营销式加密噱头——只有经得起检验的真东西。','sec.1.tag':'密码学','sec.1.h':'AES-256-GCM','sec.1.p':'AES-256-GCM 认证加密。机密性和完整性，没有商量的余地。','sec.2.tag':'密钥派生','sec.2.h':'PBKDF2 – 210,000 次迭代','sec.2.p':'符合 OWASP 标准的密钥派生，工作因子拉满。暴力破解在这里主要消耗时间和电费——而且消耗得不少。','sec.3.tag':'存储','sec.3.h':'仅加密 Blob','sec.3.p':'设备凭据只以加密 Blob 形式存放，没有例外，更没有明文。','sec.4.tag':'验证','sec.4.h':'零知识密码验证','sec.4.p':'验证密码，却从不存储密码。ReMa 压根不知道你的密码是什么——它本来就不该知道。','dl.h':'下载 Windows 版','dl.btn':'下载','dl.p':'把 ReMa 装在你的 Windows 电脑上，纯本地。无需账号、无云端、不追踪。只是一个真正好用的远程管理工具。','dl.version':'版本','dl.changelog':'查看更新日志','chip.1':'Windows 10 和 11','chip.2':'本地数据库','chip.3':'零遥测','chip.5':'免费','rel.h':'版本','rel.loading':'正在加载版本信息……','rel.error':'无法从 GitHub 加载版本数据，请直接访问 GitHub 上的版本页面。','rel.notes':'版本说明','rel.nonotes':'此版本暂无版本说明。','footer.rights':'保留所有权利。','footer.imprint':'法律声明','footer.privacy':'隐私','_langLabel':'中文','_titleAll':'我的设备 — ReMa','_titleFav':'收藏夹 — ReMa','_titleQuick':'快速连接 — ReMa','_relLatest':'当前版本：'}
 };
 
-let currentLang = 'de';
+/* ── Language detection ─────────────────────────────────────────────────────
+   Priority: 1. User manually chose (localStorage)
+             2. Browser/OS language (navigator.languages)
+             3. Fallback: 'de'
+   Stored under key 'rema_lang' — no personal data, only the locale code.
+   ───────────────────────────────────────────────────────────────────────── */
+const SUPPORTED_LANGS = ['de','en','fr','es','zh'];
+function detectLang() {
+  try {
+    const saved = localStorage.getItem('rema_lang');
+    if (saved && SUPPORTED_LANGS.includes(saved)) return saved;
+  } catch(e) {}
+  const nav = (navigator.languages || [navigator.language || 'de']);
+  for (const l of nav) {
+    const code = l.split('-')[0].toLowerCase();
+    if (SUPPORTED_LANGS.includes(code)) return code;
+  }
+  return 'de';
+}
+let currentLang = detectLang();
 let latestVersion = 'v1.0.0';
 let latestDownloadUrl = 'https://github.com/ReMa-RemoteManager/rema/releases/latest';
 
@@ -704,7 +723,10 @@ function applyLang(lang) {
   if (rl) rl.textContent = tr('_relLatest') + ' ' + latestVersion;
 }
 
-document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => applyLang(btn.dataset.lang)));
+document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => {
+  applyLang(btn.dataset.lang);
+  try { localStorage.setItem('rema_lang', btn.dataset.lang); } catch(e) {}
+}));
 
 /* Mobile language dropdown */
 const langPillEl = document.getElementById('lang-pill');
@@ -951,13 +973,53 @@ fetch('https://api.github.com/repos/ReMa-RemoteManager/rema/releases', {signal:t
   });
 
 /* DOWNLOAD */
-function goDownload() { if (isSafeGithubUrl(latestDownloadUrl)) { window.location.href = latestDownloadUrl; } }
+function goDownload() {
+  if (isSafeGithubUrl(latestDownloadUrl)) {
+    // Track download click (DSGVO-konform, nur localStorage)
+    try {
+      const key = 'rema_analytics';
+      const a = JSON.parse(localStorage.getItem(key) || '{"pageviews":[],"downloads":[],"sessions":[]}');
+      a.downloads = (a.downloads || []);
+      a.downloads.push({d: new Date().toISOString().slice(0,10), t: Date.now(), v: latestVersion});
+      if (a.downloads.length > 5000) a.downloads = a.downloads.slice(-5000);
+      localStorage.setItem(key, JSON.stringify(a));
+    } catch(e) {}
+    window.location.href = latestDownloadUrl;
+  }
+}
 function goToDownloadSection() { document.getElementById('download')?.scrollIntoView({behavior:'smooth', block:'start'}); }
 document.getElementById('hero-download')?.addEventListener('click', goDownload);
 document.getElementById('download-primary')?.addEventListener('click', goDownload);
 
 /* YEAR */
 document.getElementById('year').textContent = new Date().getFullYear();
+
+/* Apply detected/saved language on load */
+applyLang(currentLang);
+
+/* Analytics: track page view (DSGVO-konform, nur localStorage, kein externes Tracking) */
+(function() {
+  try {
+    const today = new Date().toISOString().slice(0,10);
+    const key = 'rema_analytics';
+    let a = JSON.parse(localStorage.getItem(key) || '{"pageviews":[],"downloads":[],"sessions":[]}');
+    // Session tracking via sessionStorage (keine persistente ID)
+    let isNew = !sessionStorage.getItem('rema_session_active');
+    if (isNew) {
+      sessionStorage.setItem('rema_session_active', '1');
+      const sEntry = {d: today, t: Date.now(), lang: currentLang};
+      a.sessions = (a.sessions || []);
+      a.sessions.push(sEntry);
+      // max. 3000 Einträge (ca. 8 Jahre bei 1/Tag)
+      if (a.sessions.length > 3000) a.sessions = a.sessions.slice(-3000);
+    }
+    a.pageviews = (a.pageviews || []);
+    const pvEntry = {d: today, t: Date.now()};
+    a.pageviews.push(pvEntry);
+    if (a.pageviews.length > 10000) a.pageviews = a.pageviews.slice(-10000);
+    localStorage.setItem(key, JSON.stringify(a));
+  } catch(e) {}
+})();
 
 /* Reload-Sicherheitsnetz: falls ein Browser scrollY trotz scrollRestoration
    wiederherstellt, wird nach dem vollständigen Laden nochmal nach oben gesprungen. */
