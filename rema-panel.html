@@ -6,7 +6,7 @@
 <title>ReMa Panel</title>
 <meta name="robots" content="noindex,nofollow,noarchive">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://*.goatcounter.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'">
 <meta http-equiv="X-Frame-Options" content="DENY">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
@@ -560,17 +560,9 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
         <span class="sb-item-label">Übersicht</span>
       </button>
-      <button class="sb-item" data-view="pageviews" onclick="showView('pageviews',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        <span class="sb-item-label">Seitenaufrufe</span>
-      </button>
-      <button class="sb-item" data-view="downloads" onclick="showView('downloads',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        <span class="sb-item-label">Downloads</span>
-      </button>
-      <button class="sb-item" data-view="sessions" onclick="showView('sessions',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        <span class="sb-item-label">Unique Sessions</span>
+      <button class="sb-item" data-view="website" onclick="showView('website',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span class="sb-item-label">Website-Analytics</span>
       </button>
 
       <div class="sb-section">Verwaltung</div>
@@ -630,7 +622,7 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
       <div class="view active" id="view-dashboard">
         <div class="view-header">
           <div class="view-h">Übersicht</div>
-          <div class="view-p">Deine Admin-Aktivitäten und Login-Historie auf einen Blick. Alle Daten werden ausschließlich in deinem Browser (localStorage) gespeichert – kein Server, kein externes Tracking.</div>
+          <div class="view-p">Deine Admin-Aktivitäten und Login-Historie auf einen Blick — ausschließlich in deinem Browser (localStorage) gespeichert. Echte Besucherzahlen der öffentlichen Website findest du unter „Website-Analytics".</div>
         </div>
 
         <!-- KPI Cards -->
@@ -673,43 +665,15 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
           </div>
         </div>
 
-        <!-- Charts Row -->
-        <div class="chart-row">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">Aktivität – letzte 14 Tage</div>
-              <div class="card-badge blue" id="chart-date-range">–</div>
-            </div>
-            <div class="card-body">
-              <div class="chart-wrap" id="bar-chart"></div>
-              <div class="chart-legend">
-                <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Seitenaufrufe</div>
-                <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Downloads</div>
-              </div>
-            </div>
+        <!-- Pointer zur echten Website-Analytics -->
+        <div class="card" style="margin-bottom:24px">
+          <div class="card-header">
+            <div class="card-title">Website-Traffic (Besucher, Downloads, Sprachen)</div>
+            <div class="card-badge blue">GoatCounter</div>
           </div>
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">Sprachen</div>
-              <div class="card-badge green">Sessions</div>
-            </div>
-            <div class="card-body">
-              <div class="donut-wrap" id="lang-donut">
-                <svg class="donut-svg" viewBox="0 0 100 100">
-                  <circle class="donut-bg" cx="50" cy="50" r="36"/>
-                  <circle class="donut-arc" id="donut-arc-1" cx="50" cy="50" r="36" stroke="var(--red)" stroke-dasharray="0 226"/>
-                  <circle class="donut-arc" id="donut-arc-2" cx="50" cy="50" r="36" stroke="var(--blue)" stroke-dasharray="0 226" stroke-dashoffset="0"/>
-                  <circle class="donut-arc" id="donut-arc-3" cx="50" cy="50" r="36" stroke="var(--green)" stroke-dasharray="0 226" stroke-dashoffset="0"/>
-                  <circle class="donut-arc" id="donut-arc-4" cx="50" cy="50" r="36" stroke="var(--orange)" stroke-dasharray="0 226" stroke-dashoffset="0"/>
-                  <circle class="donut-arc" id="donut-arc-5" cx="50" cy="50" r="36" stroke="var(--purple)" stroke-dasharray="0 226" stroke-dashoffset="0"/>
-                  <text class="donut-center">
-                    <tspan class="donut-center-val" x="50" y="46" id="donut-center-val">–</tspan>
-                    <tspan class="donut-center-sub" x="50" y="60">SESSIONS</tspan>
-                  </text>
-                </svg>
-                <div class="donut-legend" id="donut-legend"></div>
-              </div>
-            </div>
+          <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+            <div class="view-p" style="margin:0;max-width:520px">Seitenaufrufe, eindeutige Besucher, Download-Klicks und Sprachverteilung der öffentlichen Website findest du im Menüpunkt <strong>„Website-Analytics"</strong> — dort läuft die echte, seitenübergreifende Auswertung über GoatCounter.</div>
+            <button class="sb-item" style="width:auto;padding:10px 18px" onclick="showView('website', document.querySelector('[data-view=website]'))">Zu Website-Analytics →</button>
           </div>
         </div>
 
@@ -724,30 +688,59 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
       </div>
 
       <!-- ── PAGEVIEWS VIEW ──────────────────────────────────────────────── -->
-      <div class="view" id="view-pageviews">
+      <div class="view" id="view-website">
         <div class="view-header">
-          <div class="view-h">Seitenaufrufe</div>
-          <div class="view-p">Alle Seitenaufrufe nach Tag. Kein Nutzer-Tracking, keine IPs – nur Zeitstempel im localStorage.</div>
+          <div class="view-h">Website-Analytics</div>
+          <div class="view-p">Echte, seitenübergreifende Besucherstatistiken der Hauptseite (index.html) — erfasst über den datenschutzfreundlichen, cookie-freien Dienst <strong>GoatCounter</strong> (EU-Server, keine IP-Speicherung). Details siehe datenschutz.html, Abschnitt 6.</div>
         </div>
-        <div class="table-card" id="pv-table-card"></div>
-      </div>
 
-      <!-- ── DOWNLOADS VIEW ─────────────────────────────────────────────── -->
-      <div class="view" id="view-downloads">
-        <div class="view-header">
-          <div class="view-h">Download-Klicks</div>
-          <div class="view-p">Jeder Klick auf den Download-Button wird lokal erfasst. Keine Verbindung zu externen Servern.</div>
+        <div class="highlight-box" id="goatcounter-config-hint" style="margin-bottom:20px">
+          <strong>Einrichtung erforderlich:</strong> Damit hier echte Zahlen erscheinen, musst du einmalig ein kostenloses Konto auf
+          <a href="https://www.goatcounter.com/signup" target="_blank" rel="noopener noreferrer" class="external-link" style="color:inherit;text-decoration:underline">goatcounter.com</a>
+          anlegen und zwei Werte eintragen:
+          <ol style="margin:10px 0 0 20px;padding:0">
+            <li>Deinen GoatCounter-Sitecode → ersetzt <code>TODO-GOATCOUNTER-CODE</code> in <code>index.html</code> <strong>und</strong> <code>GOATCOUNTER_CODE</code> unten im Code dieser Seite</li>
+            <li>Einen <strong>read-only API-Token</strong> (Konto-Menü → „API" → neuer Token, dabei <strong>nur</strong> die Berechtigung „Statistics: read" anhaken, sonst nichts) → ersetzt <code>GOATCOUNTER_API_TOKEN</code> unten im Code dieser Seite</li>
+          </ol>
         </div>
-        <div class="table-card" id="dl-table-card"></div>
-      </div>
 
-      <!-- ── SESSIONS VIEW ──────────────────────────────────────────────── -->
-      <div class="view" id="view-sessions">
-        <div class="view-header">
-          <div class="view-h">Unique Sessions</div>
-          <div class="view-p">Eine Session = ein Browser-Tab-Öffnen (sessionStorage). Es werden keine persistenten IDs, keine Cookies und keine Geräte-Fingerprints verwendet.</div>
+        <div class="kpi-grid" id="gc-kpi-grid" style="margin-bottom:20px">
+          <div class="kpi-card red">
+            <div class="kpi-label">Besucher (30 Tage)</div>
+            <div class="kpi-val" id="gc-kpi-visitors">–</div>
+            <div class="kpi-trend neutral" id="gc-kpi-visitors-sub">lädt…</div>
+            <div class="kpi-accent"></div>
+          </div>
+          <div class="kpi-card blue">
+            <div class="kpi-label">Besucher heute</div>
+            <div class="kpi-val" id="gc-kpi-today">–</div>
+            <div class="kpi-trend neutral" id="gc-kpi-today-sub">lädt…</div>
+            <div class="kpi-accent"></div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-label">Ø Besucher / Tag</div>
+            <div class="kpi-val" id="gc-kpi-avg">–</div>
+            <div class="kpi-trend neutral">letzte 30 Tage</div>
+            <div class="kpi-accent"></div>
+          </div>
+          <div class="kpi-card orange">
+            <div class="kpi-label">Meistbesuchte Seite</div>
+            <div class="kpi-val" id="gc-kpi-top" style="font-size:20px">–</div>
+            <div class="kpi-trend neutral" id="gc-kpi-top-sub">lädt…</div>
+            <div class="kpi-accent"></div>
+          </div>
         </div>
-        <div class="table-card" id="sess-table-card"></div>
+
+        <div class="table-card">
+          <div class="view-h" style="font-size:16px;margin-bottom:12px">Seitenaufrufe nach Pfad (30 Tage)</div>
+          <div id="gc-table-wrap">
+            <div class="empty-state"><h3>Lädt…</h3><p>Zahlen werden von GoatCounter abgerufen.</p></div>
+          </div>
+        </div>
+
+        <div class="view-p" style="margin-top:14px">
+          Hinweis zur Sicherheit: Diese Seite (<code>rema-panel.html</code>) wird als statische Datei über GitHub Pages ausgeliefert — jeder Wert im Quelltext, auch der API-Token, ist damit öffentlich einsehbar. Beschränke den Token deshalb bei der Erstellung in GoatCounter bewusst auf die Berechtigung <strong>„Statistics: read"</strong> — damit kann er ausschließlich Besucherzahlen auslesen, aber keine Einstellungen ändern, keine Daten löschen und kein CSV exportieren. Ein vollständig unsichtbarer Zugriff ist bei einer rein statischen Seite ohne eigenen Server technisch nicht möglich; die Berechtigungs-Einschränkung ist die wirksamste Absicherung, die hier bleibt. Details siehe datenschutz.html, Abschnitt 6.
+        </div>
       </div>
 
       <!-- ── ACTIVITY LOG VIEW ──────────────────────────────────────────── -->
@@ -801,35 +794,21 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
           <div class="settings-card full">
             <div class="settings-h">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-              Analyse-Daten verwalten
+              Daten verwalten
             </div>
             <div class="setting-row">
               <div class="setting-info">
-                <div class="setting-name">Alle Seitenaufruf-Daten löschen</div>
-                <div class="setting-desc">Entfernt alle erfassten Seitenaufrufe aus dem localStorage dieses Browsers. Nicht wiederherstellbar.</div>
+                <div class="setting-name">Admin-Aktivitätslog löschen</div>
+                <div class="setting-desc">Entfernt deine lokal gespeicherte Login-/Aktions-Historie (dieses Browsers). Nicht wiederherstellbar. Betrifft nicht die Website-Besucherzahlen bei GoatCounter.</div>
               </div>
-              <button class="settings-btn danger" onclick="clearData('pageviews')">Löschen</button>
+              <button class="settings-btn danger" onclick="clearData('all')">Löschen</button>
             </div>
             <div class="setting-row">
               <div class="setting-info">
-                <div class="setting-name">Alle Download-Daten löschen</div>
-                <div class="setting-desc">Entfernt alle erfassten Download-Klicks aus dem localStorage.</div>
+                <div class="setting-name">Website-Besucherdaten (GoatCounter)</div>
+                <div class="setting-desc">Diese Daten liegen beim externen Anbieter, nicht im localStorage dieses Panels. Löschung/Export: im GoatCounter-Dashboard selbst unter Einstellungen, oder direkt per Anfrage an den Anbieter.</div>
               </div>
-              <button class="settings-btn danger" onclick="clearData('downloads')">Löschen</button>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info">
-                <div class="setting-name">Alle Session-Daten löschen</div>
-                <div class="setting-desc">Entfernt alle erfassten Session-Einträge aus dem localStorage.</div>
-              </div>
-              <button class="settings-btn danger" onclick="clearData('sessions')">Löschen</button>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info">
-                <div class="setting-name">Alle Analytics-Daten löschen</div>
-                <div class="setting-desc">Löscht sämtliche Analyse-Daten auf einmal. Entspricht dem Recht auf Datenlöschung nach Art. 17 DSGVO (im Kontext dieses lokalen Dashboards).</div>
-              </div>
-              <button class="settings-btn danger" onclick="clearData('all')">Alle löschen</button>
+              <a href="https://www.goatcounter.com/help/privacy" target="_blank" rel="noopener noreferrer" class="settings-btn" style="text-decoration:none;display:inline-flex;align-items:center">Zu GoatCounter →</a>
             </div>
           </div>
         </div>
@@ -854,18 +833,18 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
           <div class="settings-card">
             <div class="settings-h">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Was gespeichert wird
+              Website-Analytics (GoatCounter) — was erfasst wird
             </div>
             <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Seitenaufrufe</div><div class="setting-desc">Datum + Uhrzeit (Timestamp) des Aufrufs. Kein Nutzer-Identifier.</div></div>
+              <div class="setting-info"><div class="setting-name">Seitenaufrufe & eindeutige Besucher</div><div class="setting-desc">Per nicht-identifizierbarem Session-Hash, max. 8h im Arbeitsspeicher des Anbieters, danach verworfen.</div></div>
               <span class="pill green">Anonym</span>
             </div>
             <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Sessions</div><div class="setting-desc">Datum + gewählte Sprache (kein Persistent-ID). Basiert auf sessionStorage – endet beim Tab-Schließen.</div></div>
+              <div class="setting-info"><div class="setting-name">Download-Klicks</div><div class="setting-desc">Als separates Ereignis "download-click", ohne Personenbezug.</div></div>
               <span class="pill green">Anonym</span>
             </div>
             <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Download-Klicks</div><div class="setting-desc">Datum + Versionsnummer. Kein Nutzer-Identifier.</div></div>
+              <div class="setting-info"><div class="setting-name">Sprache, Land/Region, Browser, Bildschirmgröße</div><div class="setting-desc">Aggregiert, nicht mit einzelnen Personen verknüpfbar.</div></div>
               <span class="pill green">Anonym</span>
             </div>
           </div>
@@ -874,11 +853,11 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
               Was NICHT gespeichert wird
             </div>
-            <div class="setting-row"><div class="setting-info"><div class="setting-name">IP-Adressen</div></div><span class="pill gray">Nicht erfasst</span></div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">IP-Adressen (dauerhaft)</div></div><span class="pill gray">Nicht erfasst</span></div>
             <div class="setting-row"><div class="setting-info"><div class="setting-name">Cookies</div></div><span class="pill gray">Nicht gesetzt</span></div>
             <div class="setting-row"><div class="setting-info"><div class="setting-name">Geräte-Fingerprint</div></div><span class="pill gray">Nicht erfasst</span></div>
-            <div class="setting-row"><div class="setting-info"><div class="setting-name">Externe Requests</div></div><span class="pill gray">Keine</span></div>
-            <div class="setting-row"><div class="setting-info"><div class="setting-name">Cross-Site Tracking</div></div><span class="pill gray">Keines</span></div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Vollständiger User-Agent-String</div></div><span class="pill gray">Nicht gespeichert</span></div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Cross-Site Tracking / Nutzerprofile</div></div><span class="pill gray">Keines</span></div>
           </div>
           <div class="settings-card full">
             <div class="settings-h">
@@ -886,11 +865,15 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
               Rechtliche Grundlage
             </div>
             <p style="font-size:13px;color:var(--g1);line-height:1.8">
-              Da ausschließlich technisch notwendige Daten im eigenen Browser gespeichert werden und keine Übertragung an Dritte stattfindet, sind diese Analytics nach Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse: Seitenbetrieb und Fehleranalyse) ohne Einwilligung zulässig. Es handelt sich dabei um <em>keine</em> personenbezogenen Daten i.S.d. Art. 4 Nr. 1 DSGVO, da keine Identifizierung einzelner Personen möglich ist.
+              Die Website-Reichweitenmessung erfolgt über den externen, cookie-freien Dienst <strong style="color:var(--w)">GoatCounter</strong> (EU-Server bei Hetzner, Finnland/Deutschland). Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an datensparsamer Reichweitenmessung).
               <br><br>
-              <strong style="color:var(--w)">Wichtig:</strong> Werden diese Daten auf einem Server mit Mehrbenutzerzugriff gespeichert (z.B. serverseitiges localStorage-Aggregat), ist eine datenschutzrechtliche Prüfung und ggf. Einwilligung erforderlich. Im vorliegenden Setup ist dies <strong style="color:var(--green)">nicht der Fall</strong> – die Daten verbleiben im Browser des Seitenbesuchers selbst.
+              Da keine Cookies gesetzt, keine IP-Adresse dauerhaft gespeichert und keine geräteübergreifende Wiedererkennung ermöglicht wird, gehen wir davon aus, dass keine Einwilligungspflicht nach § 25 Abs. 1 TDDDG besteht. Diese Einschätzung folgt der Auffassung des Anbieters und ist rechtlich nicht abschließend höchstrichterlich geklärt.
               <br><br>
-              Quellen: Art. 4, 6, 17 DSGVO · TTDSG § 25 · LG München I, Urt. v. 20.01.2022, Az. 3 O 17493/20 (Google Fonts)
+              Besucher können die Messung jederzeit über den Link "Analyse deaktivieren" im Footer der Hauptseite abschalten (Opt-out, gespeichert im localStorage als <code>rema_analytics_optout</code>).
+              <br><br>
+              Diese Admin-Seite selbst (Logins, Aktionen) verwendet <em>separat</em> ausschließlich lokalen Browser-Speicher (localStorage) ohne jede Server-Übertragung.
+              <br><br>
+              Quellen: Art. 4, 6 DSGVO · § 25 TDDDG · <a href="https://www.goatcounter.com/help/privacy" target="_blank" rel="noopener noreferrer" class="external-link" style="color:var(--red)">GoatCounter-Datenschutzerklärung</a> · datenschutz.html (Abschnitt 6)
             </p>
           </div>
         </div>
@@ -1102,7 +1085,105 @@ function getAdminLog() {
 }
 
 /* ─── NAVIGATION ─────────────────────────────────────────────────────────── */
-const VIEW_TITLES = {dashboard:'Übersicht',pageviews:'Seitenaufrufe',downloads:'Download-Klicks',sessions:'Unique Sessions',activity:'Aktivitätslog',settings:'Einstellungen',dsgvo:'DSGVO-Info'};
+const VIEW_TITLES = {dashboard:'Übersicht',website:'Website-Analytics',activity:'Aktivitätslog',settings:'Einstellungen',dsgvo:'DSGVO-Info'};
+
+/* ─── GoatCounter Live-Daten (JSON API) ───
+   TODO: Sitecode + read-only API-Token nach der Einrichtung auf goatcounter.com eintragen.
+   WICHTIG: Beim Erstellen des Tokens (Konto-Menü -> "API") nur die Berechtigung
+   "Statistics: read" aktivieren. Diese Seite ist als statische GitHub-Pages-Datei
+   öffentlich einsehbar, der Token ist also technisch im Quelltext sichtbar -> ein
+   read-only-Scope ist die wirksamste Absicherung, die hier möglich ist. */
+const GOATCOUNTER_CODE = 'rema';
+const GOATCOUNTER_API_TOKEN = 'v7ki4ldq4vz31snlsp0ge24uk1054bzciwkh7t1ugzojqwfbpxa';
+
+function gcConfigured() {
+  return GOATCOUNTER_CODE && GOATCOUNTER_CODE !== 'TODO-GOATCOUNTER-CODE'
+      && GOATCOUNTER_API_TOKEN && GOATCOUNTER_API_TOKEN !== 'TODO-GOATCOUNTER-API-TOKEN';
+}
+
+async function gcFetch(path, params) {
+  const url = new URL(`https://${GOATCOUNTER_CODE}.goatcounter.com${path}`);
+  Object.entries(params || {}).forEach(([k, v]) => url.searchParams.set(k, v));
+  const res = await fetch(url.toString(), {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${GOATCOUNTER_API_TOKEN}`
+    }
+  });
+  if (!res.ok) {
+    let msg = `HTTP ${res.status}`;
+    try { const j = await res.json(); msg = j.error || msg; } catch(e) {}
+    throw new Error(msg);
+  }
+  return res.json();
+}
+
+function gcSetKpiError() {
+  ['gc-kpi-visitors','gc-kpi-today','gc-kpi-avg','gc-kpi-top'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '—';
+  });
+  document.getElementById('gc-kpi-visitors-sub').textContent = 'Fehler beim Laden';
+  document.getElementById('gc-kpi-today-sub').textContent = '';
+  document.getElementById('gc-kpi-top-sub').textContent = '';
+}
+
+async function loadGoatCounterFrame() {
+  const hint = document.getElementById('goatcounter-config-hint');
+  const tableWrap = document.getElementById('gc-table-wrap');
+
+  if (!gcConfigured()) {
+    if (hint) hint.style.display = 'block';
+    gcSetKpiError();
+    document.getElementById('gc-kpi-visitors-sub').textContent = 'Noch nicht eingerichtet';
+    if (tableWrap) tableWrap.innerHTML = `<div class="empty-state"><h3>Noch nicht eingerichtet</h3><p>Trage GOATCOUNTER_CODE und GOATCOUNTER_API_TOKEN im Code dieser Seite ein.</p></div>`;
+    return;
+  }
+  if (hint) hint.style.display = 'none';
+
+  const end = new Date();
+  const start = new Date(end.getTime() - 30 * 24 * 60 * 60 * 1000);
+  const todayStart = new Date(end); todayStart.setHours(0,0,0,0);
+
+  try {
+    const [totalResp, hitsResp, todayResp] = await Promise.all([
+      gcFetch('/api/v0/stats/total', { start: start.toISOString(), end: end.toISOString() }),
+      gcFetch('/api/v0/stats/hits', { start: start.toISOString(), end: end.toISOString(), limit: 15 }),
+      gcFetch('/api/v0/stats/total', { start: todayStart.toISOString(), end: end.toISOString() })
+    ]);
+
+    const total = totalResp.total || 0;
+    const avgPerDay = Math.round(total / 30);
+    document.getElementById('gc-kpi-visitors').textContent = total.toLocaleString('de-DE');
+    document.getElementById('gc-kpi-visitors-sub').textContent = 'letzte 30 Tage';
+    document.getElementById('gc-kpi-today').textContent = (todayResp.total || 0).toLocaleString('de-DE');
+    document.getElementById('gc-kpi-today-sub').textContent = 'seit Mitternacht';
+    document.getElementById('gc-kpi-avg').textContent = avgPerDay.toLocaleString('de-DE');
+
+    const hits = (hitsResp.hits || []).slice().sort((a,b) => b.count - a.count);
+    if (hits.length) {
+      document.getElementById('gc-kpi-top').textContent = hits[0].path;
+      document.getElementById('gc-kpi-top-sub').textContent = `${hits[0].count.toLocaleString('de-DE')} Besucher`;
+    } else {
+      document.getElementById('gc-kpi-top').textContent = '–';
+      document.getElementById('gc-kpi-top-sub').textContent = 'keine Daten';
+    }
+
+    if (!hits.length) {
+      tableWrap.innerHTML = `<div class="empty-state"><h3>Noch keine Daten</h3><p>Sobald deine Seite Besucher hat, erscheinen hier die Zahlen.</p></div>`;
+    } else {
+      const rows = hits.map(h => `<tr><td class="primary mono">${h.path}</td><td class="mono">${h.title || '–'}</td><td class="mono" style="text-align:right">${h.count.toLocaleString('de-DE')}</td></tr>`).join('');
+      tableWrap.innerHTML = `
+        <table>
+          <thead><tr><th>Pfad</th><th>Titel</th><th style="text-align:right">Besucher</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>`;
+    }
+  } catch (err) {
+    gcSetKpiError();
+    tableWrap.innerHTML = `<div class="empty-state"><h3>Fehler beim Laden</h3><p>${(err && err.message) || 'Unbekannter Fehler'} — prüfe Sitecode, Token und dessen Berechtigung „Statistics: read".</p></div>`;
+  }
+}
 
 function showView(id, btn) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -1120,16 +1201,12 @@ function toggleSidebar() {
 /* ─── RENDER ─────────────────────────────────────────────────────────────── */
 function renderAll() {
   renderKPIs();
-  renderBarChart();
-  renderLangDonut();
   renderRecentTable();
 }
 
 function renderView(id) {
   if (id === 'dashboard') renderAll();
-  if (id === 'pageviews') renderDailyTable('pv-table-card', 'pageviews', 'Seitenaufrufe');
-  if (id === 'downloads') renderDailyTable('dl-table-card', 'downloads', 'Download-Klicks');
-  if (id === 'sessions')  renderDailyTable('sess-table-card', 'sessions', 'Sessions');
+  if (id === 'website')   loadGoatCounterFrame();
   if (id === 'activity')  renderActivityLog();
 }
 
@@ -1153,115 +1230,29 @@ function renderKPIs() {
   document.getElementById('kpi-conv-label').textContent = 'Passwort-Änderungen';
 }
 
-function getLast14Days() {
-  const days = [];
-  for (let i=13; i>=0; i--) {
-    const d = new Date(); d.setDate(d.getDate()-i);
-    days.push(d.toISOString().slice(0,10));
-  }
-  return days;
-}
-
-function renderBarChart() {
-  const a = getAnalytics();
-  const days = getLast14Days();
-  const pvMap = {}, dlMap = {};
-  (a.pageviews||[]).forEach(e => pvMap[e.d] = (pvMap[e.d]||0)+1);
-  (a.downloads||[]).forEach(e => dlMap[e.d] = (dlMap[e.d]||0)+1);
-
-  const maxPv = Math.max(...days.map(d => pvMap[d]||0), 1);
-
-  const wrap = document.getElementById('bar-chart');
-  wrap.innerHTML = days.map(d => {
-    const pv = pvMap[d]||0;
-    const dl = dlMap[d]||0;
-    const pvH = Math.max((pv/maxPv)*140, pv>0?4:0);
-    const dlH = Math.max((dl/maxPv)*140, dl>0?3:0);
-    const label = d.slice(5); // MM-DD
-    return `<div class="chart-bar-group">
-      <div class="chart-bar" style="height:${pvH}px" title="${pv} Aufrufe am ${d}">
-        <div class="chart-bar-tooltip">${pv}</div>
-      </div>
-      <div class="chart-bar chart-bar-dl" style="height:${dlH}px" title="${dl} Downloads am ${d}">
-        <div class="chart-bar-tooltip">${dl}</div>
-      </div>
-      <div class="chart-label">${label}</div>
-    </div>`;
-  }).join('');
-
-  const range = `${days[0]} – ${days[13]}`;
-  document.getElementById('chart-date-range').textContent = range;
-}
-
-function renderLangDonut() {
-  const a = getAnalytics();
-  const sessions = a.sessions||[];
-  const total = sessions.length;
-  if (total === 0) {
-    document.getElementById('donut-center-val').textContent = '0';
-    document.getElementById('donut-legend').innerHTML = '<div style="font-size:12px;color:var(--g2);text-align:center">Keine Daten</div>';
-    return;
-  }
-  const langs = {};
-  sessions.forEach(s => { const l = s.lang||'?'; langs[l] = (langs[l]||0)+1; });
-  const sorted = Object.entries(langs).sort((a,b)=>b[1]-a[1]);
-  const colors = ['var(--red)','var(--blue)','var(--green)','var(--orange)','var(--purple)'];
-  const circ = 2 * Math.PI * 36; // 226.2
-
-  let offset = 0;
-  sorted.forEach(([lang, count], i) => {
-    const pct = count / total;
-    const dash = pct * circ;
-    const arc = document.getElementById(`donut-arc-${i+1}`);
-    if (arc) {
-      arc.setAttribute('stroke-dasharray', `${dash} ${circ - dash}`);
-      arc.setAttribute('stroke-dashoffset', -offset);
-    }
-    offset += dash;
-  });
-
-  document.getElementById('donut-center-val').textContent = total;
-
-  const legend = sorted.map(([lang, count], i) => {
-    const pct = ((count/total)*100).toFixed(0);
-    return `<div>
-      <div class="dl-row"><div class="dl-dot" style="background:${colors[i]||'var(--g2)'}"></div>
-      <div class="dl-name">${langName(lang)}</div><div class="dl-pct">${count} (${pct}%)</div></div>
-      <div class="dl-bar-wrap"><div class="dl-bar-fill" style="width:${pct}%;background:${colors[i]||'var(--g2)'}"></div></div>
-    </div>`;
-  }).join('');
-  document.getElementById('donut-legend').innerHTML = legend;
-}
-
 function langName(code) {
   const map = {de:'Deutsch',en:'English',fr:'Français',es:'Español',zh:'中文','?':'Unbekannt'};
   return map[code] || code;
 }
 
 function renderRecentTable() {
-  const a = getAnalytics();
-  const all = [
-    ...(a.pageviews||[]).map(e=>({...e,type:'pv'})),
-    ...(a.downloads||[]).map(e=>({...e,type:'dl'})),
-    ...(a.sessions||[]).map(e=>({...e,type:'sess'}))
-  ].sort((a,b)=>b.t-a.t).slice(0,15);
+  const all = getAdminLog().slice().sort((a,b)=>b.t-a.t).slice(0,15);
 
   document.getElementById('recent-sub').textContent = `${all.length} Einträge`;
 
   if (!all.length) {
-    document.getElementById('recent-table-wrap').innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><h3>Noch keine Daten</h3><p>Besuche die Hauptseite, damit Daten erfasst werden.</p></div>`;
+    document.getElementById('recent-table-wrap').innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><h3>Noch keine Daten</h3><p>Sobald du dich einloggst oder Einstellungen änderst, erscheinen hier Einträge.</p></div>`;
     return;
   }
 
   const rows = all.map(e => {
     const time = new Date(e.t).toLocaleString('de-DE',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    const date = e.d;
-    let type='', pill='';
-    if (e.type==='pv') { type='Seitenaufruf'; pill='<span class="pill blue">Aufruf</span>'; }
-    if (e.type==='dl') { type='Download-Klick'; pill='<span class="pill green">Download</span>'; }
-    if (e.type==='sess') { type='Session-Start'; pill='<span class="pill orange">Session</span>'; }
-    const extra = e.lang ? ` · ${langName(e.lang)}` : e.v ? ` · ${e.v}` : '';
-    return `<tr><td>${pill}</td><td class="primary">${type}</td><td class="mono">${date}</td><td class="mono">${time}</td><td class="mono" style="color:var(--g2)">${extra}</td></tr>`;
+    const date = e.d || new Date(e.t).toISOString().slice(0,10);
+    const pill = e.type === 'admin_login' ? '<span class="pill green">Login</span>'
+      : e.type === 'admin_logout' ? '<span class="pill blue">Logout</span>'
+      : e.type === 'admin_blocked' ? '<span class="pill orange">Gesperrt</span>'
+      : '<span class="pill">Aktion</span>';
+    return `<tr><td>${pill}</td><td class="primary">${e.msg||e.type}</td><td class="mono">${date}</td><td class="mono">${time}</td><td class="mono" style="color:var(--g2)"></td></tr>`;
   }).join('');
 
   document.getElementById('recent-table-wrap').innerHTML = `
@@ -1269,33 +1260,6 @@ function renderRecentTable() {
       <thead><tr><th>Typ</th><th>Ereignis</th><th>Datum</th><th>Uhrzeit</th><th>Details</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>`;
-}
-
-function renderDailyTable(containerId, dataKey, label) {
-  const a = getAnalytics();
-  const entries = a[dataKey] || [];
-  const dayMap = {};
-  entries.forEach(e => { dayMap[e.d] = (dayMap[e.d]||0)+1; });
-  const days = Object.entries(dayMap).sort((a,b)=>b[0].localeCompare(a[0]));
-
-  const container = document.getElementById(containerId);
-  if (!days.length) {
-    container.innerHTML = `<div class="card-header" style="padding:18px 20px;margin-bottom:0"><div class="card-title">${label} nach Tag</div></div><div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><h3>Keine ${label}</h3><p>Noch keine Daten vorhanden.</p></div>`;
-    return;
-  }
-  const total = days.reduce((s,[,v])=>s+v,0);
-  const max = Math.max(...days.map(([,v])=>v));
-  const rows = days.map(([d,v]) => {
-    const pct = ((v/max)*100).toFixed(0);
-    const bar = `<div style="height:3px;background:var(--g4);border-radius:2px;margin-top:4px"><div style="height:100%;width:${pct}%;background:var(--red);border-radius:2px;transition:width .6s"></div></div>`;
-    return `<tr><td class="primary mono">${d}</td><td class="mono"><strong style="color:var(--w)">${v}</strong></td><td style="min-width:120px">${bar}</td></tr>`;
-  }).join('');
-  container.innerHTML = `
-    <div class="card-header" style="padding:18px 20px 14px;margin-bottom:0">
-      <div class="card-title">${label} nach Tag</div>
-      <div class="card-badge blue">${total} gesamt</div>
-    </div>
-    <table><thead><tr><th>Datum</th><th>${label}</th><th>Anteil</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 function renderActivityLog() {
@@ -1373,16 +1337,8 @@ async function changeUsername() {
 }
 
 function clearData(type) {
-  const a = getAnalytics();
-  let msg = '';
-  if (type === 'all') {
-    a.pageviews = []; a.downloads = []; a.sessions = [];
-    msg = 'Alle Analytics-Daten gelöscht.';
-  } else {
-    a[type] = [];
-    msg = `${type}-Daten gelöscht.`;
-  }
-  saveAnalytics(a);
+  localStorage.removeItem('rema_admin_log');
+  const msg = 'Admin-Aktivitätslog gelöscht.';
   logAdminEvent('admin_data_clear', msg);
   showToast(msg, 'success');
   renderAll();
