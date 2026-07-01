@@ -975,51 +975,12 @@ fetch('https://api.github.com/repos/ReMa-RemoteManager/rema/releases', {signal:t
 /* DOWNLOAD */
 function goDownload() {
   if (isSafeGithubUrl(latestDownloadUrl)) {
-    // Track download click (DSGVO-konform, nur localStorage)
-    try {
-      const key = 'rema_analytics';
-      const a = JSON.parse(localStorage.getItem(key) || '{"pageviews":[],"downloads":[],"sessions":[]}');
-      a.downloads = (a.downloads || []);
-      a.downloads.push({d: new Date().toISOString().slice(0,10), t: Date.now(), v: latestVersion});
-      if (a.downloads.length > 5000) a.downloads = a.downloads.slice(-5000);
-      localStorage.setItem(key, JSON.stringify(a));
-    } catch(e) {}
     window.location.href = latestDownloadUrl;
   }
 }
 function goToDownloadSection() { document.getElementById('download')?.scrollIntoView({behavior:'smooth', block:'start'}); }
 document.getElementById('hero-download')?.addEventListener('click', goDownload);
 document.getElementById('download-primary')?.addEventListener('click', goDownload);
-
-/* YEAR */
-document.getElementById('year').textContent = new Date().getFullYear();
-
-/* Apply detected/saved language on load */
-applyLang(currentLang);
-
-/* Analytics: track page view (DSGVO-konform, nur localStorage, kein externes Tracking) */
-(function() {
-  try {
-    const today = new Date().toISOString().slice(0,10);
-    const key = 'rema_analytics';
-    let a = JSON.parse(localStorage.getItem(key) || '{"pageviews":[],"downloads":[],"sessions":[]}');
-    // Session tracking via sessionStorage (keine persistente ID)
-    let isNew = !sessionStorage.getItem('rema_session_active');
-    if (isNew) {
-      sessionStorage.setItem('rema_session_active', '1');
-      const sEntry = {d: today, t: Date.now(), lang: currentLang};
-      a.sessions = (a.sessions || []);
-      a.sessions.push(sEntry);
-      // max. 3000 Einträge (ca. 8 Jahre bei 1/Tag)
-      if (a.sessions.length > 3000) a.sessions = a.sessions.slice(-3000);
-    }
-    a.pageviews = (a.pageviews || []);
-    const pvEntry = {d: today, t: Date.now()};
-    a.pageviews.push(pvEntry);
-    if (a.pageviews.length > 10000) a.pageviews = a.pageviews.slice(-10000);
-    localStorage.setItem(key, JSON.stringify(a));
-  } catch(e) {}
-})();
 
 /* Reload-Sicherheitsnetz: falls ein Browser scrollY trotz scrollRestoration
    wiederherstellt, wird nach dem vollständigen Laden nochmal nach oben gesprungen. */

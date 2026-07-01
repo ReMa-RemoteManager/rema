@@ -1,0 +1,20 @@
+# robots.txt — ReMa Landing Page
+# https://rema-remotemanager.github.io/
+
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /impressum.html
+Allow: /datenschutz.html
+
+# Admin-Bereich: kein Crawling, kein Indexieren
+Disallow: /rema-panel.html
+Disallow: /rema-panel
+Disallow: /admin
+Disallow: /admin.html
+
+# Keine Screenshot-Tools / Preview-Crawler im Admin
+User-agent: Googlebot-Image
+Disallow: /rema-panel.html
+
+Sitemap: https://rema-remotemanager.github.io/sitemap.xml
