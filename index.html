@@ -26,7 +26,7 @@ window.scrollTo(0, 0);
     System-Schriftarten als Fallback, falls die Dateien fehlen.
   -->
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com https://*.goatcounter.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com https://weathered-block-1c90.l-remotemanger.workers.dev; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'">
   <style>
 @font-face{font-family:'Inter';font-style:normal;font-weight:300 900;font-display:swap;src:local('Inter'),url('fonts/Inter-Variable.woff2') format('woff2-variations'),url('fonts/Inter-Variable.woff2') format('woff2')}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -375,24 +375,40 @@ footer a:hover{color:var(--w);background:rgba(255,255,255,.05)}
   </style>
 
 <!--
-  Reichweitenmessung via GoatCounter (goatcounter.com):
-  - keine Cookies, keine IP-Speicherung, kein Fingerprinting, keine Cross-Site-ID
-  - Server in der EU (Hetzner, Finnland/Deutschland)
+  Reichweitenmessung über eigenen Cloudflare Worker (Analytics Engine):
+  - keine Cookies, keine IP-Speicherung (nur tagesweise gesalzener Hash), kein Fingerprinting
+  - läuft komplett innerhalb des eigenen Cloudflare-Accounts, kein Drittanbieter
   - Rechtsgrundlage: berechtigtes Interesse, Art. 6 Abs. 1 lit. f DSGVO
   - Details: siehe datenschutz.html, Abschnitt "Reichweitenmessung"
-  - WICHTIG: <TODO-GOATCOUNTER-CODE> unten durch den eigenen GoatCounter-Sitecode ersetzen
-    (nach Registrierung auf https://www.goatcounter.com/ z.B. "rema-remotemanager")
+  - Opt-out über 'rema_analytics_optout' in localStorage wird respektiert
 -->
 <script>
-(function () {
+const REMA_TRACK_URL = 'https://weathered-block-1c90.l-remotemanger.workers.dev/track';
+
+function remaAnalyticsEnabled() {
+  try { return localStorage.getItem('rema_analytics_optout') !== '1'; } catch (e) { return true; }
+}
+
+function remaTrack(payload) {
+  if (!remaAnalyticsEnabled()) return;
   try {
-    if (localStorage.getItem('rema_analytics_optout') === '1') return;
+    const body = JSON.stringify(payload);
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(REMA_TRACK_URL, new Blob([body], { type: 'application/json' }));
+    } else {
+      fetch(REMA_TRACK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: true });
+    }
+  } catch (e) { /* Tracking darf die Seite nie stören */ }
+}
+
+(function () {
+  let lang = 'de';
+  try {
+    const saved = localStorage.getItem('rema_lang');
+    if (saved) lang = saved;
+    else lang = (navigator.language || 'de').split('-')[0];
   } catch (e) {}
-  var s = document.createElement('script');
-  s.async = true;
-  s.src = '//gc.zgo.at/count.js';
-  s.setAttribute('data-goatcounter', 'https://rema.goatcounter.com/count');
-  document.head.appendChild(s);
+  remaTrack({ type: 'pageview', path: location.pathname, ref: document.referrer || '', lang });
 })();
 </script>
 </head>
@@ -1020,11 +1036,7 @@ fetch('https://api.github.com/repos/ReMa-RemoteManager/rema/releases', {signal:t
 /* DOWNLOAD */
 function goDownload() {
   if (isSafeGithubUrl(latestDownloadUrl)) {
-    try {
-      if (window.goatcounter && window.goatcounter.count) {
-        window.goatcounter.count({ path: 'download-click', title: 'Download-Klick', event: true });
-      }
-    } catch (e) {}
+    try { remaTrack({ type: 'download', file: 'rema.setup.exe' }); } catch (e) {}
     window.location.href = latestDownloadUrl;
   }
 }

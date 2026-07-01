@@ -6,7 +6,7 @@
 <title>ReMa Panel</title>
 <meta name="robots" content="noindex,nofollow,noarchive">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://*.goatcounter.com https://weathered-block-1c90.l-remotemanger.workers.dev; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://weathered-block-1c90.l-remotemanger.workers.dev; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'">
 <meta http-equiv="X-Frame-Options" content="DENY">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
@@ -676,10 +676,10 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
         <div class="card" style="margin-bottom:24px">
           <div class="card-header">
             <div class="card-title">Website-Traffic (Besucher, Downloads, Sprachen)</div>
-            <div class="card-badge blue">GoatCounter</div>
+            <div class="card-badge blue">Cloudflare Analytics Engine</div>
           </div>
           <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
-            <div class="view-p" style="margin:0;max-width:520px">Seitenaufrufe, eindeutige Besucher, Download-Klicks und Sprachverteilung der öffentlichen Website findest du im Menüpunkt <strong>„Website-Analytics"</strong> — dort läuft die echte, seitenübergreifende Auswertung über GoatCounter.</div>
+            <div class="view-p" style="margin:0;max-width:520px">Seitenaufrufe, eindeutige Besucher, Download-Klicks, Länder und Sprachverteilung der öffentlichen Website findest du im Menüpunkt <strong>„Website-Analytics"</strong> — dort läuft die echte, seitenübergreifende Auswertung über den eigenen Cloudflare Worker.</div>
             <button class="sb-item" style="width:auto;padding:10px 18px" onclick="showView('website', document.querySelector('[data-view=website]'))">Zu Website-Analytics →</button>
           </div>
         </div>
@@ -698,12 +698,12 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
       <div class="view" id="view-website">
         <div class="view-header">
           <div class="view-h">Website-Analytics</div>
-          <div class="view-p">Echte, seitenübergreifende Besucherstatistiken der Hauptseite (index.html) — erfasst über den datenschutzfreundlichen, cookie-freien Dienst <strong>GoatCounter</strong> (EU-Server, keine IP-Speicherung). Details siehe datenschutz.html, Abschnitt 6.</div>
+          <div class="view-p">Echte, seitenübergreifende Besucherstatistiken der Hauptseite (index.html) — erfasst über einen selbst betriebenen, cookie-freien Auswertungsmechanismus auf Basis von <strong>Cloudflare Analytics Engine</strong> (kein Drittanbieter, keine IP-Speicherung). Details siehe datenschutz.html, Abschnitt 6.</div>
         </div>
 
         <div class="highlight-box" id="goatcounter-config-hint" style="margin-bottom:20px;display:none">
-          <strong>Hinweis:</strong> Sitecode und API-Token werden nicht mehr in dieser Datei gepflegt, sondern ausschließlich
-          als Secrets im vorgeschalteten Cloudflare Worker (<code>rema-admin-api</code>). Diese Seite ruft nur noch dessen
+          <strong>Hinweis:</strong> Dataset-Name, Account-ID und API-Token werden nicht in dieser Datei gepflegt, sondern ausschließlich
+          als Secrets/Bindings im vorgeschalteten Cloudflare Worker. Diese Seite ruft nur dessen
           <code>/stats</code>-Endpoint mit dem eigenen Session-Token auf.
         </div>
 
@@ -734,15 +734,58 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
           </div>
         </div>
 
+        <div class="kpi-grid" id="dl-kpi-grid" style="margin-bottom:20px">
+          <div class="kpi-card blue">
+            <div class="kpi-label">Downloads (30 Tage)</div>
+            <div class="kpi-val" id="dl-kpi-total">–</div>
+            <div class="kpi-trend neutral" id="dl-kpi-total-sub">lädt…</div>
+            <div class="kpi-accent"></div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-label">Meistbesuchtes Land</div>
+            <div class="kpi-val" id="dl-kpi-top-country" style="font-size:20px">–</div>
+            <div class="kpi-trend neutral" id="dl-kpi-top-country-sub">lädt…</div>
+            <div class="kpi-accent"></div>
+          </div>
+          <div class="kpi-card orange">
+            <div class="kpi-label">Häufigste Sprache</div>
+            <div class="kpi-val" id="dl-kpi-top-lang" style="font-size:20px">–</div>
+            <div class="kpi-trend neutral" id="dl-kpi-top-lang-sub">lädt…</div>
+            <div class="kpi-accent"></div>
+          </div>
+        </div>
+
         <div class="table-card">
           <div class="view-h" style="font-size:16px;margin-bottom:12px">Seitenaufrufe nach Pfad (30 Tage)</div>
           <div id="gc-table-wrap">
-            <div class="empty-state"><h3>Lädt…</h3><p>Zahlen werden von GoatCounter abgerufen.</p></div>
+            <div class="empty-state"><h3>Lädt…</h3><p>Zahlen werden von Cloudflare Analytics Engine abgerufen.</p></div>
+          </div>
+        </div>
+
+        <div class="chart-row" style="margin-top:16px">
+          <div class="table-card">
+            <div class="view-h" style="font-size:16px;margin-bottom:12px">Downloads nach Datei (30 Tage)</div>
+            <div id="dl-table-wrap">
+              <div class="empty-state"><h3>Lädt…</h3></div>
+            </div>
+          </div>
+          <div class="table-card">
+            <div class="view-h" style="font-size:16px;margin-bottom:12px">Besucher nach Land (30 Tage)</div>
+            <div id="country-table-wrap">
+              <div class="empty-state"><h3>Lädt…</h3></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-card" style="margin-top:16px">
+          <div class="view-h" style="font-size:16px;margin-bottom:12px">Besucher nach Sprache (30 Tage)</div>
+          <div id="lang-table-wrap">
+            <div class="empty-state"><h3>Lädt…</h3></div>
           </div>
         </div>
 
         <div class="view-p" style="margin-top:14px">
-          Hinweis zur Sicherheit: Diese Seite (<code>rema-panel.html</code>) wird zwar weiterhin als statische Datei über GitHub Pages ausgeliefert, ruft Login und Statistiken aber über einen vorgeschalteten Cloudflare Worker ab. Passwort-Hash, TOTP-2FA-Secret, Session-Signierschlüssel und der GoatCounter-API-Token liegen ausschließlich als Secrets im Worker und stehen <strong>nicht</strong> im Quelltext dieser Seite. Der GoatCounter-Token ist zusätzlich weiterhin auf die Berechtigung <strong>„Statistics: read"</strong> beschränkt. Details siehe datenschutz.html, Abschnitt 6.
+          Hinweis zur Sicherheit: Diese Seite (<code>rema-panel.html</code>) wird zwar weiterhin als statische Datei über GitHub Pages ausgeliefert, ruft Login und Statistiken aber über einen vorgeschalteten Cloudflare Worker ab. Passwort-Hash, TOTP-2FA-Secret, Session-Signierschlüssel und der API-Token für die Statistik-Abfrage liegen ausschließlich als Secrets im Worker und stehen <strong>nicht</strong> im Quelltext dieser Seite. Der Token ist zusätzlich auf reine Lesezugriffe auf Analytics-Daten beschränkt. Details siehe datenschutz.html, Abschnitt 6.
         </div>
       </div>
 
@@ -802,16 +845,16 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
             <div class="setting-row">
               <div class="setting-info">
                 <div class="setting-name">Admin-Aktivitätslog löschen</div>
-                <div class="setting-desc">Entfernt deine lokal gespeicherte Login-/Aktions-Historie (dieses Browsers). Nicht wiederherstellbar. Betrifft nicht die Website-Besucherzahlen bei GoatCounter.</div>
+                <div class="setting-desc">Entfernt deine lokal gespeicherte Login-/Aktions-Historie (dieses Browsers). Nicht wiederherstellbar. Betrifft nicht die Website-Besucherzahlen in Cloudflare Analytics Engine.</div>
               </div>
               <button class="settings-btn danger" onclick="clearData('all')">Löschen</button>
             </div>
             <div class="setting-row">
               <div class="setting-info">
-                <div class="setting-name">Website-Besucherdaten (GoatCounter)</div>
-                <div class="setting-desc">Diese Daten liegen beim externen Anbieter, nicht im localStorage dieses Panels. Löschung/Export: im GoatCounter-Dashboard selbst unter Einstellungen, oder direkt per Anfrage an den Anbieter.</div>
+                <div class="setting-name">Website-Besucherdaten (Cloudflare Analytics Engine)</div>
+                <div class="setting-desc">Diese Daten liegen im eigenen Cloudflare-Konto, nicht im localStorage dieses Panels. Löschung/Export: über das Cloudflare-Dashboard unter Analytics Engine, oder per Anfrage bei Cloudflare-Support.</div>
               </div>
-              <a href="https://www.goatcounter.com/help/privacy" target="_blank" rel="noopener noreferrer" class="settings-btn" style="text-decoration:none;display:inline-flex;align-items:center">Zu GoatCounter →</a>
+              <a href="https://www.cloudflare.com/de-de/trust-hub/gdpr/" target="_blank" rel="noopener noreferrer" class="settings-btn" style="text-decoration:none;display:inline-flex;align-items:center">Zu Cloudflare GDPR-Infos →</a>
             </div>
           </div>
         </div>
@@ -828,7 +871,7 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <div>
             <h3>Admin-Aktivitätslog erfasst keinerlei personenbezogene Daten Dritter.</h3>
-            <p>Deine Logins und Aktionen (Seitenaufrufe, Sessions, Download-Klicks) werden ausschließlich im localStorage deines eigenen Browsers gespeichert — hierfür findet keine Übertragung an externe Server statt. Die separate Ansicht „Website-Analytics" ruft dagegen aktiv Statistiken über die GoatCounter-API ab; dabei wird die IP-Adresse deines Geräts an GoatCounter übermittelt (Details siehe unten und datenschutz.html, Abschnitt 6).</p>
+            <p>Deine Logins und Aktionen (Seitenaufrufe, Sessions, Download-Klicks) werden ausschließlich im localStorage deines eigenen Browsers gespeichert — hierfür findet keine Übertragung an externe Server statt. Die separate Ansicht „Website-Analytics" ruft dagegen aktiv Statistiken über den eigenen Cloudflare Worker aus dem eigenen Analytics-Engine-Datensatz ab (Details siehe unten und datenschutz.html, Abschnitt 6).</p>
           </div>
         </div>
 
@@ -836,18 +879,18 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
           <div class="settings-card">
             <div class="settings-h">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Website-Analytics (GoatCounter) — was erfasst wird
+              Website-Analytics (Cloudflare Analytics Engine) — was erfasst wird
             </div>
             <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Seitenaufrufe & eindeutige Besucher</div><div class="setting-desc">Per nicht-identifizierbarem Session-Hash, max. 8h im Arbeitsspeicher des Anbieters, danach verworfen.</div></div>
+              <div class="setting-info"><div class="setting-name">Seitenaufrufe & eindeutige Besucher</div><div class="setting-desc">Per täglich rotierendem, gesalzenem Hash (IP wird nur zur Berechnung verwendet, nie gespeichert).</div></div>
               <span class="pill green">Anonym</span>
             </div>
             <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Download-Klicks</div><div class="setting-desc">Als separates Ereignis "download-click", ohne Personenbezug.</div></div>
+              <div class="setting-info"><div class="setting-name">Download-Klicks</div><div class="setting-desc">Als separates Ereignis pro Datei, ohne Personenbezug.</div></div>
               <span class="pill green">Anonym</span>
             </div>
             <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Sprache, Land/Region, Browser, Bildschirmgröße</div><div class="setting-desc">Aggregiert, nicht mit einzelnen Personen verknüpfbar.</div></div>
+              <div class="setting-info"><div class="setting-name">Sprache & grobes Land</div><div class="setting-desc">Aggregiert, nicht mit einzelnen Personen verknüpfbar. Land aus Cloudflare-Edge-Metadaten, keine Stadt/GPS.</div></div>
               <span class="pill green">Anonym</span>
             </div>
           </div>
@@ -868,15 +911,15 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
               Rechtliche Grundlage
             </div>
             <p style="font-size:13px;color:var(--g1);line-height:1.8">
-              Die Website-Reichweitenmessung erfolgt über den externen, cookie-freien Dienst <strong style="color:var(--w)">GoatCounter</strong> (EU-Server bei Hetzner, Finnland/Deutschland). Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an datensparsamer Reichweitenmessung).
+              Die Website-Reichweitenmessung erfolgt über einen selbst betriebenen, cookie-freien Auswertungsmechanismus auf Basis von <strong style="color:var(--w)">Cloudflare Analytics Engine</strong>, ausgeführt im eigenen Cloudflare-Konto (kein Drittanbieter-Analysedienst). Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an datensparsamer Reichweitenmessung).
               <br><br>
-              Da keine Cookies gesetzt, keine IP-Adresse dauerhaft gespeichert und keine geräteübergreifende Wiedererkennung ermöglicht wird, gehen wir davon aus, dass keine Einwilligungspflicht nach § 25 Abs. 1 TDDDG besteht. Diese Einschätzung folgt der Auffassung des Anbieters und ist rechtlich nicht abschließend höchstrichterlich geklärt.
+              Da keine Cookies gesetzt, keine IP-Adresse dauerhaft gespeichert und keine geräteübergreifende Wiedererkennung ermöglicht wird, gehen wir davon aus, dass keine Einwilligungspflicht nach § 25 Abs. 1 TDDDG besteht. Cloudflare, Inc. verarbeitet als Auftragsverarbeiter (Art. 28 DSGVO) auch außerhalb der EU, abgesichert über EU-Standardvertragsklauseln.
               <br><br>
               Besucher können die Messung jederzeit über den Link "Analyse deaktivieren" im Footer der Hauptseite abschalten (Opt-out, gespeichert im localStorage als <code>rema_analytics_optout</code>).
               <br><br>
-              Diese Admin-Seite selbst (Logins, Aktionen im Aktivitätslog) verwendet <em>separat</em> ausschließlich lokalen Browser-Speicher (localStorage) ohne jede Server-Übertragung. Die Ansicht „Website-Analytics" bildet hiervon die Ausnahme: Sie ruft aktiv über einen read-only-API-Schlüssel Statistiken bei GoatCounter ab, wodurch die IP-Adresse des Admin-Geräts an GoatCounter übertragen wird.
+              Diese Admin-Seite selbst (Logins, Aktionen im Aktivitätslog) verwendet <em>separat</em> ausschließlich lokalen Browser-Speicher (localStorage) ohne jede Server-Übertragung. Die Ansicht „Website-Analytics" bildet hiervon die Ausnahme: Sie ruft aktiv über einen read-only-API-Schlüssel Statistiken direkt aus dem eigenen Analytics-Engine-Datensatz ab.
               <br><br>
-              Quellen: Art. 4, 6 DSGVO · § 25 TDDDG · <a href="https://www.goatcounter.com/help/privacy" target="_blank" rel="noopener noreferrer" class="external-link" style="color:var(--red)">GoatCounter-Datenschutzerklärung</a> · datenschutz.html (Abschnitt 6)
+              Quellen: Art. 4, 6, 28 DSGVO · § 25 TDDDG · <a href="https://www.cloudflare.com/de-de/trust-hub/gdpr/" target="_blank" rel="noopener noreferrer" class="external-link" style="color:var(--red)">Cloudflare GDPR-Informationen</a> · datenschutz.html (Abschnitt 6)
             </p>
           </div>
         </div>
@@ -1058,11 +1101,11 @@ function getAdminLog() {
 /* ─── NAVIGATION ─────────────────────────────────────────────────────────── */
 const VIEW_TITLES = {dashboard:'Übersicht',website:'Website-Analytics',activity:'Aktivitätslog',settings:'Einstellungen',dsgvo:'DSGVO-Info'};
 
-/* ─── GoatCounter Live-Daten ───────────────────────────────────────────────
-   Der GoatCounter-API-Token steht NICHT mehr in diesem Quelltext. Diese Seite
-   ruft stattdessen /stats auf dem Cloudflare Worker auf (AUTH_API, s. oben)
-   und schickt dabei das eigene Session-Token mit. Der Worker hält den echten
-   GoatCounter-Token als Secret und reicht nur die aggregierten Zahlen durch. */
+/* ─── Analytics-Engine Live-Daten ──────────────────────────────────────────
+   Keine Zugangsdaten stehen in diesem Quelltext. Diese Seite ruft /stats auf
+   dem Cloudflare Worker auf (AUTH_API, s. oben) und schickt dabei das eigene
+   Session-Token mit. Der Worker fragt intern die Cloudflare-Analytics-Engine-
+   SQL-API ab und reicht nur die aggregierten Zahlen durch. */
 function gcConfigured() {
   return true; // Konfiguration lebt jetzt serverseitig im Worker
 }
@@ -1082,14 +1125,23 @@ async function gcFetchAll() {
 }
 
 function gcSetKpiError() {
-  ['gc-kpi-visitors','gc-kpi-today','gc-kpi-avg','gc-kpi-top'].forEach(id => {
+  ['gc-kpi-visitors','gc-kpi-today','gc-kpi-avg','gc-kpi-top','dl-kpi-total','dl-kpi-top-country','dl-kpi-top-lang'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.textContent = '—';
   });
-  document.getElementById('gc-kpi-visitors-sub').textContent = 'Fehler beim Laden';
-  document.getElementById('gc-kpi-today-sub').textContent = '';
-  document.getElementById('gc-kpi-top-sub').textContent = '';
+  ['gc-kpi-visitors-sub','gc-kpi-today-sub','gc-kpi-top-sub','dl-kpi-total-sub','dl-kpi-top-country-sub','dl-kpi-top-lang-sub'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = id.includes('visitors') ? 'Fehler beim Laden' : '';
+  });
 }
+
+// Zwei-Buchstaben-Ländercode -> Flagge (rein optisch, keine weitere Datenverarbeitung)
+function countryFlag(code) {
+  if (!code || code.length !== 2) return '🌐';
+  const cc = code.toUpperCase();
+  return String.fromCodePoint(...[...cc].map(c => 127397 + c.charCodeAt(0)));
+}
+const LANG_NAMES = { de:'Deutsch', en:'English', fr:'Français', es:'Español', zh:'中文' };
 
 async function loadGoatCounterFrame() {
   const hint = document.getElementById('goatcounter-config-hint');
@@ -1099,7 +1151,7 @@ async function loadGoatCounterFrame() {
     if (hint) hint.style.display = 'block';
     gcSetKpiError();
     document.getElementById('gc-kpi-visitors-sub').textContent = 'Noch nicht eingerichtet';
-    if (tableWrap) tableWrap.innerHTML = `<div class="empty-state"><h3>Noch nicht eingerichtet</h3><p>Trage GOATCOUNTER_CODE und GOATCOUNTER_API_TOKEN im Code dieser Seite ein.</p></div>`;
+    if (tableWrap) tableWrap.innerHTML = `<div class="empty-state"><h3>Noch nicht eingerichtet</h3><p>Trage AE_DATASET_NAME, CF_ACCOUNT_ID und CF_API_TOKEN als Secrets im Worker ein.</p></div>`;
     return;
   }
   if (hint) hint.style.display = 'none';
@@ -1134,9 +1186,52 @@ async function loadGoatCounterFrame() {
           <tbody>${rows}</tbody>
         </table>`;
     }
+
+    /* ── Downloads ── */
+    const dl = data.downloads || { total: 0, byFile: [] };
+    document.getElementById('dl-kpi-total').textContent = (dl.total || 0).toLocaleString('de-DE');
+    document.getElementById('dl-kpi-total-sub').textContent = 'letzte 30 Tage';
+    const dlTableWrap = document.getElementById('dl-table-wrap');
+    if (!dl.byFile || !dl.byFile.length) {
+      dlTableWrap.innerHTML = `<div class="empty-state"><h3>Noch keine Downloads</h3></div>`;
+    } else {
+      const dlRows = dl.byFile.map(d => `<tr><td class="primary mono">${d.file}</td><td class="mono" style="text-align:right">${d.count.toLocaleString('de-DE')}</td></tr>`).join('');
+      dlTableWrap.innerHTML = `<table><thead><tr><th>Datei</th><th style="text-align:right">Klicks</th></tr></thead><tbody>${dlRows}</tbody></table>`;
+    }
+
+    /* ── Länder ── */
+    const countries = (data.countries || []).slice().sort((a,b) => b.count - a.count);
+    const countryTableWrap = document.getElementById('country-table-wrap');
+    if (!countries.length) {
+      countryTableWrap.innerHTML = `<div class="empty-state"><h3>Noch keine Daten</h3></div>`;
+      document.getElementById('dl-kpi-top-country').textContent = '–';
+      document.getElementById('dl-kpi-top-country-sub').textContent = 'keine Daten';
+    } else {
+      const cRows = countries.map(c => `<tr><td class="primary mono">${countryFlag(c.country)} ${c.country}</td><td class="mono" style="text-align:right">${c.count.toLocaleString('de-DE')}</td></tr>`).join('');
+      countryTableWrap.innerHTML = `<table><thead><tr><th>Land</th><th style="text-align:right">Besucher</th></tr></thead><tbody>${cRows}</tbody></table>`;
+      document.getElementById('dl-kpi-top-country').textContent = `${countryFlag(countries[0].country)} ${countries[0].country}`;
+      document.getElementById('dl-kpi-top-country-sub').textContent = `${countries[0].count.toLocaleString('de-DE')} Besucher`;
+    }
+
+    /* ── Sprachen ── */
+    const languages = (data.languages || []).slice().sort((a,b) => b.count - a.count);
+    const langTableWrap = document.getElementById('lang-table-wrap');
+    if (!languages.length) {
+      langTableWrap.innerHTML = `<div class="empty-state"><h3>Noch keine Daten</h3></div>`;
+      document.getElementById('dl-kpi-top-lang').textContent = '–';
+      document.getElementById('dl-kpi-top-lang-sub').textContent = 'keine Daten';
+    } else {
+      const lRows = languages.map(l => `<tr><td class="primary mono">${LANG_NAMES[l.lang] || l.lang}</td><td class="mono" style="text-align:right">${l.count.toLocaleString('de-DE')}</td></tr>`).join('');
+      langTableWrap.innerHTML = `<table><thead><tr><th>Sprache</th><th style="text-align:right">Besucher</th></tr></thead><tbody>${lRows}</tbody></table>`;
+      document.getElementById('dl-kpi-top-lang').textContent = LANG_NAMES[languages[0].lang] || languages[0].lang;
+      document.getElementById('dl-kpi-top-lang-sub').textContent = `${languages[0].count.toLocaleString('de-DE')} Besucher`;
+    }
   } catch (err) {
     gcSetKpiError();
-    tableWrap.innerHTML = `<div class="empty-state"><h3>Fehler beim Laden</h3><p>${(err && err.message) || 'Unbekannter Fehler'} — prüfe Sitecode, Token und dessen Berechtigung „Statistics: read".</p></div>`;
+    tableWrap.innerHTML = `<div class="empty-state"><h3>Fehler beim Laden</h3><p>${(err && err.message) || 'Unbekannter Fehler'} — prüfe Dataset-Name, Account-ID und API-Token.</p></div>`;
+    document.getElementById('dl-table-wrap').innerHTML = `<div class="empty-state"><h3>Fehler beim Laden</h3></div>`;
+    document.getElementById('country-table-wrap').innerHTML = `<div class="empty-state"><h3>Fehler beim Laden</h3></div>`;
+    document.getElementById('lang-table-wrap').innerHTML = `<div class="empty-state"><h3>Fehler beim Laden</h3></div>`;
   }
 }
 
@@ -1154,7 +1249,7 @@ function updateStorageChip(id) {
   const text = document.getElementById('storage-chip-text');
   if (!text) return;
   if (id === 'website') {
-    text.textContent = 'GoatCounter-API (read-only)';
+    text.textContent = 'Analytics Engine (read-only)';
   } else {
     text.textContent = 'localStorage only';
   }

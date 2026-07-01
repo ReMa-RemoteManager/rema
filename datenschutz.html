@@ -146,7 +146,7 @@ footer.main-footer{border-top:1px solid var(--b);background:var(--s1);padding:36
         <li><a href="#hosting">3. Hosting über GitHub</a></li>
         <li><a href="#github-api">4. GitHub API-Abruf</a></li>
         <li><a href="#cookies">5. Cookies &amp; localStorage</a></li>
-        <li><a href="#reichweitenmessung">6. Reichweitenmessung (GoatCounter)</a></li>
+        <li><a href="#reichweitenmessung">6. Reichweitenmessung (Cloudflare Analytics Engine)</a></li>
         <li><a href="#keine-weiteren">7. Nicht genutzte Dienste</a></li>
         <li><a href="#rechte">8. Ihre Rechte</a></li>
         <li><a href="#widerspruch">9. Widerspruchsrecht</a></li>
@@ -259,46 +259,44 @@ footer.main-footer{border-top:1px solid var(--b);background:var(--s1);padding:36
       </section>
 
       <section id="reichweitenmessung" class="info-section">
-        <h2>6. Reichweitenmessung mit GoatCounter</h2>
-        <p>Um nachvollziehen zu können, wie oft diese Website aufgerufen wird, wie viele unterschiedliche Besucher sie nutzen und wie oft der Download-Button geklickt wird, setzen wir den datenschutzfreundlichen Analysedienst <strong>GoatCounter</strong> ein.</p>
+        <h2>6. Reichweitenmessung über Cloudflare Analytics Engine</h2>
+        <p>Um nachvollziehen zu können, wie oft diese Website aufgerufen wird, wie viele unterschiedliche Besucher sie nutzen und wie oft der Download-Button geklickt wird, verwenden wir einen selbst betriebenen Auswertungsmechanismus auf Basis von <strong>Cloudflare Analytics Engine</strong>. Es wird kein Drittanbieter-Analysedienst (z.&nbsp;B. Google Analytics, Matomo Cloud o.&nbsp;ä.) eingebunden; die Auswertung läuft ausschließlich über eigene, selbst geschriebene Serverfunktionen (Cloudflare Worker) innerhalb unseres eigenen Cloudflare-Kontos.</p>
 
-        <h4>Anbieter</h4>
-        <p>GoatCounter wird betrieben von Martin Tournoij, mit Sitz in Irland (EU). Die Daten werden auf Servern von <strong>Hetzner Online GmbH</strong> in Finnland und Deutschland gespeichert &mdash; also vollständig innerhalb der Europäischen Union. Es findet keine Übermittlung in ein Drittland statt.</p>
-        <p>Vollständige Datenschutzerklärung des Anbieters:</p>
-        <a href="https://www.goatcounter.com/help/privacy" target="_blank" rel="noopener noreferrer" class="external-link">https://www.goatcounter.com/help/privacy</a>
+        <h4>Anbieter der zugrundeliegenden Infrastruktur</h4>
+        <p>Die Datenverarbeitung findet auf der Infrastruktur von <strong>Cloudflare, Inc.</strong>, 101 Townsend St, San Francisco, CA 94107, USA (bzw. Cloudflare International B.V. für EU-Kunden), statt. Cloudflare fungiert hierbei als Auftragsverarbeiter gemäß Art. 28 DSGVO. Da es sich um ein US-amerikanisches Unternehmen handelt, kann eine Verarbeitung der Daten auch außerhalb der EU/des EWR erfolgen; als Garantie für ein angemessenes Datenschutzniveau werden die von Cloudflare bereitgestellten <strong>EU-Standardvertragsklauseln (SCC)</strong> zugrunde gelegt. Details zum Auftragsverarbeitungsvertrag und den eingesetzten Garantien:</p>
+        <a href="https://www.cloudflare.com/de-de/trust-hub/gdpr/" target="_blank" rel="noopener noreferrer" class="external-link">https://www.cloudflare.com/de-de/trust-hub/gdpr/</a>
 
         <h4>Welche Daten werden verarbeitet?</h4>
         <ul>
-          <li>Aufgerufene Seite/URL</li>
-          <li>Verweisende Seite (Referrer), sofern vom Browser übermittelt</li>
-          <li>Grob abgeleitetes Land bzw. Region</li>
-          <li>Sprache des Browsers</li>
-          <li>Bildschirmgröße</li>
-          <li>Browser- und Betriebssystem-Typ</li>
-          <li>Ob der Download-Button geklickt wurde (als separates, anonymes Ereignis)</li>
+          <li>Aufgerufene Seite/URL (Pfad)</li>
+          <li>Verweisende Domain (Referrer), sofern vom Browser übermittelt &mdash; es wird nur der Host, nicht die vollständige URL der verweisenden Seite gespeichert</li>
+          <li>Grob abgeleitetes Land (aus der von Cloudflare ohnehin für den Verbindungsaufbau ausgewerteten Netzwerk-Herkunft, keine Stadt, keine GPS-Position)</li>
+          <li>Eingestellte Sprache der Website (aus der bereits bestehenden Sprachauswahl dieser Seite, siehe Ziffer&nbsp;7)</li>
+          <li>Ob der Download-Button geklickt wurde und für welche Datei (als separates, anonymes Ereignis)</li>
+          <li>Ein täglich neu berechneter, nicht umkehrbarer Hash-Wert (SHA-256) aus IP-Adresse, Tagesdatum und einem geheimen, nur serverseitig bekannten Zusatzwert (Salt) &mdash; dient ausschließlich dazu, mehrfache Aufrufe am selben Tag als einen Besuch statt mehrerer zu zählen</li>
         </ul>
 
         <h4>Was ausdrücklich <em>nicht</em> gespeichert wird</h4>
         <ul>
-          <li>Keine IP-Adressen &mdash; laut Anbieter wird die IP-Adresse nur für maximal 8 Stunden im Arbeitsspeicher gehalten, um Mehrfachaufrufe als einen Besuch zu zählen, und anschließend verworfen; sie wird nicht in der Datenbank gespeichert</li>
-          <li>Keine Cookies</li>
-          <li>Kein vollständiger User-Agent-String</li>
+          <li>Keine rohe IP-Adresse &mdash; sie wird nur für die Sekundenbruchteile der Anfrageverarbeitung im Arbeitsspeicher verwendet, um den oben genannten Tages-Hash zu berechnen, und danach nicht weiter gespeichert</li>
+          <li>Keine Cookies, kein Local-/Session-Storage auf Seiten des Besuchers durch die Reichweitenmessung selbst</li>
+          <li>Kein User-Agent-String, keine Bildschirmauflösung, kein Fingerprinting</li>
           <li>Keine geräte- oder websiteübergreifende Wiedererkennung einzelner Personen</li>
           <li>Keine Erstellung von Nutzerprofilen</li>
         </ul>
 
         <h4>Rechtsgrundlage</h4>
         <p>Die Verarbeitung erfolgt auf Grundlage von <strong>Art. 6 Abs. 1 lit. f DSGVO</strong> (berechtigtes Interesse an einer datensparsamen, anonymisierten Reichweitenmessung ohne Personenbezug).</p>
-        <p>Da GoatCounter keine Cookies setzt, keine IP-Adresse dauerhaft speichert und keine geräteübergreifende Wiedererkennung ermöglicht, gehen wir &mdash; in Übereinstimmung mit der Einschätzung des Anbieters sowie verbreiteter Auffassung zu vergleichbaren cookie-freien Analyse-Diensten &mdash; davon aus, dass keine Einwilligungspflicht nach § 25 Abs. 1 TDDDG besteht. Eine höchstrichterliche, für diesen konkreten Dienst bindende Entscheidung liegt hierzu nicht vor; wir behalten uns vor, diese Einschätzung bei Bedarf anzupassen.</p>
+        <p>Da keine Cookies gesetzt werden, keine IP-Adresse dauerhaft gespeichert wird und keine geräteübergreifende Wiedererkennung stattfindet, gehen wir davon aus, dass keine Einwilligungspflicht nach § 25 Abs. 1 TDDDG besteht. Eine höchstrichterliche, für diesen konkreten technischen Aufbau bindende Entscheidung liegt hierzu nicht vor; wir behalten uns vor, diese Einschätzung bei Bedarf anzupassen.</p>
 
         <h4>Widerspruch / Deaktivierung</h4>
-        <p>Sie können die Reichweitenmessung jederzeit über den Link <strong>„Analyse deaktivieren"</strong> im Footer dieser Website abschalten. Ihre Wahl wird ausschließlich lokal in Ihrem Browser gespeichert (localStorage, Schlüssel <code>rema_analytics_optout</code>) und sorgt dafür, dass das Analyse-Skript bei zukünftigen Seitenaufrufen gar nicht erst geladen wird. Diese Speicherung dient allein der Umsetzung Ihres ausdrücklich erklärten Widerspruchs und ist damit selbst technisch notwendig i.&nbsp;S.&nbsp;d. § 25 Abs.&nbsp;2 Nr.&nbsp;2 TDDDG.</p>
+        <p>Sie können die Reichweitenmessung jederzeit über den Link <strong>„Analyse deaktivieren"</strong> im Footer dieser Website abschalten. Ihre Wahl wird ausschließlich lokal in Ihrem Browser gespeichert (localStorage, Schlüssel <code>rema_analytics_optout</code>) und sorgt dafür, dass bei zukünftigen Seitenaufrufen und Download-Klicks gar keine Daten mehr an unseren Server übermittelt werden. Diese Speicherung dient allein der Umsetzung Ihres ausdrücklich erklärten Widerspruchs und ist damit selbst technisch notwendig i.&nbsp;S.&nbsp;d. § 25 Abs.&nbsp;2 Nr.&nbsp;2 TDDDG.</p>
 
         <h4>Speicherdauer</h4>
-        <p>Die aggregierten Statistikdaten (z.&nbsp;B. Aufrufzahlen pro Tag) verbleiben beim Anbieter, solange das GoatCounter-Konto des Verantwortlichen besteht. Details zur Datenlöschung entnehmen Sie der oben verlinkten Datenschutzerklärung von GoatCounter.</p>
+        <p>Die aggregierten Statistikdaten verbleiben in unserem Cloudflare-Analytics-Engine-Datensatz gemäß den dort geltenden Cloudflare-Standard-Aufbewahrungsfristen (in der Regel mehrere Monate), danach werden sie automatisch von Cloudflare gelöscht. Eine darüber hinausgehende, dauerhafte Archivierung findet nicht statt.</p>
 
         <h4>Abruf der Statistiken im internen Admin-Bereich</h4>
-        <p>Der durch Benutzername, Passwort und Zwei-Faktor-Authentifizierung (TOTP) geschützte interne Verwaltungsbereich (<code>rema-panel.html</code>) dieser Website ruft im Ansichtsbereich „Website-Analytics" die zuvor beschriebenen aggregierten GoatCounter-Statistiken ab. Anmeldung und Statistikabruf laufen über einen vorgeschalteten Server (Cloudflare Worker), der die eigentliche Anfrage an die JSON-Programmierschnittstelle (API) von GoatCounter stellt. Dadurch wird nicht die IP-Adresse des Admin-Geräts, sondern die IP-Adresse dieses vorgeschalteten Servers an GoatCounter übermittelt. Dieser Abruf findet ausschließlich beim Aufruf dieser spezifischen Ansicht durch den Verantwortlichen statt, nicht bei Besuchen der öffentlichen Website. Verwendet wird ein API-Zugriffsschlüssel, der ausschließlich zum Lesen von Statistiken berechtigt ist (keine Schreib-, Lösch- oder Exportrechte) und ausschließlich serverseitig hinterlegt ist. Rechtsgrundlage und Anbieterangaben entsprechen den oben in dieser Ziffer genannten.</p>
+        <p>Der durch Benutzername, Passwort und Zwei-Faktor-Authentifizierung (TOTP) geschützte interne Verwaltungsbereich (<code>rema-panel.html</code>) dieser Website ruft im Ansichtsbereich „Website-Analytics" die zuvor beschriebenen aggregierten Statistiken ab. Anmeldung und Statistikabruf laufen über denselben vorgeschalteten Server (Cloudflare Worker), der auch die Datenpunkte entgegennimmt; die Abfrage erfolgt direkt innerhalb unseres eigenen Cloudflare-Kontos über eine ausschließlich lesend berechtigte, serverseitig hinterlegte Zugangsberechtigung. Dieser Abruf findet ausschließlich beim Aufruf dieser spezifischen Ansicht durch den Verantwortlichen statt, nicht bei Besuchen der öffentlichen Website. Rechtsgrundlage und Anbieterangaben entsprechen den oben in dieser Ziffer genannten.</p>
       </section>
 
       <section id="keine-weiteren" class="info-section">
