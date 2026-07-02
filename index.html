@@ -753,7 +753,6 @@ let latestVersion = 'v1.0.0';
 let latestDownloadUrl = 'https://github.com/ReMa-RemoteManager/rema/releases/latest';
 
 function tr(key) { return (T[currentLang] && T[currentLang][key]) || T.de[key] || key; }
-
 function applyLang(lang) {
   currentLang = lang;
   document.documentElement.lang = lang;
@@ -795,6 +794,11 @@ document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('clic
   applyLang(btn.dataset.lang);
   try { localStorage.setItem('rema_lang', btn.dataset.lang); } catch(e) {}
 }));
+
+// WICHTIG: gespeicherte/erkannte Sprache beim Laden auch tatsächlich anwenden.
+// Ohne diesen Aufruf blieb die Seite immer bei den hart codierten deutschen
+// Texten, unabhängig davon, was in currentLang stand.
+applyLang(currentLang);
 
 /* Mobile language dropdown */
 const langPillEl = document.getElementById('lang-pill');

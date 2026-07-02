@@ -342,6 +342,24 @@ body{background:var(--bg);color:var(--w);font-family:'Inter',-apple-system,Blink
 .donut-center-val{font-size:22px;font-weight:800;fill:var(--w);letter-spacing:-.04em}
 .donut-center-sub{font-size:9px;fill:var(--g2);letter-spacing:.06em}
 .donut-legend{width:100%;margin-top:14px;display:flex;flex-direction:column;gap:8px}
+
+/* Ranked-List mit Mini-Balken (Analytics: Seiten/Länder/Downloads) */
+.ranked-list{display:flex;flex-direction:column;gap:11px}
+.ranked-row{display:grid;grid-template-columns:1fr 2fr auto;align-items:center;gap:12px}
+.ranked-label{font-size:12.5px;color:var(--w);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ranked-bar-track{height:7px;border-radius:99px;background:var(--g4);overflow:hidden}
+.ranked-bar-fill{height:100%;border-radius:99px;transition:width .6s cubic-bezier(.22,1,.36,1)}
+.ranked-bar-fill.bar-orange{background:linear-gradient(90deg,var(--orange),#FFC160)}
+.ranked-bar-fill.bar-green{background:linear-gradient(90deg,var(--green),#6EE894)}
+.ranked-bar-fill.bar-blue{background:linear-gradient(90deg,var(--blue),#5CB2FF)}
+.ranked-count{font-size:12.5px;color:var(--g1);text-align:right;min-width:34px}
+
+/* 14-Tage-Besucherverlauf */
+.trend-bar{fill:var(--g4);transition:fill .2s}
+.trend-bar-group:hover .trend-bar{fill:var(--red-b)}
+.trend-bar-today{fill:var(--red)}
+.trend-bar-group:hover .trend-bar-today{fill:var(--red)}
+.trend-bar-label{font-size:7px;fill:var(--g2);font-family:'Inter',sans-serif}
 .dl-row{display:flex;align-items:center;gap:8px;font-size:12px}
 .dl-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
 .dl-name{flex:1;color:var(--g1)}
@@ -707,7 +725,8 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
           <code>/stats</code>-Endpoint mit dem eigenen Session-Token auf.
         </div>
 
-        <div class="kpi-grid" id="gc-kpi-grid" style="margin-bottom:20px">
+        <!-- Hero-KPIs: die drei Zahlen, die auf einen Blick zählen -->
+        <div class="kpi-grid" id="gc-kpi-grid" style="margin-bottom:16px">
           <div class="kpi-card red">
             <div class="kpi-label">Besucher (30 Tage)</div>
             <div class="kpi-val" id="gc-kpi-visitors">–</div>
@@ -717,13 +736,13 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
           <div class="kpi-card blue">
             <div class="kpi-label">Besucher heute</div>
             <div class="kpi-val" id="gc-kpi-today">–</div>
-            <div class="kpi-trend neutral" id="gc-kpi-today-sub">lädt…</div>
+            <div class="kpi-trend neutral" id="gc-kpi-today-sub">seit Mitternacht</div>
             <div class="kpi-accent"></div>
           </div>
           <div class="kpi-card green">
-            <div class="kpi-label">Ø Besucher / Tag</div>
-            <div class="kpi-val" id="gc-kpi-avg">–</div>
-            <div class="kpi-trend neutral">letzte 30 Tage</div>
+            <div class="kpi-label">Downloads (30 Tage)</div>
+            <div class="kpi-val" id="dl-kpi-total">–</div>
+            <div class="kpi-trend neutral" id="dl-kpi-total-sub">lädt…</div>
             <div class="kpi-accent"></div>
           </div>
           <div class="kpi-card orange">
@@ -734,53 +753,44 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
           </div>
         </div>
 
-        <div class="kpi-grid" id="dl-kpi-grid" style="margin-bottom:20px">
-          <div class="kpi-card blue">
-            <div class="kpi-label">Downloads (30 Tage)</div>
-            <div class="kpi-val" id="dl-kpi-total">–</div>
-            <div class="kpi-trend neutral" id="dl-kpi-total-sub">lädt…</div>
-            <div class="kpi-accent"></div>
+        <!-- Signature: 14-Tage-Besucherverlauf -->
+        <div class="table-card" style="margin-bottom:16px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px">
+            <div class="view-h" style="font-size:16px;margin-bottom:0">Besucherverlauf</div>
+            <div class="kpi-trend neutral" style="font-size:11px">letzte 14 Tage · eindeutige Besucher/Tag</div>
           </div>
-          <div class="kpi-card green">
-            <div class="kpi-label">Meistbesuchtes Land</div>
-            <div class="kpi-val" id="dl-kpi-top-country" style="font-size:20px">–</div>
-            <div class="kpi-trend neutral" id="dl-kpi-top-country-sub">lädt…</div>
-            <div class="kpi-accent"></div>
-          </div>
-          <div class="kpi-card orange">
-            <div class="kpi-label">Häufigste Sprache</div>
-            <div class="kpi-val" id="dl-kpi-top-lang" style="font-size:20px">–</div>
-            <div class="kpi-trend neutral" id="dl-kpi-top-lang-sub">lädt…</div>
-            <div class="kpi-accent"></div>
+          <div id="trend-chart-wrap" style="margin-top:14px">
+            <div class="empty-state"><h3>Lädt…</h3></div>
           </div>
         </div>
 
-        <div class="table-card">
-          <div class="view-h" style="font-size:16px;margin-bottom:12px">Seitenaufrufe nach Pfad (30 Tage)</div>
-          <div id="gc-table-wrap">
-            <div class="empty-state"><h3>Lädt…</h3><p>Zahlen werden von Cloudflare Analytics Engine abgerufen.</p></div>
-          </div>
-        </div>
-
-        <div class="chart-row" style="margin-top:16px">
+        <div class="chart-row" style="margin-bottom:16px">
           <div class="table-card">
-            <div class="view-h" style="font-size:16px;margin-bottom:12px">Downloads nach Datei (30 Tage)</div>
-            <div id="dl-table-wrap">
-              <div class="empty-state"><h3>Lädt…</h3></div>
+            <div class="view-h" style="font-size:16px;margin-bottom:12px">Meistbesuchte Seiten <span style="color:var(--g2);font-weight:500">· 30 Tage</span></div>
+            <div id="gc-table-wrap">
+              <div class="empty-state"><h3>Lädt…</h3><p>Zahlen werden von Cloudflare Analytics Engine abgerufen.</p></div>
             </div>
           </div>
           <div class="table-card">
-            <div class="view-h" style="font-size:16px;margin-bottom:12px">Besucher nach Land (30 Tage)</div>
+            <div class="view-h" style="font-size:16px;margin-bottom:12px">Besucher nach Land <span style="color:var(--g2);font-weight:500">· 30 Tage</span></div>
             <div id="country-table-wrap">
               <div class="empty-state"><h3>Lädt…</h3></div>
             </div>
           </div>
         </div>
 
-        <div class="table-card" style="margin-top:16px">
-          <div class="view-h" style="font-size:16px;margin-bottom:12px">Besucher nach Sprache (30 Tage)</div>
-          <div id="lang-table-wrap">
-            <div class="empty-state"><h3>Lädt…</h3></div>
+        <div class="chart-row">
+          <div class="table-card">
+            <div class="view-h" style="font-size:16px;margin-bottom:12px">Sprachen <span style="color:var(--g2);font-weight:500">· 30 Tage</span></div>
+            <div id="lang-donut-wrap">
+              <div class="empty-state"><h3>Lädt…</h3></div>
+            </div>
+          </div>
+          <div class="table-card">
+            <div class="view-h" style="font-size:16px;margin-bottom:12px">Downloads nach Datei <span style="color:var(--g2);font-weight:500">· 30 Tage</span></div>
+            <div id="dl-table-wrap">
+              <div class="empty-state"><h3>Lädt…</h3></div>
+            </div>
           </div>
         </div>
 
@@ -1045,13 +1055,21 @@ function showApp(user) {
   document.getElementById('sb-username-display').textContent = user;
   document.getElementById('sb-avatar-initial').textContent = user[0].toUpperCase();
   document.getElementById('new-username').value = user;
-  renderAll();
+
+  // Zuletzt aktive Ansicht wiederherstellen (z.B. "Website-Analytics"),
+  // statt nach jedem Reload fest auf "Übersicht" zurückzuspringen.
+  let lastView = 'dashboard';
+  try { lastView = sessionStorage.getItem('rema_admin_last_view') || 'dashboard'; } catch(e) {}
+  const btn = document.querySelector(`.sb-item[data-view="${lastView}"]`);
+  if (btn) showView(lastView, btn);
+  else showView('dashboard', document.querySelector('.sb-item[data-view="dashboard"]'));
 }
 
 function logout() {
   clearSession();
   logAdminEvent('admin_logout', 'Abgemeldet');
   sessionStorage.removeItem(SESSION_KEY);
+  try { sessionStorage.removeItem('rema_admin_last_view'); } catch(e) {}
   location.reload();
 }
 
@@ -1125,11 +1143,11 @@ async function gcFetchAll() {
 }
 
 function gcSetKpiError() {
-  ['gc-kpi-visitors','gc-kpi-today','gc-kpi-avg','gc-kpi-top','dl-kpi-total','dl-kpi-top-country','dl-kpi-top-lang'].forEach(id => {
+  ['gc-kpi-visitors','gc-kpi-today','gc-kpi-top','dl-kpi-total'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.textContent = '—';
   });
-  ['gc-kpi-visitors-sub','gc-kpi-today-sub','gc-kpi-top-sub','dl-kpi-total-sub','dl-kpi-top-country-sub','dl-kpi-top-lang-sub'].forEach(id => {
+  ['gc-kpi-visitors-sub','gc-kpi-top-sub','dl-kpi-total-sub'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.textContent = id.includes('visitors') ? 'Fehler beim Laden' : '';
   });
@@ -1142,10 +1160,115 @@ function countryFlag(code) {
   return String.fromCodePoint(...[...cc].map(c => 127397 + c.charCodeAt(0)));
 }
 const LANG_NAMES = { de:'Deutsch', en:'English', fr:'Français', es:'Español', zh:'中文' };
+const DONUT_COLORS = ['var(--red)','var(--blue)','var(--green)','var(--orange)','var(--purple)'];
+
+// Ranked-Liste mit proportionalem Mini-Balken statt reiner Tabelle —
+// macht auf einen Blick sichtbar, wie groß der Abstand zwischen Top- und
+// Rest-Einträgen wirklich ist, statt nur nackte Zahlen nebeneinander zu stellen.
+function renderRankedList(wrapEl, items, opts) {
+  const { emptyTitle, emptyText, labelFn, colorClass } = opts;
+  if (!items.length) {
+    wrapEl.innerHTML = `<div class="empty-state"><h3>${emptyTitle}</h3>${emptyText ? `<p>${emptyText}</p>` : ''}</div>`;
+    return;
+  }
+  const max = Math.max(...items.map(i => i.count), 1);
+  wrapEl.innerHTML = `<div class="ranked-list">` + items.map(item => {
+    const pct = Math.max(4, Math.round((item.count / max) * 100));
+    return `
+      <div class="ranked-row">
+        <div class="ranked-label mono">${labelFn(item)}</div>
+        <div class="ranked-bar-track"><div class="ranked-bar-fill ${colorClass}" style="width:${pct}%"></div></div>
+        <div class="ranked-count mono">${item.count.toLocaleString('de-DE')}</div>
+      </div>`;
+  }).join('') + `</div>`;
+}
+
+// 14-Tage-Besucherverlauf als SVG-Balkendiagramm — das Herzstück der Ansicht:
+// zeigt zum ersten Mal eine Entwicklung statt nur einer platten 30-Tage-Summe.
+function renderTrendChart(wrapEl, daily) {
+  if (!daily || !daily.every(d => d.visitors === 0)) {
+    // fällt durch, falls alle Werte 0 sind -> unten Empty-State
+  }
+  if (!daily || !daily.length) {
+    wrapEl.innerHTML = `<div class="empty-state"><h3>Noch keine Daten</h3></div>`;
+    return;
+  }
+  const max = Math.max(...daily.map(d => d.visitors), 1);
+  const W = 640, H = 130, padBottom = 20, padTop = 8, gap = 6;
+  const barW = (W - gap * (daily.length - 1)) / daily.length;
+  const allZero = daily.every(d => d.visitors === 0);
+
+  const bars = daily.map((d, i) => {
+    const x = i * (barW + gap);
+    const h = allZero ? 2 : Math.max(3, ((d.visitors / max) * (H - padTop - padBottom)));
+    const y = H - padBottom - h;
+    const isToday = i === daily.length - 1;
+    const dateObj = new Date(d.date + 'T00:00:00Z');
+    const dayLabel = dateObj.toLocaleDateString('de-DE', { weekday: 'short' }).replace('.', '');
+    return `
+      <g class="trend-bar-group">
+        <rect x="${x}" y="${padTop}" width="${barW}" height="${H - padTop - padBottom}" fill="transparent"></rect>
+        <rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="3" class="${isToday ? 'trend-bar trend-bar-today' : 'trend-bar'}"></rect>
+        <title>${dateObj.toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit' })}: ${d.visitors} Besucher</title>
+        <text x="${x + barW/2}" y="${H - 4}" class="trend-bar-label" text-anchor="middle">${dayLabel}</text>
+      </g>`;
+  }).join('');
+
+  wrapEl.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:150px;overflow:visible" preserveAspectRatio="none">
+      ${bars}
+    </svg>`;
+}
+
+// Sprachverteilung als Donut (nutzt das im CSS bereits vorhandene, bisher
+// ungenutzte Donut-Pattern) statt einer weiteren Tabelle.
+function renderLangDonut(wrapEl, languages) {
+  if (!languages.length) {
+    wrapEl.innerHTML = `<div class="empty-state"><h3>Noch keine Daten</h3></div>`;
+    return;
+  }
+  const total = languages.reduce((s, l) => s + l.count, 0) || 1;
+  const R = 47, CIRC = 2 * Math.PI * R;
+  let offset = 0;
+  const arcs = languages.map((l, i) => {
+    const frac = l.count / total;
+    const len = frac * CIRC;
+    const arc = `<circle class="donut-arc" cx="65" cy="65" r="${R}" stroke="${DONUT_COLORS[i % DONUT_COLORS.length]}"
+      stroke-dasharray="${len} ${CIRC - len}" stroke-dashoffset="${-offset}"></circle>`;
+    offset += len;
+    return arc;
+  }).join('');
+  const legend = languages.map((l, i) => {
+    const pct = Math.round((l.count / total) * 100);
+    return `
+      <div style="display:flex;align-items:center;gap:8px;font-size:12.5px">
+        <span style="width:9px;height:9px;border-radius:3px;background:${DONUT_COLORS[i % DONUT_COLORS.length]};flex-shrink:0"></span>
+        <span style="color:var(--w);font-weight:600;flex:1">${LANG_NAMES[l.lang] || l.lang || '—'}</span>
+        <span class="mono" style="color:var(--g1)">${pct}%</span>
+      </div>`;
+  }).join('');
+
+  wrapEl.innerHTML = `
+    <div class="donut-wrap">
+      <svg class="donut-svg" viewBox="0 0 130 130">
+        <circle class="donut-bg" cx="65" cy="65" r="${R}"></circle>
+        ${arcs}
+        <text x="65" y="65" class="donut-center">
+          <tspan x="65" dy="-4" class="donut-center-val">${total.toLocaleString('de-DE')}</tspan>
+          <tspan x="65" dy="16" class="donut-center-sub">BESUCHER</tspan>
+        </text>
+      </svg>
+      <div class="donut-legend">${legend}</div>
+    </div>`;
+}
 
 async function loadGoatCounterFrame() {
   const hint = document.getElementById('goatcounter-config-hint');
   const tableWrap = document.getElementById('gc-table-wrap');
+  const trendWrap = document.getElementById('trend-chart-wrap');
+  const countryWrap = document.getElementById('country-table-wrap');
+  const langWrap = document.getElementById('lang-donut-wrap');
+  const dlWrap = document.getElementById('dl-table-wrap');
 
   if (!gcConfigured()) {
     if (hint) hint.style.display = 'block';
@@ -1160,78 +1283,57 @@ async function loadGoatCounterFrame() {
     const data = await gcFetchAll();
 
     const total = data.total || 0;
-    const avgPerDay = Math.round(total / 30);
     document.getElementById('gc-kpi-visitors').textContent = total.toLocaleString('de-DE');
     document.getElementById('gc-kpi-visitors-sub').textContent = 'letzte 30 Tage';
     document.getElementById('gc-kpi-today').textContent = (data.today || 0).toLocaleString('de-DE');
-    document.getElementById('gc-kpi-today-sub').textContent = 'seit Mitternacht';
-    document.getElementById('gc-kpi-avg').textContent = avgPerDay.toLocaleString('de-DE');
 
     const hits = (data.hits || []).slice().sort((a,b) => b.count - a.count);
     if (hits.length) {
-      document.getElementById('gc-kpi-top').textContent = hits[0].path;
+      document.getElementById('gc-kpi-top').textContent = hits[0].path || '/';
       document.getElementById('gc-kpi-top-sub').textContent = `${hits[0].count.toLocaleString('de-DE')} Besucher`;
     } else {
       document.getElementById('gc-kpi-top').textContent = '–';
       document.getElementById('gc-kpi-top-sub').textContent = 'keine Daten';
     }
 
-    if (!hits.length) {
-      tableWrap.innerHTML = `<div class="empty-state"><h3>Noch keine Daten</h3><p>Sobald deine Seite Besucher hat, erscheinen hier die Zahlen.</p></div>`;
-    } else {
-      const rows = hits.map(h => `<tr><td class="primary mono">${h.path}</td><td class="mono">${h.title || '–'}</td><td class="mono" style="text-align:right">${h.count.toLocaleString('de-DE')}</td></tr>`).join('');
-      tableWrap.innerHTML = `
-        <table>
-          <thead><tr><th>Pfad</th><th>Titel</th><th style="text-align:right">Besucher</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>`;
-    }
+    renderRankedList(tableWrap, hits, {
+      emptyTitle: 'Noch keine Daten',
+      emptyText: 'Sobald deine Seite Besucher hat, erscheinen hier die Zahlen.',
+      labelFn: h => h.path || '/',
+      colorClass: 'bar-orange'
+    });
+
+    renderTrendChart(trendWrap, data.daily || []);
 
     /* ── Downloads ── */
     const dl = data.downloads || { total: 0, byFile: [] };
     document.getElementById('dl-kpi-total').textContent = (dl.total || 0).toLocaleString('de-DE');
     document.getElementById('dl-kpi-total-sub').textContent = 'letzte 30 Tage';
-    const dlTableWrap = document.getElementById('dl-table-wrap');
-    if (!dl.byFile || !dl.byFile.length) {
-      dlTableWrap.innerHTML = `<div class="empty-state"><h3>Noch keine Downloads</h3></div>`;
-    } else {
-      const dlRows = dl.byFile.map(d => `<tr><td class="primary mono">${d.file}</td><td class="mono" style="text-align:right">${d.count.toLocaleString('de-DE')}</td></tr>`).join('');
-      dlTableWrap.innerHTML = `<table><thead><tr><th>Datei</th><th style="text-align:right">Klicks</th></tr></thead><tbody>${dlRows}</tbody></table>`;
-    }
+    renderRankedList(dlWrap, dl.byFile || [], {
+      emptyTitle: 'Noch keine Downloads',
+      labelFn: d => d.file,
+      colorClass: 'bar-green'
+    });
 
     /* ── Länder ── */
     const countries = (data.countries || []).slice().sort((a,b) => b.count - a.count);
-    const countryTableWrap = document.getElementById('country-table-wrap');
-    if (!countries.length) {
-      countryTableWrap.innerHTML = `<div class="empty-state"><h3>Noch keine Daten</h3></div>`;
-      document.getElementById('dl-kpi-top-country').textContent = '–';
-      document.getElementById('dl-kpi-top-country-sub').textContent = 'keine Daten';
-    } else {
-      const cRows = countries.map(c => `<tr><td class="primary mono">${countryFlag(c.country)} ${c.country}</td><td class="mono" style="text-align:right">${c.count.toLocaleString('de-DE')}</td></tr>`).join('');
-      countryTableWrap.innerHTML = `<table><thead><tr><th>Land</th><th style="text-align:right">Besucher</th></tr></thead><tbody>${cRows}</tbody></table>`;
-      document.getElementById('dl-kpi-top-country').textContent = `${countryFlag(countries[0].country)} ${countries[0].country}`;
-      document.getElementById('dl-kpi-top-country-sub').textContent = `${countries[0].count.toLocaleString('de-DE')} Besucher`;
-    }
+    renderRankedList(countryWrap, countries, {
+      emptyTitle: 'Noch keine Daten',
+      labelFn: c => `${countryFlag(c.country)} ${c.country}`,
+      colorClass: 'bar-blue'
+    });
 
     /* ── Sprachen ── */
     const languages = (data.languages || []).slice().sort((a,b) => b.count - a.count);
-    const langTableWrap = document.getElementById('lang-table-wrap');
-    if (!languages.length) {
-      langTableWrap.innerHTML = `<div class="empty-state"><h3>Noch keine Daten</h3></div>`;
-      document.getElementById('dl-kpi-top-lang').textContent = '–';
-      document.getElementById('dl-kpi-top-lang-sub').textContent = 'keine Daten';
-    } else {
-      const lRows = languages.map(l => `<tr><td class="primary mono">${LANG_NAMES[l.lang] || l.lang}</td><td class="mono" style="text-align:right">${l.count.toLocaleString('de-DE')}</td></tr>`).join('');
-      langTableWrap.innerHTML = `<table><thead><tr><th>Sprache</th><th style="text-align:right">Besucher</th></tr></thead><tbody>${lRows}</tbody></table>`;
-      document.getElementById('dl-kpi-top-lang').textContent = LANG_NAMES[languages[0].lang] || languages[0].lang;
-      document.getElementById('dl-kpi-top-lang-sub').textContent = `${languages[0].count.toLocaleString('de-DE')} Besucher`;
-    }
+    renderLangDonut(langWrap, languages);
   } catch (err) {
     gcSetKpiError();
-    tableWrap.innerHTML = `<div class="empty-state"><h3>Fehler beim Laden</h3><p>${(err && err.message) || 'Unbekannter Fehler'} — prüfe Dataset-Name, Account-ID und API-Token.</p></div>`;
-    document.getElementById('dl-table-wrap').innerHTML = `<div class="empty-state"><h3>Fehler beim Laden</h3></div>`;
-    document.getElementById('country-table-wrap').innerHTML = `<div class="empty-state"><h3>Fehler beim Laden</h3></div>`;
-    document.getElementById('lang-table-wrap').innerHTML = `<div class="empty-state"><h3>Fehler beim Laden</h3></div>`;
+    const msg = `<div class="empty-state"><h3>Fehler beim Laden</h3><p>${(err && err.message) || 'Unbekannter Fehler'} — prüfe Dataset-Name, Account-ID und API-Token.</p></div>`;
+    tableWrap.innerHTML = msg;
+    trendWrap.innerHTML = `<div class="empty-state"><h3>Fehler beim Laden</h3></div>`;
+    countryWrap.innerHTML = `<div class="empty-state"><h3>Fehler beim Laden</h3></div>`;
+    langWrap.innerHTML = `<div class="empty-state"><h3>Fehler beim Laden</h3></div>`;
+    dlWrap.innerHTML = `<div class="empty-state"><h3>Fehler beim Laden</h3></div>`;
   }
 }
 
@@ -1242,6 +1344,7 @@ function showView(id, btn) {
   if (btn) btn.classList.add('active');
   document.getElementById('topbar-title').textContent = VIEW_TITLES[id] || id;
   updateStorageChip(id);
+  try { sessionStorage.setItem('rema_admin_last_view', id); } catch(e) {}
   renderView(id);
 }
 
