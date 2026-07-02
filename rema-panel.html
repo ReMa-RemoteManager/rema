@@ -281,6 +281,7 @@ body{background:var(--bg);color:var(--w);font-family:'Inter',-apple-system,Blink
 .kpi-label{font-size:11px;font-weight:600;color:var(--g2);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:7px}
 .kpi-label svg{width:13px;height:13px}
 .kpi-val{font-size:32px;font-weight:800;letter-spacing:-.04em;color:var(--w);line-height:1;margin-bottom:6px;font-variant-numeric:tabular-nums}
+.kpi-val-sm{font-size:19px;line-height:1.25}
 .kpi-trend{font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:4px}
 .kpi-trend.up{color:var(--green)}.kpi-trend.neutral{color:var(--g2)}
 .kpi-accent{position:absolute;bottom:0;right:0;width:80px;height:80px;border-radius:50%;filter:blur(32px);opacity:.18;pointer-events:none}
@@ -344,22 +345,34 @@ body{background:var(--bg);color:var(--w);font-family:'Inter',-apple-system,Blink
 .donut-legend{width:100%;margin-top:14px;display:flex;flex-direction:column;gap:8px}
 
 /* Ranked-List mit Mini-Balken (Analytics: Seiten/Länder/Downloads) */
-.ranked-list{display:flex;flex-direction:column;gap:11px}
-.ranked-row{display:grid;grid-template-columns:1fr 2fr auto;align-items:center;gap:12px}
-.ranked-label{font-size:12.5px;color:var(--w);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ranked-list{display:flex;flex-direction:column;gap:13px}
+.ranked-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(60px,1.4fr) auto;align-items:center;gap:14px}
+.ranked-label{font-size:12.5px;color:var(--w);font-weight:600;line-height:1.4;overflow-wrap:anywhere;word-break:break-word}
 .ranked-bar-track{height:7px;border-radius:99px;background:var(--g4);overflow:hidden}
 .ranked-bar-fill{height:100%;border-radius:99px;transition:width .6s cubic-bezier(.22,1,.36,1)}
 .ranked-bar-fill.bar-orange{background:linear-gradient(90deg,var(--orange),#FFC160)}
 .ranked-bar-fill.bar-green{background:linear-gradient(90deg,var(--green),#6EE894)}
 .ranked-bar-fill.bar-blue{background:linear-gradient(90deg,var(--blue),#5CB2FF)}
-.ranked-count{font-size:12.5px;color:var(--g1);text-align:right;min-width:34px}
+.ranked-count{font-size:12.5px;color:var(--g1);text-align:right;min-width:30px;font-variant-numeric:tabular-nums}
 
 /* 14-Tage-Besucherverlauf */
-.trend-bar{fill:var(--g4);transition:fill .2s}
-.trend-bar-group:hover .trend-bar{fill:var(--red-b)}
+.trend-svg{width:100%;height:auto;display:block;max-height:220px}
+.trend-bar-floor{fill:var(--g4)}
+.trend-bar{fill:var(--red-b);transition:fill .2s}
+.trend-bar-group:hover .trend-bar{fill:var(--red)}
 .trend-bar-today{fill:var(--red)}
-.trend-bar-group:hover .trend-bar-today{fill:var(--red)}
-.trend-bar-label{font-size:7px;fill:var(--g2);font-family:'Inter',sans-serif}
+.trend-bar-empty{fill:var(--g3)}
+.trend-bar-label{font-size:7.5px;fill:var(--g2);font-family:'Inter',sans-serif}
+
+@media(max-width:640px){
+  .ranked-row{grid-template-columns:1fr;grid-template-areas:"label" "bar" "count";row-gap:5px;padding-bottom:2px;border-bottom:1px solid var(--b)}
+  .ranked-list{gap:14px}
+  .ranked-label{grid-area:label;font-size:13px}
+  .ranked-bar-track{grid-area:bar}
+  .ranked-count{grid-area:count;text-align:left;color:var(--g1)}
+  .trend-bar-label{font-size:9px}
+  .donut-wrap{padding:4px 0}
+}
 .dl-row{display:flex;align-items:center;gap:8px;font-size:12px}
 .dl-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
 .dl-name{flex:1;color:var(--g1)}
@@ -491,6 +504,7 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
 
 /* ── RESPONSIVE ─────────────────────────────────────────────────────────── */
 @media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.chart-row{grid-template-columns:1fr}.settings-grid{grid-template-columns:1fr}.settings-card.full{grid-column:1}}
+@media(max-width:480px){.kpi-grid{grid-template-columns:1fr}.kpi-val{font-size:26px}.kpi-val-sm{font-size:17px}}
 @media(max-width:600px){.kpi-grid{grid-template-columns:1fr}.sidebar{width:60px}.sb-title,.sb-badge,.sb-section,.sb-item-label,.sb-item-badge,.sb-user-info,.sb-collapse-btn span{display:none}.content{padding:16px 12px 32px}}
 
 /* ── MISC ────────────────────────────────────────────────────────────────── */
@@ -747,7 +761,7 @@ td.mono{font-variant-numeric:tabular-nums;font-family:'SF Mono','Fira Code',mono
           </div>
           <div class="kpi-card orange">
             <div class="kpi-label">Meistbesuchte Seite</div>
-            <div class="kpi-val" id="gc-kpi-top" style="font-size:20px">–</div>
+            <div class="kpi-val kpi-val-sm mono" id="gc-kpi-top" style="overflow-wrap:anywhere">–</div>
             <div class="kpi-trend neutral" id="gc-kpi-top-sub">lädt…</div>
             <div class="kpi-accent"></div>
           </div>
@@ -1165,6 +1179,13 @@ const DONUT_COLORS = ['var(--red)','var(--blue)','var(--green)','var(--orange)',
 // Ranked-Liste mit proportionalem Mini-Balken statt reiner Tabelle —
 // macht auf einen Blick sichtbar, wie groß der Abstand zwischen Top- und
 // Rest-Einträgen wirklich ist, statt nur nackte Zahlen nebeneinander zu stellen.
+// Labels werden NIE abgeschnitten: lange Pfade/Dateinamen brechen an den
+// eigenen "/"-Stellen um (via <wbr>), alles andere bricht ganz normal um.
+function breakableLabel(text) {
+  const esc = String(text)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return esc.replace(/\//g, '/<wbr>');
+}
 function renderRankedList(wrapEl, items, opts) {
   const { emptyTitle, emptyText, labelFn, colorClass } = opts;
   if (!items.length) {
@@ -1176,7 +1197,7 @@ function renderRankedList(wrapEl, items, opts) {
     const pct = Math.max(4, Math.round((item.count / max) * 100));
     return `
       <div class="ranked-row">
-        <div class="ranked-label mono">${labelFn(item)}</div>
+        <div class="ranked-label mono">${breakableLabel(labelFn(item))}</div>
         <div class="ranked-bar-track"><div class="ranked-bar-fill ${colorClass}" style="width:${pct}%"></div></div>
         <div class="ranked-count mono">${item.count.toLocaleString('de-DE')}</div>
       </div>`;
@@ -1186,36 +1207,38 @@ function renderRankedList(wrapEl, items, opts) {
 // 14-Tage-Besucherverlauf als SVG-Balkendiagramm — das Herzstück der Ansicht:
 // zeigt zum ersten Mal eine Entwicklung statt nur einer platten 30-Tage-Summe.
 function renderTrendChart(wrapEl, daily) {
-  if (!daily || !daily.every(d => d.visitors === 0)) {
-    // fällt durch, falls alle Werte 0 sind -> unten Empty-State
-  }
   if (!daily || !daily.length) {
     wrapEl.innerHTML = `<div class="empty-state"><h3>Noch keine Daten</h3></div>`;
     return;
   }
   const max = Math.max(...daily.map(d => d.visitors), 1);
-  const W = 640, H = 130, padBottom = 20, padTop = 8, gap = 6;
+  const W = 640, H = 160, padBottom = 24, padTop = 10, gap = 6;
   const barW = (W - gap * (daily.length - 1)) / daily.length;
-  const allZero = daily.every(d => d.visitors === 0);
+  const trackTop = padTop, trackBottom = H - padBottom, trackH = trackBottom - trackTop;
 
   const bars = daily.map((d, i) => {
     const x = i * (barW + gap);
-    const h = allZero ? 2 : Math.max(3, ((d.visitors / max) * (H - padTop - padBottom)));
-    const y = H - padBottom - h;
+    const h = d.visitors > 0 ? Math.max(6, (d.visitors / max) * trackH) : 3;
+    const y = trackBottom - h;
     const isToday = i === daily.length - 1;
     const dateObj = new Date(d.date + 'T00:00:00Z');
     const dayLabel = dateObj.toLocaleDateString('de-DE', { weekday: 'short' }).replace('.', '');
     return `
       <g class="trend-bar-group">
-        <rect x="${x}" y="${padTop}" width="${barW}" height="${H - padTop - padBottom}" fill="transparent"></rect>
-        <rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="3" class="${isToday ? 'trend-bar trend-bar-today' : 'trend-bar'}"></rect>
+        <rect x="${x}" y="${padTop}" width="${barW}" height="${trackH + 12}" fill="transparent"></rect>
+        <rect x="${x}" y="${trackTop}" width="${barW}" height="${trackH}" rx="3" class="trend-bar-floor"></rect>
+        <rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="3" class="${d.visitors > 0 ? (isToday ? 'trend-bar trend-bar-today' : 'trend-bar') : 'trend-bar-empty'}"></rect>
         <title>${dateObj.toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit' })}: ${d.visitors} Besucher</title>
-        <text x="${x + barW/2}" y="${H - 4}" class="trend-bar-label" text-anchor="middle">${dayLabel}</text>
+        <text x="${x + barW/2}" y="${H - 6}" class="trend-bar-label" text-anchor="middle">${dayLabel}</text>
       </g>`;
   }).join('');
 
+  // Kein preserveAspectRatio="none" mehr: das hat X und Y unterschiedlich
+  // gestaucht/gestreckt, je nach Containerbreite ("der große rote Klotz").
+  // Stattdessen festes Seitenverhältnis über die viewBox selbst, SVG skaliert
+  // gleichmäßig mit — bleibt auf jeder Bildschirmgröße proportional korrekt.
   wrapEl.innerHTML = `
-    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:150px;overflow:visible" preserveAspectRatio="none">
+    <svg viewBox="0 0 ${W} ${H}" class="trend-svg" preserveAspectRatio="xMidYMid meet">
       ${bars}
     </svg>`;
 }
