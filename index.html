@@ -393,11 +393,18 @@ function remaTrack(payload) {
   if (!remaAnalyticsEnabled()) return;
   try {
     const body = JSON.stringify(payload);
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon(REMA_TRACK_URL, new Blob([body], { type: 'application/json' }));
-    } else {
-      fetch(REMA_TRACK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: true });
-    }
+    // Bewusst fetch() statt navigator.sendBeacon(): sendBeacon schickt
+    // bei Cross-Origin-Requests standardmäßig credentials:'include' (Cookies)
+    // mit, was hier zu einem CORS-Preflight-Fehler führt, da wir ohnehin
+    // gar keine Cookies verwenden. credentials:'omit' vermeidet das sauber.
+    fetch(REMA_TRACK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body,
+      keepalive: true,
+      credentials: 'omit',
+      mode: 'cors'
+    }).catch(() => {});
   } catch (e) { /* Tracking darf die Seite nie stören */ }
 }
 
